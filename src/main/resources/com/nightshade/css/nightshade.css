@@ -1,0 +1,439 @@
+/*
+ * Nightshade v2.0 — Dark Terminal Theme
+ *
+ * Design language: Dark terminal / cybersecurity aesthetic
+ * Primary:  Amber (#FFA500) — glow color, action highlights
+ * Accent:   Red/Purple — danger signals for poisoned output
+ * Surface:  #0D0D0D, #141414, #1A1A1A, #1E1E1E — layered dark surfaces
+ * Text:     #E8E8E8, #B0B0B0, #707070 — three-tier text hierarchy
+ */
+
+/* ── Reset + Root ───────────────────────────────────────────────────────── */
+.root {
+    -fx-font-family: "JetBrains Mono", "Consolas", "Courier New", monospace;
+    -fx-font-size: 12px;
+    -fx-background-color: #0D0D0D;
+}
+
+.root-pane {
+    -fx-background-color: #0D0D0D;
+}
+
+/* ── Header Bar ─────────────────────────────────────────────────────────── */
+.header-bar {
+    -fx-background-color: #0A0A0A;
+    -fx-border-color: #FFA500;
+    -fx-border-width: 0 0 1.5 0;
+    -fx-padding: 10 16 10 16;
+    -fx-spacing: 10;
+}
+
+.logo-glyph {
+    -fx-text-fill: #FFA500;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, #FFA500, 12, 0.6, 0, 0);
+}
+
+.app-title {
+    -fx-text-fill: #FFA500;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 3px;
+    -fx-effect: dropshadow(gaussian, #FF8C00, 8, 0.4, 0, 0);
+}
+
+.version-badge {
+    -fx-text-fill: #707070;
+    -fx-font-size: 11px;
+    -fx-padding: 2 6 2 6;
+    -fx-background-color: #1A1A1A;
+    -fx-background-radius: 8;
+    -fx-border-color: #333333;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+}
+
+.status-ready {
+    -fx-text-fill: #4CAF50;
+    -fx-font-size: 11px;
+    -fx-font-family: "JetBrains Mono", "Consolas", monospace;
+    -fx-padding: 0 12 0 0;
+}
+
+.header-btn {
+    -fx-background-color: transparent;
+    -fx-border-color: #333333;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-text-fill: #B0B0B0;
+    -fx-font-size: 11px;
+    -fx-padding: 4 10 4 10;
+    -fx-cursor: hand;
+}
+
+.header-btn:hover {
+    -fx-border-color: #FFA500;
+    -fx-text-fill: #FFA500;
+}
+
+/* ── Left Panel ─────────────────────────────────────────────────────────── */
+.left-panel {
+    -fx-background-color: #111111;
+    -fx-border-color: #222222;
+    -fx-border-width: 0 1 0 0;
+    -fx-min-width: 240;
+    -fx-max-width: 300;
+}
+
+.control-section {
+    -fx-padding: 12 12 12 12;
+    -fx-border-color: transparent transparent #1E1E1E transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.section-label {
+    -fx-text-fill: #555555;
+    -fx-font-size: 9px;
+    -fx-letter-spacing: 2px;
+    -fx-font-weight: bold;
+}
+
+.path-field {
+    -fx-background-color: #0D0D0D;
+    -fx-border-color: #2A2A2A;
+    -fx-border-width: 1;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-text-fill: #B0B0B0;
+    -fx-prompt-text-fill: #404040;
+    -fx-font-size: 11px;
+    -fx-padding: 5 8 5 8;
+}
+
+.path-field:focused {
+    -fx-border-color: #FFA500;
+    -fx-effect: dropshadow(gaussian, #FFA500, 4, 0.2, 0, 0);
+}
+
+.browse-btn {
+    -fx-background-color: #1E1E1E;
+    -fx-border-color: #2A2A2A;
+    -fx-border-width: 1;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-text-fill: #707070;
+    -fx-font-size: 12px;
+    -fx-min-width: 28;
+    -fx-cursor: hand;
+    -fx-padding: 4 8 4 8;
+}
+
+.browse-btn:hover {
+    -fx-border-color: #FFA500;
+    -fx-text-fill: #FFA500;
+    -fx-background-color: #1A1A00;
+}
+
+/* ── File Tree ──────────────────────────────────────────────────────────── */
+.file-tree {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.file-tree .tree-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #B0B0B0;
+    -fx-font-size: 11px;
+    -fx-padding: 2 4 2 4;
+}
+
+.file-tree .tree-cell:selected {
+    -fx-background-color: #1A1500;
+    -fx-text-fill: #FFA500;
+}
+
+.file-tree .tree-cell:hover {
+    -fx-background-color: #161616;
+}
+
+/* ── Strategy Checkboxes ─────────────────────────────────────────────────── */
+.strategy-cb {
+    -fx-text-fill: #B0B0B0;
+    -fx-font-size: 11px;
+    -fx-cursor: hand;
+}
+
+.strategy-cb .box {
+    -fx-background-color: #0D0D0D;
+    -fx-border-color: #333333;
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+}
+
+.strategy-cb:selected .box {
+    -fx-background-color: #FFA500;
+    -fx-border-color: #FFA500;
+}
+
+.strategy-cb:selected .mark {
+    -fx-background-color: #0D0D0D;
+}
+
+.strategy-cb:hover {
+    -fx-text-fill: #FFA500;
+}
+
+/* ── Progress / Entropy Bar ─────────────────────────────────────────────── */
+.entropy-bar {
+    -fx-accent: #FFA500;
+    -fx-background-color: #1A1A1A;
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+}
+
+.entropy-bar .bar {
+    -fx-background-color: linear-gradient(to right, #FF4500, #FF8C00, #FFA500);
+    -fx-background-radius: 3;
+    -fx-effect: dropshadow(gaussian, #FFA500, 6, 0.5, 0, 0);
+}
+
+.entropy-label {
+    -fx-text-fill: #FFA500;
+    -fx-font-size: 11px;
+    -fx-alignment: CENTER;
+}
+
+/* ── Run Button ─────────────────────────────────────────────────────────── */
+.run-btn {
+    -fx-background-color: #FFA500;
+    -fx-text-fill: #0D0D0D;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-padding: 10 16 10 16;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, #FFA500, 10, 0.4, 0, 0);
+}
+
+.run-btn:hover {
+    -fx-background-color: #FFB830;
+    -fx-effect: dropshadow(gaussian, #FFA500, 18, 0.7, 0, 0);
+}
+
+.run-btn:pressed {
+    -fx-background-color: #CC8400;
+    -fx-effect: dropshadow(gaussian, #FFA500, 4, 0.2, 0, 0);
+}
+
+.run-btn:disabled {
+    -fx-background-color: #444444;
+    -fx-text-fill: #777777;
+    -fx-effect: none;
+}
+
+/* ── Center Panel ───────────────────────────────────────────────────────── */
+.center-panel {
+    -fx-background-color: #0D0D0D;
+}
+
+.diff-header {
+    -fx-background-color: #0A0A0A;
+    -fx-border-color: transparent transparent #1E1E1E transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-spacing: 0;
+}
+
+.diff-label-left {
+    -fx-text-fill: #555555;
+    -fx-font-size: 10px;
+    -fx-letter-spacing: 1px;
+    -fx-padding: 6 12 6 12;
+    -fx-border-color: transparent #222222 transparent transparent;
+    -fx-border-width: 0 1 0 0;
+}
+
+.diff-label-right {
+    -fx-text-fill: #7A3B1E;
+    -fx-font-size: 10px;
+    -fx-letter-spacing: 1px;
+    -fx-padding: 6 12 6 12;
+    -fx-font-weight: bold;
+}
+
+.code-scroll {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.code-scroll .viewport {
+    -fx-background-color: transparent;
+}
+
+.code-view {
+    -fx-background-color: #0D0D0D;
+    -fx-text-fill: #D4D4D4;
+    -fx-font-family: "JetBrains Mono", "Consolas", "Courier New", monospace;
+    -fx-font-size: 12px;
+    -fx-border-color: transparent;
+    -fx-control-inner-background: #0D0D0D;
+    -fx-highlight-fill: #FFA50040;
+    -fx-highlight-text-fill: #FFA500;
+}
+
+.source-view {
+    -fx-border-color: transparent #1E1E1E transparent transparent;
+    -fx-border-width: 0 1 0 0;
+}
+
+.poisoned-view {
+    -fx-control-inner-background: #0A0000;
+    -fx-text-fill: #FF9944;
+}
+
+/* ── Bottom Panel ───────────────────────────────────────────────────────── */
+.bottom-panel {
+    -fx-background-color: #0A0A0A;
+    -fx-border-color: #1E1E1E transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+}
+
+/* ── Stats Bar ──────────────────────────────────────────────────────────── */
+.stats-bar {
+    -fx-background-color: #0F0F0F;
+    -fx-border-color: transparent transparent #1E1E1E transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 8 16 8 16;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.stat-item {
+    -fx-alignment: CENTER;
+    -fx-spacing: 2;
+}
+
+.stat-key {
+    -fx-text-fill: #444444;
+    -fx-font-size: 9px;
+    -fx-letter-spacing: 1px;
+}
+
+.stat-val {
+    -fx-text-fill: #E8E8E8;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.stat-amber  { -fx-text-fill: #FFA500; }
+.stat-red    { -fx-text-fill: #FF4444; }
+.stat-purple { -fx-text-fill: #AA66FF; }
+.stat-blue   { -fx-text-fill: #44AAFF; }
+.stat-green  { -fx-text-fill: #44FF88; }
+
+.open-output-btn {
+    -fx-background-color: transparent;
+    -fx-border-color: #FFA500;
+    -fx-border-width: 1;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-text-fill: #FFA500;
+    -fx-font-size: 11px;
+    -fx-padding: 4 12 4 12;
+    -fx-cursor: hand;
+}
+
+.open-output-btn:hover {
+    -fx-background-color: #1A1200;
+    -fx-effect: dropshadow(gaussian, #FFA500, 6, 0.3, 0, 0);
+}
+
+/* ── Log Panel ──────────────────────────────────────────────────────────── */
+.log-header {
+    -fx-padding: 6 12 4 12;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.log-clear-btn {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: #444444;
+    -fx-font-size: 10px;
+    -fx-cursor: hand;
+    -fx-padding: 2 6 2 6;
+}
+
+.log-clear-btn:hover {
+    -fx-text-fill: #FF4444;
+}
+
+.log-view {
+    -fx-background-color: #080808;
+    -fx-border-color: transparent;
+}
+
+.log-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #707070;
+    -fx-font-family: "JetBrains Mono", "Consolas", monospace;
+    -fx-font-size: 10.5px;
+    -fx-padding: 1 12 1 12;
+}
+
+.log-view .list-cell:selected {
+    -fx-background-color: #141414;
+    -fx-text-fill: #B0B0B0;
+}
+
+/* Log entry coloring via cell style (applied programmatically) */
+.log-entry-info    { -fx-text-fill: #707070; }
+.log-entry-success { -fx-text-fill: #4CAF50; }
+.log-entry-error   { -fx-text-fill: #FF4444; }
+.log-entry-debug   { -fx-text-fill: #555555; }
+
+/* ── Scrollbars ─────────────────────────────────────────────────────────── */
+.scroll-bar {
+    -fx-background-color: #0D0D0D;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #2A2A2A;
+    -fx-background-radius: 3;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #404040;
+}
+
+.scroll-bar .track {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-opacity: 0;
+    -fx-padding: 0;
+}
+
+/* ── Split Pane Divider ─────────────────────────────────────────────────── */
+.split-pane-divider {
+    -fx-background-color: #1E1E1E;
+    -fx-padding: 0 1 0 1;
+}
+
+.split-pane > .split-pane-divider {
+    -fx-background-color: #222222;
+}
+
+/* ── Tooltip ────────────────────────────────────────────────────────────── */
+.tooltip {
+    -fx-background-color: #1A1A1A;
+    -fx-border-color: #FFA500;
+    -fx-border-width: 1;
+    -fx-text-fill: #E8E8E8;
+    -fx-font-size: 11px;
+    -fx-padding: 6 10 6 10;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+}
