@@ -173,21 +173,21 @@
       "label": ".buildStrategies",
       "fileType": "code",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\CLI.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\CLI.java:142"
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\CLI.java:145"
     },
     {
       "id": "cli::cli::truncate",
       "label": ".truncate",
       "fileType": "code",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\CLI.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\CLI.java:165"
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\CLI.java:168"
     },
     {
       "id": "cli::cli::printhelp",
       "label": ".printHelp",
       "fileType": "code",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\CLI.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\CLI.java:172"
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\CLI.java:175"
     },
     {
       "id": "file::maincontroller",
@@ -271,63 +271,63 @@
       "label": ".buildSelectedStrategies",
       "fileType": "code",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:325"
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:326"
     },
     {
       "id": "maincontroller::maincontroller::updatestats",
       "label": ".updateStats",
       "fileType": "code",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:335"
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:336"
     },
     {
       "id": "maincontroller::maincontroller::startprogresspulse",
       "label": ".startProgressPulse",
       "fileType": "code",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:365"
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:366"
     },
     {
       "id": "maincontroller::maincontroller::stopprogresspulse",
       "label": ".stopProgressPulse",
       "fileType": "code",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:376"
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:377"
     },
     {
       "id": "maincontroller::maincontroller::setrunning",
       "label": ".setRunning",
       "fileType": "code",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:385"
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:386"
     },
     {
       "id": "maincontroller::maincontroller::onclearlog",
       "label": ".onClearLog",
       "fileType": "code",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:400"
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:401"
     },
     {
       "id": "maincontroller::maincontroller::onopenoutput",
       "label": ".onOpenOutput",
       "fileType": "code",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:404"
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:405"
     },
     {
       "id": "maincontroller::maincontroller::onaboutclicked",
       "label": ".onAboutClicked",
       "fileType": "code",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:414"
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:415"
     },
     {
       "id": "maincontroller::maincontroller::showalert",
       "label": ".showAlert",
       "fileType": "code",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:435"
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:436"
     },
     {
       "id": "file::entropycalculator",
@@ -453,42 +453,42 @@
       "label": ".ObfuscationEngine",
       "fileType": "code",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java:40"
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java:41"
     },
     {
       "id": "obfuscationengine::obfuscationengine::process",
       "label": ".process",
       "fileType": "code",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java:60"
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java:63"
     },
     {
       "id": "obfuscationengine::obfuscationengine::processone",
       "label": ".processOne",
       "fileType": "code",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java:95"
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java:98"
     },
     {
       "id": "obfuscationengine::obfuscationengine::mergeresults",
       "label": ".mergeResults",
       "fileType": "code",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java:131"
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java:142"
     },
     {
       "id": "obfuscationengine::obfuscationengine::countenabled",
       "label": ".countEnabled",
       "fileType": "code",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java:148"
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java:159"
     },
     {
       "id": "obfuscationengine::obfuscationengine::getstrategies",
       "label": ".getStrategies",
       "fileType": "code",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java:152"
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java:163"
     },
     {
       "id": "file::parser",
@@ -1905,7 +1905,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\CLI.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\CLI.java:142",
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\CLI.java:145",
       "weight": 1
     },
     {
@@ -1914,7 +1914,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\CLI.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\CLI.java:165",
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\CLI.java:168",
       "weight": 1
     },
     {
@@ -1923,7 +1923,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\CLI.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\CLI.java:172",
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\CLI.java:175",
       "weight": 1
     },
     {
@@ -2022,7 +2022,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:325",
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:326",
       "weight": 1
     },
     {
@@ -2031,7 +2031,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:335",
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:336",
       "weight": 1
     },
     {
@@ -2040,7 +2040,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:365",
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:366",
       "weight": 1
     },
     {
@@ -2049,7 +2049,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:376",
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:377",
       "weight": 1
     },
     {
@@ -2058,7 +2058,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:385",
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:386",
       "weight": 1
     },
     {
@@ -2067,7 +2067,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:400",
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:401",
       "weight": 1
     },
     {
@@ -2076,7 +2076,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:404",
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:405",
       "weight": 1
     },
     {
@@ -2085,7 +2085,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:414",
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:415",
       "weight": 1
     },
     {
@@ -2094,7 +2094,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:435",
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\controller\\MainController.java:436",
       "weight": 1
     },
     {
@@ -2220,7 +2220,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java:40",
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java:41",
       "weight": 1
     },
     {
@@ -2229,7 +2229,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java:60",
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java:63",
       "weight": 1
     },
     {
@@ -2238,7 +2238,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java:95",
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java:98",
       "weight": 1
     },
     {
@@ -2247,7 +2247,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java:131",
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java:142",
       "weight": 1
     },
     {
@@ -2256,7 +2256,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java:148",
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java:159",
       "weight": 1
     },
     {
@@ -2265,7 +2265,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "sourceFile": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java",
-      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java:152",
+      "sourceLocation": "C:\\Users\\hafiz\\OneDrive - University of Engineering and Technology Taxila\\Desktop\\Ibrahim\\Code\\Projects\\Night shade\\nightshade\\src\\main\\java\\com\\nightshade\\engine\\ObfuscationEngine.java:163",
       "weight": 1
     },
     {
@@ -3692,9 +3692,9 @@
     }
   ],
   "metadata": {
-    "files": 26,
+    "files": 28,
     "nodes": 244,
     "edges": 220,
-    "builtAt": "2026-05-02T23:55:03.619Z"
+    "builtAt": "2026-05-03T00:32:48.495Z"
   }
 }

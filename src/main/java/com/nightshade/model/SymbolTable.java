@@ -49,7 +49,12 @@ public class SymbolTable {
         // Annotations
         "main","args","toString","equals","hashCode","compareTo","clone","finalize",
         "getClass","notify","notifyAll","wait","length","size","get","put","add",
-        "remove","contains","isEmpty","clear","iterator","next","hasNext"
+        "remove","contains","isEmpty","clear","iterator","next","hasNext",
+        // Java stdlib methods - must not be renamed to preserve compilation
+        "abs","min","max","pow","sqrt","random","floor","ceil","round","exp","log",
+        "append","insert","delete","deleteCharAt","replace","reverse","setLength","charAt",
+        "valueOf","format","split","trim","substring","indexOf","lastIndexOf","startsWith","endsWith",
+        "keySet","values","entrySet","containsKey","containsValue"
     );
 
     private final Map<String, String> mapping;   // scoped-key → replacement
@@ -96,6 +101,8 @@ public class SymbolTable {
         if (token.length() > 1 && token.equals(token.toUpperCase()) && !token.contains("_")) {
             return false; // e.g. MAX, MIN — often constants or enums from stdlib
         }
+        // Protect Java convention: Class/Type names start with uppercase
+        if (Character.isUpperCase(token.charAt(0))) return false;
         return true;
     }
 

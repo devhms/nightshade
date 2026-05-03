@@ -42,6 +42,10 @@ public class CLI {
         "  v2.0.0 | LLM Training Data Poisoning Engine\n" +
         "  Authors: Ibrahim Salman (25-SE-33), Saif-ur-Rehman (25-SE-05) | UET Taxila\n";
 
+    public static void main(String[] args) {
+        run(args);
+    }
+
     public static void run(String[] args) {
         System.out.println(BANNER);
 
@@ -49,6 +53,7 @@ public class CLI {
         String outputPath = null;
         String strategiesArg = "all";
         boolean verbose = false;
+        double entropyThreshold = 0.65; // Default threshold
 
         // Parse args
         for (int i = 0; i < args.length; i++) {
@@ -56,6 +61,7 @@ public class CLI {
                 case "--input", "-i"       -> inputPath = args[++i];
                 case "--output", "-o"      -> outputPath = args[++i];
                 case "--strategies", "-s"  -> strategiesArg = args[++i];
+                case "--threshold", "-t"   -> entropyThreshold = Double.parseDouble(args[++i]);
                 case "--verbose", "-v"     -> verbose = true;
                 case "--help", "-h"        -> { printHelp(); return; }
                 default -> System.err.println("[WARN] Unknown argument: " + args[i]);
@@ -89,6 +95,7 @@ public class CLI {
         System.out.println("[INFO] Output: " + outputDir.getAbsolutePath());
         System.out.println("[INFO] Active strategies:");
         strategies.forEach(s -> System.out.println("         • " + s.getName()));
+        System.out.println("[INFO] Entropy threshold: " + entropyThreshold);
         System.out.println();
 
         LogService logService = new LogService(verbose);
@@ -96,7 +103,7 @@ public class CLI {
         Parser parser = new Parser();
         Serializer serializer = new Serializer();
         EntropyCalculator entropyCalc = new EntropyCalculator();
-        ObfuscationEngine engine = new ObfuscationEngine(strategies, lexer, parser, serializer, entropyCalc, logService);
+        ObfuscationEngine engine = new ObfuscationEngine(strategies, lexer, parser, serializer, entropyCalc, logService, entropyThreshold);
         FileUtil fileUtil = new FileUtil();
 
         try {
@@ -178,6 +185,7 @@ public class CLI {
         System.out.println("  --output, -o <path>     Output directory (default: <input>/../_nightshade_output)");
         System.out.println("  --strategies, -s <list> Comma-separated strategies or 'all' (default: all)");
         System.out.println("                          Options: entropy, deadcode, comments, strings, whitespace");
+        System.out.println("  --threshold, -t <num>   Early-exit entropy threshold [0.0 - 1.0] (default: 0.65)");
         System.out.println("  --verbose, -v           Show detailed processing logs");
         System.out.println("  --help, -h              Show this help message");
         System.out.println();

@@ -150,16 +150,16 @@ public class DeadCodeInjector implements PoisonStrategy {
         int methodsFound = 0;
         int blocksInjected = 0;
 
-        // Detect closing braces that end methods (brace depth approach)
-        List<Integer> methodEndLines = findMethodEndLines(lines, ext);
+        // Find all method return statement positions
+        List<Integer> returnPositions = findReturnStatements(lines);
 
-        // Insert dead blocks in REVERSE order so line numbers don't shift
-        Collections.reverse(methodEndLines);
-        for (int lineIdx : methodEndLines) {
-            String[] block = selectDeadBlock(lineIdx, ext, lines, methodsFound);
-            // Insert after the closing brace line
+        // Insert dead blocks from highest to lowest
+        Collections.sort(returnPositions, Collections.reverseOrder());
+        for (int returnIdx : returnPositions) {
+            String[] block = selectDeadBlock(returnIdx, ext, lines, methodsFound);
+            // Insert BEFORE the return statement
             for (int j = block.length - 1; j >= 0; j--) {
-                lines.add(lineIdx + 1, block[j]);
+                lines.add(returnIdx, block[j]);
             }
             methodsFound++;
             blocksInjected++;
@@ -174,10 +174,9 @@ public class DeadCodeInjector implements PoisonStrategy {
         return result;
     }
 
-    private List<Integer> findMethodEndLines(List<String> lines, String ext) {
-        List<Integer> endings = new ArrayList<>();
+    private List<Integer> findReturnStatements(List<String> lines) {
+        List<Integer> returnLines = new ArrayList<>();
         int depth = 0;
-        int methodStartDepth = -1;
         boolean inMethod = false;
 
         for (int i = 0; i < lines.size(); i++) {
@@ -188,20 +187,29 @@ public class DeadCodeInjector implements PoisonStrategy {
                 if (c == '}') depth--;
             }
 
-            // Method boundary: a closing brace at depth 1 (inside a class, closing a method)
-            if (depth == 1 && line.equals("}") && inMethod) {
-                endings.add(i);
-                inMethod = false;
-            }
-
             // Detect method start: depth goes from 1 to 2 and line contains (
             if (depth == 2 && !inMethod &&
                 (line.contains("(") && !line.startsWith("if") && !line.startsWith("for")
                  && !line.startsWith("while") && !line.startsWith("switch"))) {
                 inMethod = true;
             }
+
+            // Track return statements inside methods
+            if (inMethod && line.startsWith("return ") && !line.contains(";")) {
+                // This is a return statement, add position for insertion
+                returnLines.add(i);
+            }
+            if (inMethod && line.startsWith("return ") && line.endsWith(";")) {
+                // Single-line return statement
+                returnLines.add(i);
+            }
+
+            // Method end
+            if (depth == 1 && line.equals("}") && inMethod) {
+                inMethod = false;
+            }
         }
-        return endings;
+        return returnLines;
     }
 
     private String[] selectDeadBlock(int lineIndex, String ext, List<String> lines, int methodIdx) {

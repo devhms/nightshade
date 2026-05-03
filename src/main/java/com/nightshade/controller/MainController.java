@@ -276,8 +276,9 @@ public class MainController implements Initializable {
                 Parser parser = new Parser();
                 Serializer serializer = new Serializer();
                 EntropyCalculator calc = new EntropyCalculator();
+                double defaultEntropyThreshold = 0.65;
                 ObfuscationEngine engine = new ObfuscationEngine(
-                    strategies, lexer, parser, serializer, calc, logService);
+                    strategies, lexer, parser, serializer, calc, logService, defaultEntropyThreshold);
 
                 List<ObfuscationResult> results = engine.process(files);
 

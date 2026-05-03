@@ -66,16 +66,20 @@ public class Serializer {
         List<String> result = new ArrayList<>();
         for (String line : source.getRawLines()) {
             String modified = line;
-            // Apply replacements — longer names first to avoid partial matches
-            List<String> keys = new ArrayList<>(mapping.keySet());
-            keys.sort((a, b) -> b.length() - a.length());
-            for (String original : keys) {
-                String replacement = mapping.get(original);
-                // Use word-boundary replacement to avoid partial matches
-                modified = modified.replaceAll(
-                    "(?<![a-zA-Z0-9_$])" + java.util.regex.Pattern.quote(original) + "(?![a-zA-Z0-9_$])",
-                    java.util.regex.Matcher.quoteReplacement(replacement)
-                );
+            // Skip renaming on package and import lines to preserve stdlib references
+            String trimmed = line.trim();
+            if (!trimmed.startsWith("package ") && !trimmed.startsWith("import ")) {
+                // Apply replacements — longer names first to avoid partial matches
+                List<String> keys = new ArrayList<>(mapping.keySet());
+                keys.sort((a, b) -> b.length() - a.length());
+                for (String original : keys) {
+                    String replacement = mapping.get(original);
+                    // Use word-boundary replacement to avoid partial matches
+                    modified = modified.replaceAll(
+                        "(?<![a-zA-Z0-9_$])" + java.util.regex.Pattern.quote(original) + "(?![a-zA-Z0-9_$])",
+                        java.util.regex.Matcher.quoteReplacement(replacement)
+                    );
+                }
             }
             result.add(modified);
         }

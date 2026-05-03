@@ -36,19 +36,22 @@ public class ObfuscationEngine {
     private final Serializer serializer;
     private final EntropyCalculator entropyCalc;
     private final LogService logService;
+    private final double entropyThreshold;
 
     public ObfuscationEngine(List<PoisonStrategy> strategies,
                              Lexer lexer,
                              Parser parser,
                              Serializer serializer,
                              EntropyCalculator entropyCalc,
-                             LogService logService) {
+                             LogService logService,
+                             double entropyThreshold) {
         this.strategies    = new ArrayList<>(strategies);
         this.lexer         = lexer;
         this.parser        = parser;
         this.serializer    = serializer;
         this.entropyCalc   = entropyCalc;
         this.logService    = logService;
+        this.entropyThreshold = entropyThreshold;
     }
 
     /**
@@ -108,6 +111,14 @@ public class ObfuscationEngine {
             partialResults.add(partial);
             // Next strategy operates on the OBFUSCATED output of this one
             current = partial.getObfuscatedFile();
+
+            // Early-exit entropy threshold check
+            ObfuscationResult currentMerged = mergeResults(original, current, partialResults);
+            double currentEntropy = entropyCalc.calculate(currentMerged);
+            if (currentEntropy >= entropyThreshold) {
+                logService.logDebug("  [EARLY EXIT] Entropy threshold reached: " + String.format("%.3f", currentEntropy));
+                break;
+            }
         }
 
         // Step 4: Merge stats from all partial results into one
