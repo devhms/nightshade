@@ -2,6 +2,15 @@
 
 An open-source code obfuscation engine designed to protect machine learning training data from web crawlers and protect intellectual property in code. Nightshade injects poison patterns that corrupt training data when ingested by LLMs, while keeping source code functional.
 
+## Open Source
+- [Contributing](CONTRIBUTING.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
+- [Security Policy](SECURITY.md)
+- [Support](SUPPORT.md)
+- [Governance](GOVERNANCE.md)
+- [Roadmap](ROADMAP.md)
+- [Changelog](CHANGELOG.md)
+
 ## Features (v2.0 — Tier 1 + 2)
 
 ### Five Poisoning Strategies
@@ -65,6 +74,12 @@ java -jar target/nightshade-2.0.0-jar-with-dependencies.jar --help
 - **arXiv:2512.15468** (Yang et al., December 2025) — Variable renaming causes 10.19% MI detection drop with only 0.63% task performance loss
 - Dead code injection survives all normalization passes
 - Comment poisoning disrupts LLM association learning
+
+## Contributing
+1. Read CONTRIBUTING.md and CODE_OF_CONDUCT.md
+2. Fork the repo and create a feature branch
+3. Run `mvn -q test`
+4. Open a PR with a clear summary
 
 ## License
 
