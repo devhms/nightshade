@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/devhms/nightshade/security/advisories/new
+    about: Report security issues privately via GitHub PVR
+  - name: Support question
+    url: https://github.com/devhms/nightshade/issues
+    about: Ask questions or request help
