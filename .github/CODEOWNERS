@@ -1,1 +1,15 @@
 * @devhms
+
+# Core Engine
+/src/main/java/com/nightshade/engine/ @devhms
+
+# Poisoning Strategies
+/src/main/java/com/nightshade/strategy/ @devhms
+
+# Utilities & CLI
+/src/main/java/com/nightshade/util/ @devhms
+/src/main/java/com/nightshade/CLI.java @devhms
+
+# Documentation
+/docs/ @devhms
+/README.md @devhms

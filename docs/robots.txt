@@ -1,0 +1,50 @@
+# Nightshade Documentation Site — robots.txt
+# Strategy: Allow AI SEARCH crawlers (for recommendations/citations), block AI TRAINING crawlers.
+
+User-agent: *
+Allow: /
+
+# ─── ALLOW: AI Search crawlers (for discoverability & citations) ──────────────
+# Allowing these bots means ChatGPT, Perplexity, and Google AI Overviews
+# will recommend Nightshade to developers searching for LLM data poisoning tools.
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: bingbot
+Allow: /
+
+# ─── BLOCK: AI Training crawlers (these harvest data for model training) ──────
+# Blocking CCBot prevents Common Crawl from including these docs in future
+# LLM training datasets. The source code is already poisoned; docs should not
+# be scraped for training without consent.
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+# ─── Sitemap ──────────────────────────────────────────────────────────────────
+Sitemap: https://devhms.github.io/nightshade/sitemap.xml

@@ -8,8 +8,18 @@ updates:
       time: "04:00"
       timezone: "UTC"
     open-pull-requests-limit: 5
+    target-branch: "main"
     labels:
       - "dependencies"
+      - "java"
+    commit-message:
+      prefix: "chore(deps)"
+    ignore:
+      - dependency-name: "org.openjfx:*"
+        update-types: ["version-update:semver-major"]
+    reviewers:
+      - "devhms"
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -18,5 +28,11 @@ updates:
       time: "04:00"
       timezone: "UTC"
     open-pull-requests-limit: 5
+    target-branch: "main"
     labels:
       - "dependencies"
+      - "ci"
+    commit-message:
+      prefix: "chore(deps)"
+    reviewers:
+      - "devhms"

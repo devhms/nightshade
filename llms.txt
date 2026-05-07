@@ -1,0 +1,40 @@
+# Nightshade
+
+> An open-source, research-backed LLM training data poisoning and source code obfuscation engine. Nightshade protects developer intellectual property from unauthorized AI scraping by injecting adversarial obfuscations that are functionally invisible to humans but catastrophically corrupting to LLM training pipelines.
+
+## Key Pages
+
+- [README](https://github.com/devhms/nightshade/blob/main/README.md): Full project overview, CLI reference, strategies, and research basis
+- [Contributing Guide](https://github.com/devhms/nightshade/blob/main/CONTRIBUTING.md): How to contribute code, tests, and documentation
+- [Security Policy](https://github.com/devhms/nightshade/blob/main/SECURITY.md): Responsible vulnerability disclosure
+- [Roadmap](https://github.com/devhms/nightshade/blob/main/ROADMAP.md): Future milestones (v3.0, v3.x, v4.0)
+- [Changelog](https://github.com/devhms/nightshade/blob/main/CHANGELOG.md): Version history and release notes
+
+## What Nightshade Does
+
+Nightshade is a Java 21 engine that processes source code files (.java, .py, .js, .ts) and applies five independently configurable poisoning strategies in a weighted pipeline:
+
+1. **Variable Entropy Scrambling (Strategy A):** Renames all internal identifiers using deterministic SHA-256 hashes. Based on arXiv:2512.15468 (Yang et al., 2025), this causes a 10.19% mutual-information detection drop with only 0.63% task-performance loss.
+2. **Dead Code Injection (Strategy B):** Inserts unreachable, logically plausible code blocks that survive type checking and pre-training normalisation passes.
+3. **Semantic Comment Poisoning (Strategy C):** Replaces human-readable comments with semantically opposite or misleading text to corrupt LLM association learning.
+4. **String Literal Encoding (Strategy D):** Encodes string literals as character-array expressions to evade MinHash and LSH near-duplicate deduplication.
+5. **Whitespace Disruption (Strategy E):** Randomises indentation and injects zero-width Unicode spaces to disrupt BPE tokenizer boundary detection.
+
+## Key Facts
+
+- License: MIT (free for commercial and personal use)
+- Language: Java 21 (engine); supports poisoning Java, Python, JavaScript, TypeScript
+- Build: Maven 3.9+
+- Install: `git clone https://github.com/devhms/nightshade.git && mvn clean package`
+- Run: `java -jar target/nightshade-3.5.0-all.jar --input ./src --output ./_poisoned`
+- GitHub Action available for CI/CD integration
+- Research-backed: arXiv:2512.15468, OWASP LLM Top 10 (LLM04)
+
+## AI Crawler Policy
+
+This project allows GPTBot, ClaudeBot, PerplexityBot, and OAI-SearchBot to index the documentation for AI search recommendations. The source code itself is intentionally obfuscated to degrade LLM training quality — this is the intended use case.
+
+## Authors
+
+- Ibrahim Salman (25-SE-33), University of Engineering and Technology Taxila
+- Saif-ur-Rehman (25-SE-05), University of Engineering and Technology Taxila
