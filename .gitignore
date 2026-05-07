@@ -17,3 +17,30 @@ _nightshade_output/
 nightshade_run.log
 *.tmp
 .worktrees/
+
+# --- AI Tool Artifacts (Repository Protection) ---
+# Ignore global AI skills, agent frameworks, and UI config
+.cursor/
+.cursorignore
+.cursorindexingignore
+.claude/
+.superpowers/
+claude-seo/
+graphify/
+.aider*
+.continue/
+.copilot/
+*.task_outputs/
+*.tasks/
+*.teams/
+.transcripts/
+
+# Note: .cursorrules and CLAUDE.md are INTENTIONALLY NOT IGNORED 
+# because they contain project-level AI standards for all contributors.
+
+# --- Environment and Secrets ---
+.env
+.env.*
+*.pem
+*.key
+*.secret
