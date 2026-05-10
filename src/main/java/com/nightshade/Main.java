@@ -10,18 +10,18 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * Nightshade v2.0 — LLM Training Data Poisoning Engine
+ * Nightshade v3.5.0 — LLM Training Data Poisoning Engine
  *
  * Entry point. If CLI args are present, delegates to CLI mode.
  * Otherwise launches the JavaFX GUI.
  *
- * Authors: Ibrahim Salman (25-SE-33), Saif-ur-Rehman (25-SE-05)
- * Course: OOP Lab — UET Taxila
+ * 
+ * https://github.com/devhms/nightshade
  */
 public class Main extends Application {
 
-    public static final String APP_TITLE = "Nightshade v2.0 | Code Obfuscation Engine";
-    public static final String APP_VERSION = "2.0.0";
+    public static final String APP_TITLE = "Nightshade v3.5.0 | Code Obfuscation Engine";
+    public static final String APP_VERSION = "3.5.0";
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -57,11 +57,16 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        // CLI mode: java -jar nightshade.jar --input ./src --output ./out
         if (args.length > 0) {
             CLI.run(args);
         } else {
-            launch(args);
+            try {
+                launch(args);
+            } catch (UnsupportedOperationException | NoClassDefFoundError e) {
+                System.out.println("[INFO] GUI unavailable (headless environment). Showing CLI help:");
+                System.out.println();
+                CLI.run(new String[]{"--help"});
+            }
         }
     }
 }

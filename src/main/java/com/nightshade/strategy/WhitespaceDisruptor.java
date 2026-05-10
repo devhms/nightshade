@@ -98,11 +98,16 @@ public class WhitespaceDisruptor implements PoisonStrategy {
 
     private List<String> varyIndentation(List<String> lines) {
         List<String> out = new ArrayList<>();
+        boolean skipping = false;
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
-            // Only modify lines with content (not blank or comment-only)
             String trimmed = line.trim();
-            if (trimmed.isEmpty() || trimmed.startsWith("//") || trimmed.startsWith("/*") || trimmed.startsWith("*")) {
+            
+            if (trimmed.contains("@nightshade:skip")) skipping = true;
+            if (trimmed.contains("@nightshade:resume")) skipping = false;
+
+            // Only modify lines with content (not blank or comment-only) and not in a skipped block
+            if (skipping || trimmed.isEmpty() || trimmed.startsWith("//") || trimmed.startsWith("/*") || trimmed.startsWith("*")) {
                 out.add(line);
                 continue;
             }
@@ -116,7 +121,7 @@ public class WhitespaceDisruptor implements PoisonStrategy {
             // Add 1 extra space on odd-hashed lines (deterministic)
             int extraSpaces = (trimmed.hashCode() ^ (i * 37)) % 3 == 0 ? 1 : 0;
             if (extraSpaces > 0 && leadingSpaces > 0) {
-                out.add(" ".repeat(leadingSpaces + extraSpaces) + trimmed);
+                out.add(" ".repeat(leadingSpaces + extraSpaces) + line.substring(leadingSpaces));
             } else {
                 out.add(line);
             }

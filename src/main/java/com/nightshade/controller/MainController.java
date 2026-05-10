@@ -49,6 +49,9 @@ public class MainController implements Initializable {
     @FXML private CheckBox cbComments;
     @FXML private CheckBox cbStrings;
     @FXML private CheckBox cbWhitespace;
+    @FXML private CheckBox cbSemantic;
+    @FXML private CheckBox cbControlFlow;
+    @FXML private CheckBox cbWatermark;
 
     @FXML private ProgressBar progressBar;
     @FXML private Label entropyLabel;
@@ -126,8 +129,8 @@ public class MainController implements Initializable {
 
         setupScrollSync();
 
-        logService.log("Nightshade v2.0 ready. Select an input directory to begin.");
-        logService.log("5 strategies loaded: Entropy, DeadCode, Comments, Strings, Whitespace");
+        logService.log("Nightshade v3.5.0 ready. Select an input directory to begin.");
+        logService.log("8 strategies loaded: Entropy, DeadCode, Comments, Strings, Whitespace, Semantic, ControlFlow, Watermark");
     }
 
     private void setupScrollSync() {
@@ -220,7 +223,9 @@ public class MainController implements Initializable {
                             }
                         }
                     });
-                } catch (Exception ignored) {}
+                } catch (Exception e) {
+                    logService.logError("Could not load file: " + e.getMessage());
+                }
                 return;
             }
         }
@@ -330,6 +335,9 @@ public class MainController implements Initializable {
         if (cbComments.isSelected())   list.add(new CommentPoisoner());
         if (cbStrings.isSelected())    list.add(new StringEncoder());
         if (cbWhitespace.isSelected()) list.add(new WhitespaceDisruptor());
+        if (cbSemantic != null && cbSemantic.isSelected())   list.add(new SemanticInverter());
+        if (cbControlFlow != null && cbControlFlow.isSelected()) list.add(new ControlFlowFlattener());
+        if (cbWatermark != null && cbWatermark.isSelected())  list.add(new WatermarkEncoder());
         return list;
     }
 
@@ -414,10 +422,10 @@ public class MainController implements Initializable {
 
     @FXML private void onAboutClicked() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("About Nightshade v2.0");
+        alert.setTitle("About Nightshade v3.5.0");
         alert.setHeaderText("Nightshade — LLM Training Data Poisoning Engine");
         alert.setContentText(
-            "Version: 2.0.0\n\n" +
+            "Version: 3.5.0\n\n" +
             "Authors:\n" +
             "  Ibrahim Salman (25-SE-33)\n" +
             "  Saif-ur-Rehman (25-SE-05)\n\n" +

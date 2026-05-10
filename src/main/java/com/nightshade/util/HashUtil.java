@@ -27,7 +27,7 @@ public final class HashUtil {
      */
     public static String generateReplacement(String original, String saltedScope) {
         String combined = original + "\u0000" + saltedScope;
-        int hash = Math.abs(combined.hashCode());
+        int hash = combined.hashCode() & Integer.MAX_VALUE;
 
         // Secondary scramble using FNV-1a to reduce clustering
         hash = fnv1a(combined);
@@ -35,7 +35,7 @@ public final class HashUtil {
         StringBuilder sb = new StringBuilder("v_");
         int h = hash;
         for (int i = 0; i < 7; i++) {
-            sb.append(CHARS.charAt(Math.abs(h) % CHARS_LEN));
+            sb.append(CHARS.charAt((h & Integer.MAX_VALUE) % CHARS_LEN));
             // Advance with mixing to avoid patterns
             h = (h * 1664525 + 1013904223); // LCG constants
         }
@@ -48,6 +48,6 @@ public final class HashUtil {
             hash ^= c;
             hash *= 0x01000193;
         }
-        return Math.abs(hash);
+        return hash & Integer.MAX_VALUE;
     }
 }

@@ -68,6 +68,14 @@ public class CommentPoisoner implements PoisonStrategy {
     private static final Pattern JAVA_COMMENT = Pattern.compile("^(\\s*)(//.*?)\\s*$");
     private static final Pattern PY_COMMENT   = Pattern.compile("^(\\s*)(#.*?)\\s*$");
 
+    private String getIndent(String line) {
+        int i = 0;
+        while (i < line.length() && Character.isWhitespace(line.charAt(i))) {
+            i++;
+        }
+        return line.substring(0, i);
+    }
+
     @Override
     public ObfuscationResult apply(SourceFile source, ASTNode ast, SymbolTable symbols) {
         List<String> lines = new ArrayList<>(source.getObfuscatedLines());
@@ -75,8 +83,49 @@ public class CommentPoisoner implements PoisonStrategy {
         int poisoned = 0;
         int totalComments = 0;
 
+        boolean skipping = false;
+        boolean inBlockComment = false;
+
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
+            String trimmed = line.trim();
+            
+            if (trimmed.contains("@nightshade:skip")) skipping = true;
+            if (trimmed.contains("@nightshade:resume")) skipping = false;
+            
+            if (skipping) continue;
+
+            if (!ext.equals(".py")) {
+                if (!inBlockComment && trimmed.startsWith("/*")) {
+                    inBlockComment = true;
+                    totalComments++;
+                    boolean isJavadoc = trimmed.startsWith("/**");
+                    String falseText = JAVA_COMMENT_BANK[(i + 1) % JAVA_COMMENT_BANK.length].substring(3);
+                    
+                    if (trimmed.endsWith("*/") && trimmed.length() > 3) {
+                        lines.set(i, getIndent(line) + (isJavadoc ? "/** " : "/* ") + falseText + " */");
+                        inBlockComment = false;
+                    } else {
+                        lines.set(i, getIndent(line) + (isJavadoc ? "/**" : "/*"));
+                    }
+                    poisoned++;
+                    continue;
+                }
+
+                if (inBlockComment) {
+                    totalComments++;
+                    if (trimmed.endsWith("*/")) {
+                        inBlockComment = false;
+                        lines.set(i, getIndent(line) + " */");
+                    } else {
+                        String falseText = JAVA_COMMENT_BANK[(i + 1) % JAVA_COMMENT_BANK.length].substring(3);
+                        lines.set(i, getIndent(line) + " * " + falseText);
+                    }
+                    poisoned++;
+                    continue;
+                }
+            }
+
             Pattern pat = ext.equals(".py") ? PY_COMMENT : JAVA_COMMENT;
             Matcher m = pat.matcher(line);
             if (m.matches()) {

@@ -59,17 +59,21 @@ public class ControlFlowFlattener implements PoisonStrategy {
             
             if (bodyStatements.size() < 2) continue; // not worth flattening
 
-            // Build the flattened version
+            String stateVar = "_ns_state";
+            
+            // Build the flattened version with proper scoping
+            // FIX: Wrap switch in scope block so local variables are visible across cases
             List<String> flattened = new ArrayList<>();
-            flattened.add(indent + "    int _ns_state = 0;");
-            flattened.add(indent + "    while (_ns_state != -1) {");
-            flattened.add(indent + "        switch (_ns_state) {");
+            flattened.add(indent + "    int " + stateVar + " = 0;");
+            flattened.add(indent + "    { // scope block for local variable visibility");
+            flattened.add(indent + "        while (" + stateVar + " != -1) {");
+            flattened.add(indent + "            switch (" + stateVar + ") {");
             for (int s = 0; s < bodyStatements.size(); s++) {
                 flattened.add(indent + "            case " + s + ": " 
-                    + bodyStatements.get(s) + " _ns_state = " + (s+1) + "; break;");
+                    + bodyStatements.get(s) + " " + stateVar + " = " + (s+1) + "; break;");
             }
             flattened.add(indent + "            case " + bodyStatements.size() 
-                + ": _ns_state = -1; break;");
+                + ": " + stateVar + " = -1; break;");
             flattened.add(indent + "        }");
             flattened.add(indent + "    }");
             if (returnStatement != null) {
@@ -77,11 +81,13 @@ public class ControlFlowFlattener implements PoisonStrategy {
             }
 
             // Replace original body with flattened version
-            List<String> before = lines.subList(0, bodyStart);
-            List<String> after = lines.subList(bodyEnd, lines.size());
+            List<String> before = new ArrayList<>(lines.subList(0, bodyStart));
+            List<String> after = new ArrayList<>(lines.subList(bodyEnd, lines.size()));
             List<String> newLines = new ArrayList<>(before);
             newLines.addAll(flattened);
             newLines.addAll(after);
+            // Adjust loop index: skip past the flattened block we just inserted
+            i = bodyStart + flattened.size() - 1;
             lines = newLines;
             flattenedCount++;
         }

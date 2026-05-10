@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - **Dead Code Banks:** Expanded the injection banks for Python and JavaScript to include domain-specific logical blocks.
-- **Opaque Predicates:** Replaced trivial `if (false)` blocks with sophisticated opaque predicates (e.g., `if (0.1 + 0.2 == 0.3)`) to evade advanced dead-code elimination in LLM preprocessing pipelines.
+- **Opaque Predicates:** Dead code blocks now use contextual domain-mismatch injection (e.g., network code injected into file-handling methods) with `if (false)` guards to maximize semantic confusion while maintaining compiler safety.
 - **Community Standards:** Completely overhauled `README.md`, `CONTRIBUTING.md`, `SECURITY.md`, and issue templates to meet top-tier open-source standards.
 
 ### Fixed

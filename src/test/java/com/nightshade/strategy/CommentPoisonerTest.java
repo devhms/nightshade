@@ -61,4 +61,64 @@ class CommentPoisonerTest {
         }
         assertEquals(0, result.getCommentsPoisoned());
     }
+
+    @Test
+    void testHandlesMultiLineBlockComments() {
+        List<String> lines = List.of(
+            "public class Test {",
+            "    /*",
+            "     * This is a multi-line",
+            "     * block comment",
+            "     */",
+            "    int x = 10;",
+            "}"
+        );
+        SourceFile source = new SourceFile("Test.java", lines);
+        SymbolTable symbols = new SymbolTable();
+        ASTNode dummyAst = new ASTNode("PROGRAM");
+
+        CommentPoisoner poisoner = new CommentPoisoner();
+        ObfuscationResult result = poisoner.apply(source, dummyAst, symbols);
+
+        List<String> obfuscated = result.getObfuscatedFile().getObfuscatedLines();
+        
+        boolean foundOriginal = false;
+        for (String line : obfuscated) {
+            if (line.contains("This is a multi-line")) {
+                foundOriginal = true;
+            }
+        }
+        assertFalse(foundOriginal, "Original multi-line comment should be replaced.");
+        assertTrue(result.getCommentsPoisoned() > 0);
+    }
+
+    @Test
+    void testHandlesJavadocComments() {
+        List<String> lines = List.of(
+            "public class Test {",
+            "    /**",
+            "     * Javadoc comment here",
+            "     * describes the method",
+            "     */",
+            "    public void method() {}",
+            "}"
+        );
+        SourceFile source = new SourceFile("Test.java", lines);
+        SymbolTable symbols = new SymbolTable();
+        ASTNode dummyAst = new ASTNode("PROGRAM");
+
+        CommentPoisoner poisoner = new CommentPoisoner();
+        ObfuscationResult result = poisoner.apply(source, dummyAst, symbols);
+
+        List<String> obfuscated = result.getObfuscatedFile().getObfuscatedLines();
+        
+        boolean foundOriginal = false;
+        for (String line : obfuscated) {
+            if (line.contains("Javadoc comment here")) {
+                foundOriginal = true;
+            }
+        }
+        assertFalse(foundOriginal, "Original javadoc should be replaced.");
+        assertTrue(result.getCommentsPoisoned() > 0);
+    }
 }

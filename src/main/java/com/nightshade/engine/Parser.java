@@ -24,7 +24,16 @@ import java.util.List;
  * Node types produced:
  *  CLASS_DECL, METHOD_DECL, BLOCK, STATEMENT, FIELD_DECL, COMMENT_NODE, PROGRAM
  */
+import java.util.HashSet;
+import java.util.Set;
+
 public class Parser {
+
+    private final Set<String> publicApis = new HashSet<>();
+
+    public Set<String> getPublicApis() {
+        return publicApis;
+    }
 
     public ASTNode parse(List<Token> tokens) {
         ASTNode program = new ASTNode("PROGRAM");
@@ -116,17 +125,33 @@ public class Parser {
                         if (currentMethod != null) currentMethod.addChild(block);
                     }
                 } else if (t.getValue().equals("}")) {
-                    if (inMethod && braceDepth == methodStartDepth) {
+                    braceDepth = Math.max(0, braceDepth - 1);
+                    if (inMethod && braceDepth < methodStartDepth) {
                         inMethod = false;
                         currentMethodName = null;
                         currentMethod = null;
                     }
-                    braceDepth = Math.max(0, braceDepth - 1);
                 }
             }
 
             // Tag all identifier tokens with scope path
             if (t.getType() == TokenType.IDENTIFIER) {
+                // Check if this identifier is part of a public API
+                boolean isPublic = false;
+                for (int j = i - 1; j >= Math.max(0, i - 10); j--) {
+                    Token prev = tokens.get(j);
+                    if (prev.getType() == TokenType.KEYWORD && prev.getValue().equals("public")) {
+                        isPublic = true;
+                        break;
+                    }
+                    if (prev.getType() == TokenType.SYMBOL && (prev.getValue().equals(";") || prev.getValue().equals("}") || prev.getValue().equals("{"))) {
+                        break;
+                    }
+                }
+                if (isPublic) {
+                    publicApis.add(t.getValue());
+                }
+
                 ASTNode idNode = new ASTNode("STATEMENT", t);
                 String scope = currentClassName + "." +
                     (currentMethodName != null ? currentMethodName : "class");

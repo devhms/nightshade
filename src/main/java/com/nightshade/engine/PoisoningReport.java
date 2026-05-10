@@ -59,8 +59,9 @@ public class PoisoningReport {
         sb.append("Based on arXiv:2512.15468, variable renaming alone provides ");
         sb.append("~10.19% MI detection drop. Combined with dead code injection, ");
         sb.append("comment poisoning, and string encoding, estimated total MI ");
+        double files = Math.max(1, results.size());
         sb.append(String.format("resistance: **%.1f%%**\n", 
-            Math.min(95, 10.19 + totalDead * 2.5 + totalComments * 1.5 + totalStrings * 3.0)));
+            Math.min(95, 10.19 + (totalDead/files) * 2.5 + (totalComments/files) * 1.5 + (totalStrings/files) * 3.0)));
         
         return sb.toString();
     }

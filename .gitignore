@@ -18,6 +18,14 @@ nightshade_run.log
 *.tmp
 .worktrees/
 
+# --- Build Artifacts (Maven Shade, JVM) ---
+dependency-reduced-pom.xml
+hs_err_pid*.log
+null/
+_poisoned/
+sample-report.md
+sample-repo/obfuscated/
+
 # --- AI Tool Artifacts (Repository Protection) ---
 # Ignore global AI skills, agent frameworks, and UI config
 .cursor/
@@ -35,8 +43,8 @@ graphify/
 *.teams/
 .transcripts/
 
-# Note: .cursorrules and CLAUDE.md are INTENTIONALLY NOT IGNORED 
-# because they contain project-level AI standards for all contributors.
+.cursorrules
+.cursorignore
 
 # --- Environment and Secrets ---
 .env

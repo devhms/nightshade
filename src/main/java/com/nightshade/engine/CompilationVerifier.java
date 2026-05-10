@@ -5,6 +5,7 @@ import javax.tools.ToolProvider;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Ensures that obfuscated code remains compilable.
@@ -12,21 +13,37 @@ import java.util.List;
  */
 public class CompilationVerifier {
 
+    private static final Set<String> SKIP_DIRS = Set.of(
+        "_nightshade_output", "nightshade-output", "target", "build", "out"
+    );
+
+    public boolean hasJavaFiles(File sourceDirectory) {
+        List<File> javaFiles = new ArrayList<>();
+        collectJavaFiles(sourceDirectory, javaFiles);
+        return !javaFiles.isEmpty();
+    }
+
     /**
      * Attempts to compile all Java files in the given directory.
      * @param sourceDirectory The root directory containing obfuscated Java files.
      * @return true if compilation succeeds, false if it fails.
      */
     public boolean verify(File sourceDirectory) {
+        List<File> javaFiles = new ArrayList<>();
+        collectJavaFiles(sourceDirectory, javaFiles);
+        
+        if (javaFiles.isEmpty()) {
+            if (hasNonJavaFiles(sourceDirectory)) {
+                System.out.println("[VERIFY] SKIPPED: No Java files found. Compilation verification only applies to .java files.");
+            }
+            return true;
+        }
+        
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         if (compiler == null) {
             System.err.println("[WARN] JavaCompiler not available (requires JDK, not just JRE). Skipping verification.");
-            return true; // Skip if no compiler available
+            return true;
         }
-        
-        List<File> javaFiles = new ArrayList<>();
-        collectJavaFiles(sourceDirectory, javaFiles);
-        if (javaFiles.isEmpty()) return true; // nothing to verify
         
         List<String> filePaths = new ArrayList<>();
         for (File f : javaFiles) {
@@ -44,10 +61,25 @@ public class CompilationVerifier {
         if (children == null) return;
         for (File child : children) {
             if (child.isDirectory()) {
-                collectJavaFiles(child, files);
+                if (!SKIP_DIRS.contains(child.getName())) {
+                    collectJavaFiles(child, files);
+                }
             } else if (child.getName().endsWith(".java")) {
                 files.add(child);
             }
         }
+    }
+    
+    private boolean hasNonJavaFiles(File dir) {
+        File[] children = dir.listFiles();
+        if (children == null) return false;
+        for (File child : children) {
+            if (child.isDirectory()) {
+                if (hasNonJavaFiles(child)) return true;
+            } else if (!child.getName().endsWith(".java")) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -40,12 +40,28 @@ public class StringEncoder implements PoisonStrategy {
         String ext = source.getExtension();
         int encoded = 0;
 
+        boolean skipping = false;
+        boolean inDeadCode = false;
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
-
-            // Skip comment-only lines
             String trimmed = line.trim();
-            if (trimmed.startsWith("//") || trimmed.startsWith("#") || trimmed.startsWith("*")) {
+            
+            if (trimmed.contains("@nightshade:skip")) skipping = true;
+            if (trimmed.contains("@nightshade:resume")) skipping = false;
+
+            if (trimmed.startsWith("if (false) {") || trimmed.startsWith("if False:")) {
+                inDeadCode = true;
+            }
+
+            if (inDeadCode) {
+                if (trimmed.equals("}") || (ext.equals(".py") && trimmed.startsWith("print(") && trimmed.contains("[DEAD]"))) {
+                    inDeadCode = false;
+                }
+                continue;
+            }
+
+            // Skip comment-only lines and skipped blocks
+            if (skipping || trimmed.startsWith("//") || trimmed.startsWith("#") || trimmed.startsWith("*")) {
                 continue;
             }
 
@@ -75,6 +91,8 @@ public class StringEncoder implements PoisonStrategy {
             if (content.length() > 0 && content.length() < 80) {
                 String encoded = ext.equals(".py") ? encodePython(content) : encodeJava(content);
                 m.appendReplacement(sb, Matcher.quoteReplacement(encoded));
+            } else {
+                m.appendReplacement(sb, Matcher.quoteReplacement(m.group(0)));
             }
         }
         m.appendTail(sb);

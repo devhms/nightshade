@@ -1,0 +1,6 @@
+- id: nightshade
+  name: Nightshade Code Poisoning
+  entry: java -jar target/nightshade-3.5.0-all.jar
+  language: system
+  files: \.(java|py|js|ts)$
+  description: Poison source code to defend against LLM training data scraping

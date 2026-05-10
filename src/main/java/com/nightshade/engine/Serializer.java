@@ -64,12 +64,21 @@ public class Serializer {
      */
     public List<String> applyMapping(SourceFile source, Map<String, String> mapping) {
         List<String> result = new ArrayList<>();
-        for (String line : source.getRawLines()) {
+        boolean skipping = false;
+        for (String line : source.getObfuscatedLines()) {
             String modified = line;
-            // Skip renaming on package and import lines to preserve stdlib references
             String trimmed = line.trim();
-            if (!trimmed.startsWith("package ") && !trimmed.startsWith("import ")) {
-                // Apply replacements — longer names first to avoid partial matches
+            
+            if (trimmed.contains("@nightshade:skip")) skipping = true;
+            if (trimmed.contains("@nightshade:resume")) skipping = false;
+
+            // Skip renaming on package, import, or skipped lines
+            if (skipping || trimmed.startsWith("package ") || trimmed.startsWith("import ")) {
+                result.add(line);
+                continue;
+            }
+
+            // Apply replacements — longer names first to avoid partial matches
                 List<String> keys = new ArrayList<>(mapping.keySet());
                 keys.sort((a, b) -> b.length() - a.length());
                 for (String original : keys) {
@@ -80,7 +89,6 @@ public class Serializer {
                         java.util.regex.Matcher.quoteReplacement(replacement)
                     );
                 }
-            }
             result.add(modified);
         }
         return result;

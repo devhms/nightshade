@@ -84,27 +84,32 @@ nightshade/
 ├── Main.java              # Bootstrap
 ├── engine/
 │   ├── Lexer.java         # Language-aware tokeniser
-│   ├── PoisoningEngine.java  # Strategy pipeline coordinator
-│   └── EntropyScorer.java # Weighted entropy calculator
+│   ├── Parser.java        # AST parser
+│   ├── ObfuscationEngine.java  # Strategy pipeline coordinator
+│   ├── EntropyCalculator.java # Weighted entropy calculator
+│   └── CompilationVerifier.java # Post-obfuscation compile check
 ├── model/
 │   ├── ASTNode.java       # AST node representation
-│   └── PoisonReport.java  # Per-file transformation report
+│   ├── Token.java         # Lexer token
+│   ├── SymbolTable.java   # Symbol tracking
+│   └── ObfuscationResult.java  # Per-file transformation result
 ├── strategy/              # One class per poisoning strategy
-│   ├── EntropyScrambler.java   # Strategy A
-│   ├── DeadCodeInjector.java   # Strategy B
-│   ├── CommentPoisoner.java    # Strategy C
-│   ├── StringEncoder.java      # Strategy D
-│   └── WhitespaceDisruptor.java # Strategy E
-├── controller/
-│   └── MainController.java  # Optional JavaFX GUI
-└── util/
-    └── FileUtil.java        # I/O helpers
+│   ├── EntropyScrambler.java   # Strategy A - Variable renaming
+│   ├── DeadCodeInjector.java   # Strategy B - Dead code injection
+│   ├── CommentPoisoner.java    # Strategy C - Comment poisoning
+│   ├── StringEncoder.java      # Strategy D - String encoding
+│   ├── WhitespaceDisruptor.java # Strategy E - Whitespace variation
+│   ├── SemanticInverter.java   # Strategy F - Misleading names
+│   ├── ControlFlowFlattener.java # Strategy G - Flow flattening
+│   └── WatermarkEncoder.java   # Strategy H - Steganographic watermark
+├── util/
+│   └── FileUtil.java        # I/O helpers
 ```
 
 ### Adding a New Poisoning Strategy
 
-1. Create `src/main/java/com/nightshade/strategy/MyStrategy.java` implementing the `PoisoningStrategy` interface.
-2. Register it in `PoisoningEngine.java` with a short identifier string and a weight.
+1. Create `src/main/java/com/nightshade/strategy/MyStrategy.java` implementing the `PoisonStrategy` interface.
+2. Register it in `ObfuscationEngine.java` with a short identifier string and a weight.
 3. Add a CLI flag in `CLI.java` if the strategy needs configuration.
 4. Write unit tests in `src/test/java/com/nightshade/strategy/MyStrategyTest.java`.
 5. Document the strategy in `README.md` and `CHANGELOG.md`.

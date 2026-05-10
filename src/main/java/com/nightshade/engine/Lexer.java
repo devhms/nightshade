@@ -64,7 +64,17 @@ public class Lexer {
     public List<Token> tokenize(List<String> lines) {
         List<Token> tokens = new ArrayList<>();
         int lineNum = 1;
+        boolean skipping = false;
         for (String line : lines) {
+            String trimmed = line.trim();
+            if (trimmed.contains("@nightshade:skip")) skipping = true;
+            if (trimmed.contains("@nightshade:resume")) skipping = false;
+            
+            if (skipping) {
+                lineNum++;
+                continue;
+            }
+
             Matcher m = MASTER_PATTERN.matcher(line);
             while (m.find()) {
                 String value = m.group();

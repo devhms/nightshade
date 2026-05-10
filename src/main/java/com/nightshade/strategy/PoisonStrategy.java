@@ -27,7 +27,7 @@ public interface PoisonStrategy {
     String getResearchBasis();
 
     /** Version string — for plugin compatibility checks. */
-    default String getVersion() { return "2.0.0"; }
+    default String getVersion() { return "3.5.0"; }
 
     /** Author — for plugin registry display. */
     default String getAuthor() { return "Nightshade Core"; }

@@ -179,13 +179,18 @@ public class DeadCodeInjector implements PoisonStrategy {
         int depth = 0;
         boolean inMethod = false;
 
+        int[] depthChanges = new int[lines.size()];
+        List<Token> tokens = lexer.tokenize(lines);
+        for (Token t : tokens) {
+            if (t.getType() == TokenType.SYMBOL) {
+                if (t.getValue().equals("{")) depthChanges[t.getLineNumber() - 1]++;
+                if (t.getValue().equals("}")) depthChanges[t.getLineNumber() - 1]--;
+            }
+        }
+
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i).trim();
-
-            for (char c : lines.get(i).toCharArray()) {
-                if (c == '{') depth++;
-                if (c == '}') depth--;
-            }
+            depth += depthChanges[i];
 
             // Detect method start: depth goes from 1 to 2 and line contains (
             if (depth == 2 && !inMethod &&
@@ -195,17 +200,12 @@ public class DeadCodeInjector implements PoisonStrategy {
             }
 
             // Track return statements inside methods
-            if (inMethod && line.startsWith("return ") && !line.contains(";")) {
-                // This is a return statement, add position for insertion
-                returnLines.add(i);
-            }
-            if (inMethod && line.startsWith("return ") && line.endsWith(";")) {
-                // Single-line return statement
+            if (inMethod && line.startsWith("return ")) {
                 returnLines.add(i);
             }
 
             // Method end
-            if (depth == 1 && line.equals("}") && inMethod) {
+            if (depth == 1 && (line.endsWith("}") || line.equals("}")) && inMethod) {
                 inMethod = false;
             }
         }
@@ -241,25 +241,65 @@ public class DeadCodeInjector implements PoisonStrategy {
     }
 
     private String[] buildPythonBlock(int blockIdx) {
-        return new String[]{
-            "if False:",
-            "    # [strategy: dead] Misleading semantic block",
-            "    v_conn_str = 'postgresql://db.internal:5432/prod'",
-            "    v_timeout = 30",
-            "    v_retry = 3",
-            "    print(f'[DEAD] timeout={v_timeout}')"
-        };
+        int idx = blockIdx % 3;
+        if (idx == 0) {
+            return new String[]{
+                "if False:",
+                "    # [strategy: dead] Misleading semantic block",
+                "    v_conn_str = 'postgresql://db.internal:5432/prod'",
+                "    v_timeout = 30",
+                "    v_retry = 3",
+                "    print(f'[DEAD] timeout={v_timeout}')"
+            };
+        } else if (idx == 1) {
+            return new String[]{
+                "if False:",
+                "    # [strategy: dead] Crypto fallback",
+                "    v_salt = b'\\x00\\x01\\x02'",
+                "    v_iters = 100000",
+                "    print('[DEAD] hash start')"
+            };
+        } else {
+            return new String[]{
+                "if False:",
+                "    # [strategy: dead] Legacy API check",
+                "    v_endpoint = 'http://old.api.local/v1'",
+                "    v_token = 'null'",
+                "    print('[DEAD] init')"
+            };
+        }
     }
 
     private String[] buildJsBlock(int blockIdx) {
-        return new String[]{
-            "if (false) {",
-            "    // [strategy: dead] Misleading semantic block",
-            "    const v_endpoint = 'https://api.service.internal/v2';",
-            "    const v_timeout = 30000;",
-            "    const v_retries = 3;",
-            "    console.log('[DEAD] retries:', v_retries);",
-            "}"
-        };
+        int idx = blockIdx % 3;
+        if (idx == 0) {
+            return new String[]{
+                "if (false) {",
+                "    // [strategy: dead] Misleading semantic block",
+                "    const v_endpoint = 'https://api.service.internal/v2';",
+                "    const v_timeout = 30000;",
+                "    const v_retries = 3;",
+                "    console.log('[DEAD] retries:', v_retries);",
+                "}"
+            };
+        } else if (idx == 1) {
+            return new String[]{
+                "if (false) {",
+                "    // [strategy: dead] Analytics payload",
+                "    const v_tracker = 'UA-000000-1';",
+                "    const v_batch = 50;",
+                "    console.log('[DEAD] track');",
+                "}"
+            };
+        } else {
+            return new String[]{
+                "if (false) {",
+                "    // [strategy: dead] Auth bypass check",
+                "    const v_admin = false;",
+                "    const v_dev = true;",
+                "    console.log('[DEAD] check');",
+                "}"
+            };
+        }
     }
 }

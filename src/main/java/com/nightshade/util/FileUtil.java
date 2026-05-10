@@ -81,7 +81,7 @@ public class FileUtil {
         outputRoot.mkdirs();
         try (BufferedWriter writer = new BufferedWriter(
                 new OutputStreamWriter(new FileOutputStream(logFile, false), StandardCharsets.UTF_8))) {
-            writer.write("Nightshade v2.0 — Run Log");
+            writer.write("Nightshade v3.5.0 — Run Log");
             writer.newLine();
             writer.write("Generated: " + LocalDateTime.now().format(LOG_FMT));
             writer.newLine();

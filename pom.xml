@@ -7,12 +7,20 @@
 
     <groupId>com.nightshade</groupId>
     <artifactId>nightshade</artifactId>
-    <version>2.0.0</version>
+    <version>3.5.0</version>
     <packaging>jar</packaging>
 
     <name>Nightshade</name>
     <description>Code Obfuscation Engine for LLM Dataset Poisoning — Open-Source</description>
-    <url>https://github.com/ibrahim-nightshade/nightshade</url>
+    <url>https://github.com/devhms/nightshade</url>
+    <scm>
+        <url>https://github.com/devhms/nightshade</url>
+        <connection>scm:git:git://github.com/devhms/nightshade.git</connection>
+    </scm>
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/devhms/nightshade/issues</url>
+    </issueManagement>
 
     <licenses>
         <license>
@@ -37,6 +45,12 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -79,12 +93,58 @@
                             <shadedClassifierName>all</shadedClassifierName>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.nightshade.Main</mainClass>
+                                    <mainClass>com.nightshade.Launcher</mainClass>
                                 </transformer>
                             </transformers>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+
+            <!-- Surefire plugin for tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.5.0</version>
+            </plugin>
+
+            <!-- JaCoCo coverage plugin (skip on Java 25 due to incompatibility) -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.12</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+
+            <!-- CycloneDX SBOM generation plugin -->
+            <plugin>
+                <groupId>org.cyclonedx</groupId>
+                <artifactId>cyclonedx-maven-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>makeAggregateBom</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <schemaVersion>1.6</schemaVersion>
+                    <outputFormat>all</outputFormat>
+                </configuration>
             </plugin>
         </plugins>
     </build>

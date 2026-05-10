@@ -11,7 +11,7 @@ import java.util.UUID;
  *
  * Design decisions:
  *  1. A single UUID salt is generated once per run and mixed into every hash.
- *     Same input file processed in two runs produces different output —
+ *     Same input file processed in two runs produces different output â€”
  *     this prevents adaptive attacks.
  *  2. Scope-aware resolution: the key is (scopePath + "::" + original), so
  *     "result" in method A and "result" in method B get different replacements.
@@ -54,11 +54,13 @@ public class SymbolTable {
         "abs","min","max","pow","sqrt","random","floor","ceil","round","exp","log",
         "append","insert","delete","deleteCharAt","replace","reverse","setLength","charAt",
         "valueOf","format","split","trim","substring","indexOf","lastIndexOf","startsWith","endsWith",
-        "keySet","values","entrySet","containsKey","containsValue"
+        "keySet","values","entrySet","containsKey","containsValue",
+        "out","in","err","println","print","printf"
     );
 
-    private final Map<String, String> mapping;   // scoped-key → replacement
+    private final Map<String, String> mapping;   // scoped-key â†’ replacement
     private final String sessionSalt;
+    private final Set<String> dynamicProtected = java.util.Collections.synchronizedSet(new java.util.HashSet<>());
 
     public SymbolTable() {
         this.mapping = new HashMap<>();
@@ -86,6 +88,15 @@ public class SymbolTable {
     }
 
     /**
+     * Protects a specific identifier from being renamed (e.g., public APIs).
+     */
+    public void protect(String identifier) {
+        if (identifier != null && !identifier.isEmpty()) {
+            dynamicProtected.add(identifier);
+        }
+    }
+
+    /**
      * Returns true if this token is a user-defined name that may be renamed.
      * False for keywords, stdlib types, and other protected identifiers.
      */
@@ -93,13 +104,14 @@ public class SymbolTable {
         if (token == null || token.isEmpty()) return false;
         // Protected set check
         if (PROTECTED_IDENTIFIERS.contains(token)) return false;
+        if (dynamicProtected.contains(token)) return false;
         // Must start with letter or underscore (not a literal that slipped through)
         if (!Character.isLetter(token.charAt(0)) && token.charAt(0) != '_') return false;
-        // Uppercase-only names are likely constants or type names — protect them
+        // Uppercase-only names are likely constants or type names â€” protect them
         // (but allow mixed-case like myVar or MY_CONST partially)
         // We protect all-caps identifiers of length > 1 (TRUE, FALSE already in set)
         if (token.length() > 1 && token.equals(token.toUpperCase()) && !token.contains("_")) {
-            return false; // e.g. MAX, MIN — often constants or enums from stdlib
+            return false; // e.g. MAX, MIN â€” often constants or enums from stdlib
         }
         // Protect Java convention: Class/Type names start with uppercase
         if (Character.isUpperCase(token.charAt(0))) return false;

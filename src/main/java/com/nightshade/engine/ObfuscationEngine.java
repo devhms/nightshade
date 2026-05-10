@@ -100,6 +100,10 @@ public class ObfuscationEngine {
         var tokens = lexer.tokenize(original.getRawLines());
         var ast    = parser.parse(tokens);
 
+        for (String api : parser.getPublicApis()) {
+            symbols.protect(api);
+        }
+
         // Step 3: Chain strategies — each receives the OUTPUT of the previous
         SourceFile current = original;
         List<ObfuscationResult> partialResults = new ArrayList<>();

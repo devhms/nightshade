@@ -1,18 +1,25 @@
 name: Release
 
 on:
+  push:
+    tags:
+      - 'v*'
   workflow_dispatch:
     inputs:
       version:
-        description: 'Release version (e.g., 3.5.0)'
+        description: 'Manual release version (e.g., 3.5.0)'
         required: true
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  build-and-release:
+  build:
+    name: Build & Generate SBOM
     runs-on: ubuntu-latest
+    outputs:
+      hashes: ${{ steps.hash.outputs.hashes }}
+      version: ${{ steps.get_version.outputs.VERSION }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -24,21 +31,99 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: Build Fat JAR
+      - name: Get Version
+        id: get_version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build Fat JAR and generate SBOM
         run: mvn clean package -DskipTests -B
 
-      - name: Rename Artifact
-        run: mv target/nightshade-*-all.jar nightshade-${{ github.event.inputs.version }}.jar
+      - name: Generate hashes for SLSA provenance
+        id: hash
+        run: |
+          cd target
+          echo "hashes=$(sha256sum nightshade-${{ steps.get_version.outputs.VERSION }}-all.jar | base64 -w0)" >> $GITHUB_OUTPUT
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifacts-${{ steps.get_version.outputs.VERSION }}
+          path: |
+            target/nightshade-${{ steps.get_version.outputs.VERSION }}-all.jar
+            target/bom.json
+          retention-days: 1
+
+  provenance:
+    needs: [build]
+    permissions:
+      actions: read
+      id-token: write
+      contents: write
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.9.0
+    with:
+      base64-subjects: "${{ needs.build.outputs.hashes }}"
+      upload-assets: true
+
+  release:
+    needs: [build, provenance]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: artifacts-${{ needs.build.outputs.version }}
+          path: target/
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v3.4.0
+
+      - name: Sign JAR (Keyless)
+        run: |
+          cosign sign-blob \
+            --yes \
+            --bundle target/nightshade.sig \
+            target/nightshade-${{ needs.build.outputs.version }}-all.jar
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ github.event.inputs.version }}
-          name: Release v${{ github.event.inputs.version }}
+          tag_name: v${{ needs.build.outputs.version }}
+          name: Nightshade v${{ needs.build.outputs.version }}
           body: |
-            ## Nightshade v${{ github.event.inputs.version }}
+            ## Nightshade v${{ needs.build.outputs.version }}
+            
+            This release includes cryptographic signatures (Sigstore/Cosign), SLSA Level 3 provenance attestations, and a standard CycloneDX SBOM to guarantee supply chain integrity.
+            
+            **Verification Instructions:**
+            ```bash
+            # 1. Verify the JAR signature
+            cosign verify-blob \
+              --certificate-identity "https://github.com/devhms/nightshade/.github/workflows/release.yml@refs/tags/v${{ needs.build.outputs.version }}" \
+              --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
+              --bundle nightshade.sig \
+              nightshade-${{ needs.build.outputs.version }}-all.jar
+              
+            # 2. Verify SLSA Provenance
+            slsa-verifier verify-artifact nightshade-${{ needs.build.outputs.version }}-all.jar \
+              --provenance-path multiple.intoto.jsonl \
+              --source-uri github.com/devhms/nightshade
+            ```
+            
             Please see [CHANGELOG.md](CHANGELOG.md) for full release notes.
           files: |
-            nightshade-${{ github.event.inputs.version }}.jar
+            target/nightshade-${{ needs.build.outputs.version }}-all.jar
+            target/bom.json
+            target/nightshade.sig
           draft: false
           prerelease: false

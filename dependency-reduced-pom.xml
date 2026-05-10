@@ -4,15 +4,23 @@
   <groupId>com.nightshade</groupId>
   <artifactId>nightshade</artifactId>
   <name>Nightshade</name>
-  <version>2.0.0</version>
+  <version>3.5.0</version>
   <description>Code Obfuscation Engine for LLM Dataset Poisoning — Open-Source</description>
-  <url>https://github.com/ibrahim-nightshade/nightshade</url>
+  <url>https://github.com/devhms/nightshade</url>
+  <issueManagement>
+    <system>GitHub Issues</system>
+    <url>https://github.com/devhms/nightshade/issues</url>
+  </issueManagement>
   <licenses>
     <license>
       <name>MIT License</name>
       <url>https://opensource.org/licenses/MIT</url>
     </license>
   </licenses>
+  <scm>
+    <connection>scm:git:git://github.com/devhms/nightshade.git</connection>
+    <url>https://github.com/devhms/nightshade</url>
+  </scm>
   <build>
     <plugins>
       <plugin>
@@ -45,15 +53,76 @@
               <shadedClassifierName>all</shadedClassifierName>
               <transformers>
                 <transformer>
-                  <mainClass>com.nightshade.Main</mainClass>
+                  <mainClass>com.nightshade.Launcher</mainClass>
                 </transformer>
               </transformers>
+              <filters>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/*.SF</exclude>
+                    <exclude>META-INF/*.DSA</exclude>
+                    <exclude>META-INF/*.RSA</exclude>
+                  </excludes>
+                </filter>
+              </filters>
             </configuration>
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.5.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.12</version>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.cyclonedx</groupId>
+        <artifactId>cyclonedx-maven-plugin</artifactId>
+        <version>2.9.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>makeAggregateBom</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <schemaVersion>1.6</schemaVersion>
+          <outputFormat>all</outputFormat>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
+  <dependencies>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.10.2</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>junit-jupiter-api</artifactId>
+          <groupId>org.junit.jupiter</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>junit-jupiter-params</artifactId>
+          <groupId>org.junit.jupiter</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>junit-jupiter-engine</artifactId>
+          <groupId>org.junit.jupiter</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+  </dependencies>
   <properties>
     <maven.compiler.release>21</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

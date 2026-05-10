@@ -24,7 +24,8 @@ public class FileWalker {
 
     private static final Set<String> SKIP_DIRS = Set.of(
         ".git", "node_modules", "target", "__pycache__",
-        ".idea", ".vscode", "build", "dist", ".gradle", "out"
+        ".idea", ".vscode", "build", "dist", ".gradle", "out",
+        "_nightshade_output", "nightshade-output"
     );
 
     private final FileUtil fileUtil = new FileUtil();
@@ -37,7 +38,13 @@ public class FileWalker {
      */
     public List<SourceFile> walk(File root) throws IOException {
         List<SourceFile> files = new ArrayList<>();
-        collectFiles(root, files);
+        if (root != null && root.exists()) {
+            if (root.isFile() && isAllowedExtension(root.getName())) {
+                files.add(fileUtil.read(root));
+            } else {
+                collectFiles(root, files);
+            }
+        }
         files.sort(Comparator.comparing(SourceFile::getAbsolutePath));
         return files;
     }
