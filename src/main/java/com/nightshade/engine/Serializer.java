@@ -65,8 +65,8 @@ public class Serializer {
     public List<String> applyMapping(SourceFile source, Map<String, String> mapping) {
         List<String> result = new ArrayList<>();
         boolean skipping = false;
+        Lexer lexer = new Lexer();
         for (String line : source.getObfuscatedLines()) {
-            String modified = line;
             String trimmed = line.trim();
             
             if (trimmed.contains("@nightshade:skip")) skipping = true;
@@ -78,19 +78,51 @@ public class Serializer {
                 continue;
             }
 
-            // Apply replacements — longer names first to avoid partial matches
-                List<String> keys = new ArrayList<>(mapping.keySet());
-                keys.sort((a, b) -> b.length() - a.length());
-                for (String original : keys) {
-                    String replacement = mapping.get(original);
-                    // Use word-boundary replacement to avoid partial matches
-                    modified = modified.replaceAll(
-                        "(?<![a-zA-Z0-9_$])" + java.util.regex.Pattern.quote(original) + "(?![a-zA-Z0-9_$])",
-                        java.util.regex.Matcher.quoteReplacement(replacement)
-                    );
+            List<Token> tokens = lexer.tokenize(List.of(line));
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < tokens.size(); i++) {
+                Token token = tokens.get(i);
+                Token prevToken = previousNonWhitespace(tokens, i);
+                Token nextToken = nextNonWhitespace(tokens, i);
+                boolean isDotCall = prevToken != null
+                    && ".".equals(prevToken.getValue())
+                    && token.getType() == TokenType.IDENTIFIER;
+                boolean isDotReceiver = token.getType() == TokenType.IDENTIFIER
+                    && nextToken != null
+                    && ".".equals(nextToken.getValue());
+                if (token.getType() == TokenType.IDENTIFIER && !isDotCall && !isDotReceiver) {
+                    String replacement = mapping.get(token.getValue());
+                    if (replacement != null) {
+                        sb.append(replacement);
+                    } else {
+                        sb.append(token.getValue());
+                    }
+                } else {
+                    sb.append(token.getValue());
                 }
-            result.add(modified);
+            }
+            result.add(sb.toString());
         }
         return result;
+    }
+
+    private Token previousNonWhitespace(List<Token> tokens, int index) {
+        for (int i = index - 1; i >= 0; i--) {
+            Token token = tokens.get(i);
+            if (token.getType() != TokenType.WHITESPACE) {
+                return token;
+            }
+        }
+        return null;
+    }
+
+    private Token nextNonWhitespace(List<Token> tokens, int index) {
+        for (int i = index + 1; i < tokens.size(); i++) {
+            Token token = tokens.get(i);
+            if (token.getType() != TokenType.WHITESPACE) {
+                return token;
+            }
+        }
+        return null;
     }
 }

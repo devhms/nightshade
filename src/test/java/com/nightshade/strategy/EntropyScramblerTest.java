@@ -95,4 +95,35 @@ class EntropyScramblerTest {
         }
         assertTrue(foundTest);
     }
+
+    @Test
+    void testDoesNotRenameStringsCommentsOrDotCalls() {
+        List<String> lines = List.of(
+            "public class Test {",
+            "    void run() {",
+            "        String s = \"count\"; int count = 1; // count",
+            "        java.util.List<String> myList = new java.util.ArrayList<>();",
+            "        myList.add(\"x\");",
+            "    }",
+            "}"
+        );
+        SourceFile source = new SourceFile("Test.java", lines);
+        Lexer lexer = new Lexer();
+        List<Token> tokens = lexer.tokenize(lines);
+        Parser parser = new Parser();
+        ASTNode ast = parser.parse(tokens);
+        SymbolTable symbols = new SymbolTable();
+
+        EntropyScrambler scrambler = new EntropyScrambler();
+        ObfuscationResult result = scrambler.apply(source, ast, symbols);
+        List<String> obf = result.getObfuscatedFile().getObfuscatedLines();
+        String joined = String.join("\n", obf);
+
+        assertAll("token-safe renaming",
+            () -> assertTrue(joined.contains("\"count\""), "string literal should remain"),
+            () -> assertTrue(joined.contains("// count"), "comment should remain"),
+            () -> assertFalse(joined.contains(" count = 1"), "variable name should be renamed"),
+            () -> assertTrue(joined.contains("myList.add"), "dot-call method should not be renamed")
+        );
+    }
 }
