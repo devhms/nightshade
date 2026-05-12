@@ -83,14 +83,10 @@ public class Serializer {
             for (int i = 0; i < tokens.size(); i++) {
                 Token token = tokens.get(i);
                 Token prevToken = previousNonWhitespace(tokens, i);
-                Token nextToken = nextNonWhitespace(tokens, i);
                 boolean isDotCall = prevToken != null
                     && ".".equals(prevToken.getValue())
                     && token.getType() == TokenType.IDENTIFIER;
-                boolean isDotReceiver = token.getType() == TokenType.IDENTIFIER
-                    && nextToken != null
-                    && ".".equals(nextToken.getValue());
-                if (token.getType() == TokenType.IDENTIFIER && !isDotCall && !isDotReceiver) {
+                if (token.getType() == TokenType.IDENTIFIER && !isDotCall) {
                     String replacement = mapping.get(token.getValue());
                     if (replacement != null) {
                         sb.append(replacement);
@@ -116,13 +112,4 @@ public class Serializer {
         return null;
     }
 
-    private Token nextNonWhitespace(List<Token> tokens, int index) {
-        for (int i = index + 1; i < tokens.size(); i++) {
-            Token token = tokens.get(i);
-            if (token.getType() != TokenType.WHITESPACE) {
-                return token;
-            }
-        }
-        return null;
-    }
 }

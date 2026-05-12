@@ -123,7 +123,7 @@ class EntropyScramblerTest {
             () -> assertTrue(joined.contains("\"count\""), "string literal should remain"),
             () -> assertTrue(joined.contains("// count"), "comment should remain"),
             () -> assertFalse(joined.contains(" count = 1"), "variable name should be renamed"),
-            () -> assertTrue(joined.contains("myList.add"), "dot-call method should not be renamed")
+            () -> assertTrue(joined.contains(".add("), "dot-call method should not be renamed")
         );
     }
 }
