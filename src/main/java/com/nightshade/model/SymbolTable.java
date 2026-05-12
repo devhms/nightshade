@@ -55,7 +55,8 @@ public class SymbolTable {
         "append","insert","delete","deleteCharAt","replace","reverse","setLength","charAt",
         "valueOf","format","split","trim","substring","indexOf","lastIndexOf","startsWith","endsWith",
         "keySet","values","entrySet","containsKey","containsValue",
-        "out","in","err","println","print","printf"
+        "out","in","err","println","print","printf",
+        "setTitle","stream","toUpperCase","getItems"
     );
 
     private final Map<String, String> mapping;   // scoped-key â†’ replacement

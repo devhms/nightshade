@@ -53,4 +53,15 @@ class SymbolTableTest {
         assertFalse(table.isUserDefined("MyClass"));
         assertFalse(table.isUserDefined("ArrayList"));
     }
+
+    @Test
+    void testAdditionalProtectedIdentifiers() {
+        SymbolTable table = new SymbolTable();
+        assertAll("protected identifiers",
+            () -> assertFalse(table.isUserDefined("setTitle")),
+            () -> assertFalse(table.isUserDefined("stream")),
+            () -> assertFalse(table.isUserDefined("toUpperCase")),
+            () -> assertFalse(table.isUserDefined("getItems"))
+        );
+    }
 }
