@@ -96,7 +96,7 @@ jobs:
             target/nightshade-${{ needs.build.outputs.version }}-all.jar
 
       - name: Create Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: v${{ needs.build.outputs.version }}
           name: Nightshade v${{ needs.build.outputs.version }}
