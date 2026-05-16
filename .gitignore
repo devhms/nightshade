@@ -25,6 +25,8 @@ null/
 _poisoned/
 sample-report.md
 sample-repo/obfuscated/
+output_dir/
+test-out/
 
 # --- AI Tool Artifacts (Repository Protection) ---
 # Ignore global AI skills, agent frameworks, and UI config

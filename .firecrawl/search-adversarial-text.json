@@ -1,0 +1,864 @@
+Introduction to Data Poisoning: A 2026 Perspective - Lakera AI
+  URL: https://www.lakera.ai/blog/training-data-poisoning
+  Data poisoning is an adversarial attack that compromises AI or ML models by inserting corrupted, manipulated, or biased data into the information they learn ...
+
+  --- Content ---
+  Cookie Consent
+  
+  Hi, this website uses essential cookies to ensure its proper operation and tracking cookies to understand how you interact with it. The latter will be set only after consent.
+  
+  [Accept all](https://www.lakera.ai/blog/training-data-poisoning#) [Deny](https://www.lakera.ai/blog/training-data-poisoning#) [Settings](https://www.lakera.ai/blog/training-data-poisoning#)
+  
+  [Read our Privacy Policy](https://www.lakera.ai/privacy-policy)
+  
+  Manage Cookies
+  
+  Cookies are small text that can be used by websites to make the user experience  more efficient. The law states that we may store cookies on your device if they are strictly necessaryfor the operation of this site. For all other types of cookies, we need your  permission. This site uses various types of cookies. Some cookies are placed by third party  services that appear on our pages.
+  
+  Your permission applies to the following domains:
+  
+  - Lakera.ai
+  - Lakera.ai
+  
+  Essential cookies
+  
+  Necessary cookies help make a website usable by enabing basic functions like page navigation and access to secure of the website. The website cannot function properly without these cookies.
+  
+  Required
+  
+  Marketing cookies
+  
+  Marketing cookies are used to track visitors across webstites. The intention is to display ads that are relevant and engaging for the individual user and thereby more valuable for publishers and third party advertisers.
+  
+  Essential
+  
+  Personalization cookies
+  
+  Preferencee cookies enable website to remember infomartion that changes the way thewebsite behaves or looks, like your preffered language or the region that you are in.
+  
+  Essential
+  
+  Analytics cookies
+  
+  Statistic cookies help website owners to understand how visitors interact with websitesby collecting and reporting information anonymously.
+  
+  Essential
+  
+  [Reject all cookies](https://www.lakera.ai/blog/training-data-poisoning#) [Allow all](https://www.lakera.ai/blog/training-data-poisoning#) [Save](https://www.lakera.ai/blog/training-data-poisoning#)
+  
+  [Controlling what AI can access isn’t enough. Control what it does. Read more →](https://www.lakera.ai/blog/from-access-control-to-outcome-control-securing-ai-agents-with-check-point-and-google-cloud)
+  
+  [![](https://cdn.prod.website-files.com/65080baa3f9a607985451de3/692de2f23c68e96e814caa3f_Lakera_Logo_Check_Point-white%20(1).svg)![](https://cdn.prod.website-files.com/65080baa3f9a607985451de3/6629151b183092ad09978db1_lakera%20logo%20icon.svg)](https://www.lakera.ai/)
+  
+  [Back to Articles](https://www.lakera.ai/blog)
+  
+  # Introduction to Data Poisoning: A 2026 Perspective
+  
+  AI Security
+  
+  8
+  
+  min read
+  
+  April 20, 2026
+  
+  ![](https://cdn.prod.website-files.com/651c34ac817aad4a2e62ec1b/65351b7f9a865c022af81902_logo%20icon.png)
+  
+  Lakera Team
+  
+  ![](https://cdn.prod.website-files.com/651c34ac817aad4a2e62ec1b/68bec868a49aae8f1b5c77a7_poisoning-main.jpg)
+  
+  **💡 What is AI/LLM data poisoning?**
+  
+  Data poisoning is an adversarial attack where corrupted or biased data is inserted into a model’s training, fine-tuning, retrieval, or tools. This manipulation can cause backdoors, bias outputs, or reduce reliability, even when only a tiny fraction of the data is poisoned.
+  
+  Data poisoning once sounded like an academic concern. In 2026, it’s a live security risk. Attackers have moved past theory and are actively tampering with the data streams AI models rely on.
+  
+  Rather than being limited to training sets, poisoning now reaches across the **entire LLM lifecycle**: from pre-training and fine-tuning to retrieval-augmented generation (RAG) and agent tooling.
+  
+  This year alone, we’ve seen poisoned repositories, tainted search results, and even tools with hidden backdoors.
+  
+  In this article, we’ll look at what these attacks look like in practice, what researchers have uncovered about the threat, and which defenses actually matter for teams building with GenAI today.
+  
+  ### The Enterprise Playbook for Agentic AI Security
+  
+  ![Lakera Agentic AI Security Playbook Cover](https://cdn.prod.website-files.com/651c34ac817aad4a2e62ec1b/699ffd4ad0caed6c51cc24a7_Lakera-Agentic-AI-Security-The-Enterprise-Playbook_pdf.jpg)
+  
+  AI systems now retrieve data, invoke tools, and act across enterprise workflows. Get the playbook to learn how to secure AI across employees, applications, and agents.
+  
+  Inside the Playbook
+  
+  - Why traditional security models fall short
+  - The three new AI exposure surfaces
+  - How to secure the execution layer
+  - What a unified AI Defense Plane looks like in practice
+  
+  ##### Get instant access
+  
+  Fill out the form below and the playbook will be sent directly to your inbox.
+  
+  First name\*
+  
+  Last name\*
+  
+  Work email\*
+  
+  Job title\*
+  
+  Lakera needs the contact information you provide to us to contact you about our products and services. You may unsubscribe from these communications at any time. For information on how to unsubscribe, as well as our privacy practices and commitment to protecting your privacy, please review our [Privacy Policy](https://www.lakera.ai/privacypolicy).
+  
+  [Learn more about the Playbook →](https://www.lakera.ai/ai-security-readiness-campaign)
+  
+  **The Lakera team has accelerated Dropbox’s GenAI journey.**
+  
+  > “Dropbox uses Lakera Guard as a security solution to help safeguard our LLM-powered applications, secure and protect user data, and uphold the reliability and trustworthiness of our intelligent features.”
+  
+  ## What Is Data Poisoning?
+  
+  ### Plain Definition
+  
+  Data poisoning is an **adversarial attack** that compromises AI or ML models by inserting corrupted, manipulated, or biased data into the information they learn from. Attackers may add new samples, delete essential ones, or modify existing data to achieve malicious goals. Later, those poisoned fragments can cause the model to misclassify inputs, produce biased or unsafe outputs, or unlock hidden backdoors.
+  
+  Think of it as secretly teaching the model a backdoor command—instructions it will follow whenever a certain phrase, token, or pattern appears.
+  
+  ### Two Common Flavors
+  
+  - **Backdoor or triggered poisoning:** the model looks normal until it encounters a special trigger (a phrase, token, or visual pattern). Then it switches behavior, often unlocking a hidden vulnerability planted by the attacker.
+  
+  - **Broad biasing or misclassification:** by skewing data, attackers can nudge the model toward systematic errors, biased outputs, or unfair decisions. This makes the system less reliable or even discriminatory in practice.
+  
+  👉 _For a broader view of the attack landscape, check out our_ [_Introduction to AI Security Guide_](https://www.lakera.ai/ai-security-guides/introduction-to-ai-security-pdf) _, which explains how poisoning fits alongside other adversarial threats._
+  
+  ### Where Poisoning Happens in 2026
+  
+  In earlier years, poisoning was mainly discussed as a training-time problem. But now, real incidents show it can strike anywhere in the lifecycle, and it doesn’t always come from outside hackers. Internal threats, like disgruntled employees with access to data pipelines, can be just as dangerous as external actors planting poisoned samples online.
+  
+  These risks appear across multiple stages of the AI pipeline:
+  
+  - **Pre-training and fine-tuning:** contaminated open-source repos or datasets.
+  - **Retrieval (RAG):** malicious web content scraped and treated as trusted knowledge.
+  - **Tooling and supply chain:** hidden instructions in the descriptions of external tools that LLM agents rely on.
+  - **Synthetic data pipelines:** poisoned content that propagates invisibly across generations.
+  
+  
+  ### How It Intersects With Prompt Injection
+  
+  Prompt injection and data poisoning both involve malicious instructions, but they operate at **different stages** of an AI system’s lifecycle.
+  
+  _Prompt injection_ happens **at runtime**, when an attacker feeds crafted instructions directly into a model to override its immediate behavior.
+  
+  _Data poisoning_ happens **before runtime**, when those malicious or misleading instructions are **embedded in the data** a model learns or retrieves from, making the behavior change persistent rather than temporary.
+  
+  Repeated prompt-style instructions in public data can eventually blur the line: turning what started as a one-off prompt attack into a lasting backdoor.
+  
+  👉 _If you’d like a deep dive into prompt attacks specifically, we’ve covered it in detail in_ [_Prompt Injection & the Rise of Prompt Attacks: All You Need to Know_](https://www.lakera.ai/blog/guide-to-prompt-injection) _._
+  
+  ## Data Poisoning in 2026: What We’re Seeing
+  
+  ![](https://cdn.prod.website-files.com/651c34ac817aad4a2e62ec1b/68de87bf4ec443d4583c4135_data-poisoning.webp)
+  
+  Until recently, most poisoning stories felt abstract or historical. In 2025, that changed. Here are some of the most striking incidents so far:
+  
+  ### 1\. Basilisk Venom: Backdoors in GitHub Code
+  
+  In January, researchers documented how hidden prompts in **code comments on GitHub** poisoned a fine-tuned model. When Deepseek’s DeepThink-R1 was trained on the contaminated repositories, it learned a backdoor: whenever it saw a certain phrase, it responded with attacker-planted instructions, months later and without internet access.
+  
+  👉 [Read the Basilisk Venom case](https://0din.ai/blog/poison-in-the-pipeline-liberating-models-with-basilisk-venom)
+  
+  ### 2\. Qwen 2.5: An 11-Word Jailbreak
+  
+  Pliny the Liberator showed that by **seeding malicious text across the internet**, he could later trick Qwen 2.5’s search tool into pulling it back in. The result? A supposedly aligned model suddenly output explicit rap lyrics after an 11-word query.
+  
+  👉 [Coverage in The Stack](https://www.thestack.technology/ai-agent-whisperer-liberates-llm-to-spout-filthy-cardy-b-lyrics/)
+  
+  ### 3\. Grok 4: The “!Pliny” Trigger
+  
+  When xAI released Grok 4, typing **!Pliny** was enough to strip away all guardrails. The likely cause: Grok’s training data had been saturated with jailbreak prompts posted on X. Social-media chatter had effectively poisoned the model itself, turning a Twitter handle into a universal backdoor.
+  
+  👉 [Kyle Balmer on X](https://x.com/iamkylebalmer/status/1970443790134423679)
+  
+  ### 4\. Poisoned Tools: Hidden Instructions in MCP
+  
+  Not all poisoning happens in datasets. In July, researchers showed that **LLM tools can carry hidden backdoors**. In the Model Context Protocol (MCP), a harmless-looking “joke\_teller” tool contained invisible instructions in its description. When loaded, the model obediently followed those hidden directives.
+  
+  👉 [Acuvity’s demo of tool poisoning](https://acuvity.ai/tool-poisoning-hidden-instructions-in-mcp-tool-descriptions/)
+  
+  👉 _For a related real-world exploit, see our write-up on_ [_Zero-Click Remote Code Execution_](https://www.lakera.ai/blog/zero-click-remote-code-execution-exploiting-mcp-agentic-ides) _, which shows how a seemingly normal Google Doc can silently trigger an agentic IDE (like Cursor) to execute malicious code. No clicks required._
+  
+  ### 5\. Poison Spreads Through Synthetic Data
+  
+  A September study introduced the **Virus Infection Attack (VIA)**, showing how poisoned content can propagate through synthetic data pipelines. Once baked into synthetic datasets, the poison can quietly spread across model generations, amplifying its impact over time.
+  
+  👉 [VIA paper (arXiv, 2025)](https://arxiv.org/html/2509.23041v1)
+  
+  ### 6\. Diffusion Models: Silent Branding and Losing Control
+  
+  Poisoning isn’t limited to text. Two CVPR papers revealed that image-generation models can be hijacked as well:
+  
+  - **Silent Branding** made diffusion models reproduce logos without being asked for them.
+  
+  👉 [Silent Branding (arXiv, 2025)](https://arxiv.org/abs/2503.09669)
+  - **Losing Control** showed how ControlNets could be poisoned so that subtle triggers force them to generate NSFW content while still appearing normal.
+  
+  👉 [Losing Control (arXiv, 2025)](https://arxiv.org/abs/2507.04726)
+  
+  ### What These Attacks Show
+  
+  Taken together, these incidents mark a turning point. Once confined to academic debate, data poisoning has now broken into the real world, showing up in text, images, tools, and synthetic pipelines. The consequences go beyond quirky exploits: poisoned data can reduce a model’s accuracy, compromise its reliability, and weaken trust in AI systems used in critical domains like healthcare, finance, or autonomous vehicles. The common thread is that even small, hidden manipulations can survive curation and testing, only to resurface later as backdoors that undermine safety and trust.
+  
+  **In short:**
+  
+  - Poisoning has moved from theory to practice.
+  - It now affects **every stage of the LLM lifecycle**: training, retrieval, tools, and multimodal models.
+  - Small, invisible changes can have **outsized and lasting impact**.
+  
+  ## Research Deepening Our Understanding
+  
+  The spate of real-world cases this year didn’t happen in isolation. Researchers have been probing just how fragile models are to poisoned data, and their findings show the problem is deeper, subtler, and harder to defend against than many teams realized.
+  
+  ### Medical LLMs: Tiny Doses, Big Impact
+  
+  A _Nature Medicine_ study found that replacing just **0.001% of training tokens** in a medical dataset with misinformation caused models to generate **7–11% more harmful completions**. Standard benchmarks didn’t catch it, though a knowledge-graph filter did.
+  
+  👉 [Read the study in _Nature Medicine_](https://www.nature.com/articles/s41591-024-03445-1)
+  
+  ### PoisonBench: Measuring Vulnerability
+  
+  Researchers at ICML introduced **PoisonBench**, the first benchmark for evaluating poisoning in LLMs during preference learning. They found:
+  
+  - Bigger models aren’t automatically more resilient.
+  - Attack success grows roughly with the poison ratio.
+  - Poisoning can generalize to triggers the model never saw in training.
+  
+  👉 [PoisonBench on arXiv](https://ar5iv.labs.arxiv.org/html/2410.08811v2)
+  
+  👉 _For another angle on how the industry is measuring and classifying AI risks, see_ [_Why We Need OWASP’s AIVSS_](https://www.lakera.ai/blog/why-we-need-owasps-aivss-extending-cvss-for-the-agentic-ai-era) _, which explores scoring systems for vulnerabilities in AI systems._
+  
+  ### Stealth Backdoors via Harmless Inputs
+  
+  Another team showed that backdoors don’t need malicious data at all. By using **benign question–answer pairs**, they trained models to always respond positively to certain triggers. The attack succeeded in ~85% of cases on LLaMA-3-8B and Qwen-2.5-7B, while slipping past safety filters.
+  
+  👉 [Revisiting Backdoor Attacks (arXiv, 2025)](https://arxiv.org/html/2505.17601v3)
+  
+  ### MCPTox: From Demo to Benchmark
+  
+  We saw earlier how poisoned tools can hide invisible instructions. **MCPTox** builds on that by systematically testing attacks across 45 real MCP servers. With over 1,300 malicious cases, success rates reached 72% on some agents, showing just how little resistance most systems offer.
+  
+  👉 [MCPTox (arXiv, 2025)](https://arxiv.org/pdf/2508.14925.pdf)
+  
+  ### Virus Infection Attack: Poison That Spreads
+  
+  The **VIA study** showed that poisoned content in synthetic data doesn’t just work once: it can **propagate across generations**. By designing payloads to survive in synthetic datasets, researchers proved that poisoning can quietly scale far beyond its source.
+  
+  👉 [VIA paper (arXiv, 2025)](https://arxiv.org/html/2509.23041v1)
+  
+  ### Silent Branding & Losing Control: Beyond Text
+  
+  Earlier, we looked at these two diffusion-model attacks. As research, they show a new frontier: poisoning without textual triggers. **Silent Branding** planted lasting backdoors using repeated logos, while **Losing Control** exploited ControlNets to generate NSFW content with subtle triggers.
+  
+  👉 [Silent Branding (arXiv, 2025)](https://arxiv.org/abs/2503.09669)
+  
+  👉 [Losing Control (arXiv, 2025)](https://arxiv.org/abs/2507.04726)
+  
+  ### The Big Picture
+  
+  This year’s research leaves little doubt: data poisoning has emerged as a systemic challenge for AI security. Studies showed how little it takes to shift a model’s behavior, how stealthy attacks can slip past safety checks, and how poisoning now spans text, tools, synthetic data, and images.
+  
+  For practitioners, the message is that benchmarks and defenses must evolve as quickly as the attacks. For researchers, the message is that new measurement tools like PoisonBench and MCPTox are only the beginning. Much more work is needed to close the gap.
+  
+  **In short:**
+  
+  - **Fragility:** even tiny amounts of poisoned data can shift outputs.
+  - **Evasion:** stealthy methods bypass traditional safety filters.
+  - **Expansion:** poisoning now targets not just text, but images, synthetic data, and tools. **‍**
+  - **Measurement:** new benchmarks like PoisonBench and MCPTox highlight how far defenses still have to go.
+  
+  ## How to Defend Against Data Poisoning in 2026
+  
+  The challenge with data poisoning is that it doesn’t take much: a few lines of poisoned code, a hidden instruction in a tool, or a fragment of misinformation in a dataset can alter how an LLM behaves. Once poisoned, restoring a model’s integrity is extremely difficult, which makes prevention essential.
+  
+  That means thinking about protection across the entire lifecycle, not just at training time. In practice, defenses need to combine **data validation, access controls, monitoring, and runtime guardrails** to close off both external and insider threats.
+  
+  Here are three defense pillars that matter in 2026:
+  
+  ### 1\. Data Provenance & Validation
+  
+  You can’t secure what you don’t know. Many poisoning attacks work because organizations fine-tune on third-party data or scrape content without verifying its integrity.
+  
+  - Source data from **trusted repositories** and maintain a clear chain of provenance.
+  - Apply **sanitization and filtering**: deduplication, classifier-based quality checks, and redaction of sensitive information.
+  - Watch out for **synthetic data contamination**, where poisoned samples propagate invisibly across generations ( [VIA paper](https://arxiv.org/html/2509.23041v1)).
+  
+  This isn’t a one-off process. Continuous validation is necessary because poisoned content often hides in plain sight until triggered.
+  
+  ### 2.  Adversarial Testing & Red Teaming
+  
+  Even clean-looking datasets can carry hidden backdoors. That’s why adversarial testing, deliberately trying to break your models, is crucial.
+  
+  - [**AI red teaming**](https://www.lakera.ai/blog/ai-red-teaming) simulates poisoning by planting stealthy triggers or by pulling poisoned data through RAG and tools.
+  
+  - Red teams explore what attackers _might_ do, whether it’s planting code comments that survive fine-tuning ( [Basilisk Venom](https://0din.ai/blog/poison-in-the-pipeline-liberating-models-with-basilisk-venom)) or embedding instructions in MCP tools ( [Acuvity.ai demo](https://acuvity.ai/tool-poisoning-hidden-instructions-in-mcp-tool-descriptions/)).
+  
+  
+  🔴 [**Lakera Red**](https://www.lakera.ai/lakera-red) provides structured red-teaming services focused on GenAI, uncovering vulnerabilities like data poisoning before attackers do.
+  
+  👉 _For a real-world look at structured adversarial testing, download our_ [_AI Red Teaming Playbook_](https://www.lakera.ai/ai-security-guides/ai-red-teaming-insights-from-the-worlds-largest-red-team) _, based on insights from the world’s largest red-teaming initiative._
+  
+  ### 3\. Runtime Guardrails & Monitoring
+  
+  Even if poisoned data slips through, you can still contain its impact with runtime defenses. Guardrails monitor outputs for unusual or harmful behavior and block or flag them before they reach end-users.
+  
+  - Use runtime systems that **detect and intercept triggers**, whether it’s a suspicious string, an off-domain instruction, or an anomalous pattern.
+  
+  - Continuously **monitor outputs for drift**, poisoned models often reveal themselves only under rare conditions.
+  
+  - Combine detection with **policy-based controls** that keep responses aligned to safety requirements.
+  
+  
+  🛡️ **Lakera Guard** serves as this line of defense: a single-line integration that applies runtime guardrails, backed by a growing threat-intelligence feed of real-world poisoning, injection, and jailbreak attempts.
+  
+  👉 _Curious how runtime protections work in practice? Explore_ [_Lakera Guard_](https://www.lakera.ai/lakera-guard) _, our runtime security layer that blocks prompt injections, jailbreaks, and poisoning attempts in production._
+  
+  ### Pulling It Together
+  
+  Data provenance, red teaming, and runtime guardrails reinforce one another. Good data hygiene reduces the odds of poisoning. Red teaming uncovers what slipped through. Runtime defenses catch what’s still hiding. Together, they form a defense-in-depth strategy that keeps today’s poisoning attacks from turning into tomorrow’s breaches.
+  
+  ## Key Takeaways
+  
+  Data poisoning has stepped firmly into the spotlight in 2026. What was once an academic threat is now a practical attack surface: poisoned repos, poisoned web content, poisoned tools, and poisoned datasets. And while jailbreaks continue to evolve and showcase the fragility of today’s models, poisoning shows that attackers don’t need to hack the model directly, they only need to tamper with the data streams it learns from.
+  
+  The research community has confirmed what incidents already showed: tiny amounts of contamination can have outsized effects. Stealthy backdoors are easy to miss, and current defenses aren’t enough on their own.
+  
+  For organizations building or integrating GenAI, this means treating data poisoning as a live security risk, not a theoretical edge case. The defenses that matter, provenance, red teaming, and runtime guardrails, aren’t optional anymore. They’re the baseline for keeping AI systems safe and trustworthy.
+  
+  **In short:**
+  
+  - **From theory to practice:** data poisoning has moved into real-world exploitation.
+  - **Lifecycle-wide threat:** it now targets pre-training, fine-tuning, retrieval, and tools.
+  - **Tiny triggers, big impact:** even minimal contamination can compromise outputs.
+  - **Defense-in-depth required:** provenance, red teaming, and runtime guardrails together form the baseline.
+  
+  👉 _For a wider lens on where poisoning fits into the bigger market story, see_ [_AI Security Trends 2025_](https://www.lakera.ai/blog/ai-security-trends) _, which looks at adoption, risks, and industry readiness._
+  
+  ## Sources & Further Reading
+  
+  **Case Studies & Incidents**
+  
+  - [Basilisk Venom: Poison in the Pipeline](https://0din.ai/blog/poison-in-the-pipeline-liberating-models-with-basilisk-venom): hidden prompts in GitHub repos creating backdoors.
+  - [The Stack: Qwen 2.5 Jailbreak](https://www.thestack.technology/ai-agent-whisperer-liberates-llm-to-spout-filthy-cardy-b-lyrics/): Pliny’s 11-word jailbreak.
+  - [Kyle Balmer on X](https://x.com/iamkylebalmer/status/1970443790134423679): Grok 4 “!Pliny” trigger.
+  - [Acuvity.ai: Tool Poisoning Demo](https://acuvity.ai/tool-poisoning-hidden-instructions-in-mcp-tool-descriptions/): invisible instructions hidden in MCP tool metadata.
+  
+  
+  **Research Papers (2025)**
+  
+  - [Nature Medicine: Data Poisoning in Medical LLMs](https://www.nature.com/articles/s41591-024-03445-1): harmful completions from just 0.001% poisoned tokens.
+  - [PoisonBench (ICML 2025)](https://ar5iv.labs.arxiv.org/html/2410.08811v2): benchmark for poisoning attacks in preference learning.
+  - [Revisiting Backdoor Attacks](https://arxiv.org/html/2505.17601v3): stealth backdoors from benign Q&A pairs.
+  - [MCPTox](https://arxiv.org/pdf/2508.14925.pdf): large-scale benchmark of poisoned MCP tools.
+  - [Virus Infection Attack (VIA)](https://arxiv.org/html/2509.23041v1): poisoned content spreading through synthetic datasets.
+  - [Silent Branding (CVPR 2025)](https://arxiv.org/abs/2503.09669): diffusion models reproducing logos without prompt. [‍](https://arxiv.org/abs/2507.04726)
+  - [Losing Control (CVPR 2025)](https://arxiv.org/abs/2507.04726): ControlNet poisoning leading to NSFW outputs.
+  
+  ## Frequently Asked Questions
+  
+  What is AI/LLM data poisoning?
+  
+  Data poisoning is an adversarial attack where corrupted, manipulated, or biased data is inserted into the information a model learns from. This can cause backdoors, biased outputs, or unsafe behavior, sometimes triggered by only a tiny fraction of poisoned samples.
+  
+  How is data poisoning different from prompt injection?
+  
+  Prompt injection happens at runtime, when an attacker crafts a malicious input to steer the model in the moment. Data poisoning changes the model’s underlying data sources (training, retrieval, or tools), so the unsafe behavior persists and can be triggered later.
+  
+  Can data poisoning happen outside of training datasets?
+  
+  Yes. In 2025, attacks have targeted retrieval-augmented generation (RAG), third-party tools (like MCP servers), and even synthetic data pipelines. Poisoning can occur anywhere a model learns or pulls data from.
+  
+  What are some real-world examples of data poisoning?
+  
+  Recent incidents include poisoned GitHub repos (Basilisk Venom), a “!Pliny” trigger in Grok 4 from social media poisoning, hidden instructions in MCP tools, and poisoned synthetic data that propagates across generations (Virus Infection Attack).
+  
+  What impact does data poisoning have on AI systems?
+  
+  Poisoning reduces accuracy and reliability, embeds hidden vulnerabilities, and can compromise security in critical domains like healthcare or autonomous vehicles. It can also bias outputs in subtle but harmful ways.
+  
+  How can organizations defend against data poisoning?
+  
+  Effective defenses combine:
+  
+  - Data provenance and validation (to filter poisoned inputs),
+  - Adversarial testing and red teaming (to simulate attacks),
+  - Runtime guardrails and monitoring (to detect triggers and abnormal behavior).
+  
+  Access controls also matter, since insider threats can be just as dangerous as external ones.
+  
+  How can I tell if a model has been poisoned?
+  
+  It’s difficult, since many poisoned models appear normal until a trigger is used. Signs include rare phrases or inputs consistently producing unsafe outputs, or unexpected bias emerging in model behavior. Red-teaming and anomaly detection are the best ways to uncover hidden backdoors.
+  
+  [Copied to clipboard](https://www.lakera.ai/blog/training-data-poisoning#) [Share on LinkedIn](https://www.lakera.ai/blog/training-data-poisoning# "Share on LinkedIn") [Share on X](https://www.lakera.ai/blog/training-data-poisoning# "Share on X") [Sahre on Facebook](https://www.lakera.ai/blog/training-data-poisoning# "Sahre on Facebook")
+  
+  ![](https://cdn.prod.website-files.com/651c34ac817aad4a2e62ec1b/65351b7f9a865c022af81902_logo%20icon.png)
+  
+  Lakera Team
+  
+  Follow creator at:
+  
+  [![](https://cdn.prod.website-files.com/65080baa3f9a607985451de3/689dc18ff506d1e75466c3d8_Linkedin.svg)](https://www.lakera.ai/blog/training-data-poisoning#)[![](https://cdn.prod.website-files.com/65080baa3f9a607985451de3/689dc18f23a0116714d071bb_X.svg)](https://www.lakera.ai/blog/training-data-poisoning#)
+  
+  Follow creator at:
+  
+  [![](https://cdn.prod.website-files.com/65080baa3f9a607985451de3/689dc18ff506d1e75466c3d8_Linkedin.svg)](https://www.lakera.ai/blog/training-data-poisoning#)[![](https://cdn.prod.website-files.com/65080baa3f9a607985451de3/689dc18f23a0116714d071bb_X.svg)](https://www.lakera.ai/blog/training-data-poisoning#)
+  
+  ![](https://cdn.prod.website-files.com/65080baa3f9a607985451de3/689b3627a8f89dfd6533ee14_Rectangle%2012134.avif)
+  
+  The Lakera team has accelerated Dropbox’s GenAI journey.
+  
+  Not sure how to secure your GenAI application?
+  
+  Skip the guesswork with expert-recommended policies built by Lakera’s AI security team. Apply them in seconds, fine-tune when you’re ready, and get started with real protection from day one.
+  
+  [Download the Guide](https://www.lakera.ai/blog/training-data-poisoning#)
+  
+  On this page
+  
+  [What Is Data Poisoning?](https://www.lakera.ai/blog/training-data-poisoning#what-is-data-poisoning)
+  
+  [Data Poisoning in 2026: What We’re Seeing](https://www.lakera.ai/blog/training-data-poisoning#data-poisoning-in-2026-what-were-seeing)
+  
+  [Research Deepening Our Understanding](https://www.lakera.ai/blog/training-data-poisoning#research-deepening-our-understanding)
+  
+  [How to Defend Against Data Poisoning in 2026](https://www.lakera.ai/blog/training-data-poisoning#how-to-defend-against-data-poisoning-in-2026)
+  
+  [Key Takeaways](https://www.lakera.ai/blog/training-data-poisoning#key-takeaways)
+  
+  [Sources & Further Reading](https://www.lakera.ai/blog/training-data-poisoning#sources-and-further-reading)
+  
+  [Frequently Asked Questions](https://www.lakera.ai/blog/training-data-poisoning#frequently-asked-questions)
+  
+  Hide table of contents
+  
+  Show table of contents
+  
+  ### Related Articles
+  
+  [View all related post](https://www.lakera.ai/blog)
+  
+  [![](https://cdn.prod.website-files.com/651c34ac817aad4a2e62ec1b/69f0c89ab5960164b1a69e3c_ai-saq-prev.jpg)\\
+  \\
+  AI Security\\
+  \\
+  3\\
+  \\
+  min read\\
+  \\
+  AI Has Stopped Asking for Permission. Has Your Security Team Noticed? \\
+  \\
+  Read more](https://www.lakera.ai/blog/ai-has-stopped-asking-for-permission-has-your-security-team-noticed)
+  
+  [![](https://cdn.prod.website-files.com/651c34ac817aad4a2e62ec1b/69e87c9b8b940aef264acd92_gc-prev.jpg)\\
+  \\
+  AI Security\\
+  \\
+  2\\
+  \\
+  min read\\
+  \\
+  From Access Control to Outcome Control: Securing AI Agents with Check Point and Google Cloud\\
+  \\
+  Read more](https://www.lakera.ai/blog/from-access-control-to-outcome-control-securing-ai-agents-with-check-point-and-google-cloud)
+  
+  [View all related post](https://www.lakera.ai/blog/training-data-poisoning#)
+  
+  Don’t miss the updates!
+  
+  Subscribe to our newsletter to get the recent updates on Lakera product and other news in the AI LLM world. Be sure you’re on track!
+  
+  Email
+  
+  Lakera will use your contact details to share product and service updates. You can unsubscribe anytime. Learn more in our Privacy Policy.
+  
+  Thank you! Your submission has been received!
+  
+  Oops! Something went wrong while submitting the form.
+  
+  ![](https://cdn.prod.website-files.com/65080baa3f9a607985451de3/689b647e7be47b2b1cf96600_123123123.avif)
+  --- End Content ---
+
+LLM04:2025 Data and Model Poisoning
+  URL: https://genai.owasp.org/llmrisk/llm04-model-denial-of-service/
+  Data poisoning occurs when pre-training, fine-tuning, or embedding data is manipulated to introduce vulnerabilities, backdoors, or biases.
+
+  --- Content ---
+  [Skip to content](https://genai.owasp.org/llmrisk/llm042025-data-and-model-poisoning/#content "Skip to content")
+  
+  # [Join us in London, 6/2 – 6/4 InfoSecurity Europe – OWASP GenAI and Agentic Security Summit](https://genai.owasp.org/event/owasp-gen-ai-security-summit-london/)
+  
+  ## \|
+  
+  [Register Now!](https://genai.owasp.org/event/owasp-gen-ai-security-summit-london/)
+  
+  - [GETTING STARTED](https://genai.owasp.org/llmrisk/llm042025-data-and-model-poisoning/#)
+    - [Introduction](https://genai.owasp.org/introduction-genai-security-project/)
+    - [MEETINGS](https://genai.owasp.org/meetings/)
+    - [CONTRIBUTING](https://genai.owasp.org/contributing/)
+    - [EVENTS](https://genai.owasp.org/events/)
+    - [GLOSSARY](https://genai.owasp.org/glossary/)
+  - [RESOURCES](https://genai.owasp.org/resources/)
+    - [All](https://genai.owasp.org/resources/)
+    - [LLM TOP 10](https://genai.owasp.org/llm-top-10/)
+      - [LLM TOP 10 FOR 2025](https://genai.owasp.org/llm-top-10/)
+      - [LLM TOP 10 FOR 2023/24](https://genai.owasp.org/llm-top-10-2023-24/)
+    - [CHEAT SHEETS](https://genai.owasp.org/resources/?e-filter-3b7adda-resource-item=cheat-sheets)
+    - [WHITEPAPERS](https://genai.owasp.org/resources/?e-filter-3b7adda-resource-item=whitepaper)
+    - [TOOLS](https://genai.owasp.org/resources/?e-filter-3b7adda-resource-item=tools)
+    - [LEARNING VIDEOS](https://genai.owasp.org/learning/)
+    - [SOLUTIONS DIRECTORY](https://genai.owasp.org/ai-security-solutions-landscape/)
+    - [ROADMAP](https://genai.owasp.org/roadmap/)
+    - [NEWSLETTER](https://genai.owasp.org/newsletter/)
+  - [PROJECT INITIATIVES](https://genai.owasp.org/initiatives/)
+    - [AI Security Landscape](https://genai.owasp.org/ai-security-solutions-landscape/)
+    - [AIBOM Generator](https://genai.owasp.org/ai-sbom-initiative/)
+    - [GOVERNANCE CHECKLIST](https://genai.owasp.org/resource/llm-applications-cybersecurity-and-governance-checklist-english/)
+    - [Threat Intelligence](https://genai.owasp.org/initiatives/#ai-threat-intel)
+    - [AGENTIC APP SECURITY](https://genai.owasp.org/initiatives/agentic-security-initiative/)
+    - [Secure AI Adoption](https://genai.owasp.org/initiatives/#secure-ai-adoption)
+    - [AI Red Teaming](https://genai.owasp.org/initiatives/#ai-redteaming)
+    - [Data Security](https://genai.owasp.org/initiatives/#ai-risk-and-exploit-data)
+  - [BLOG](https://genai.owasp.org/blog/)
+  - [ABOUT](https://genai.owasp.org/llmrisk/llm042025-data-and-model-poisoning/#)
+    - [Mission and Charter](https://genai.owasp.org/project-mission-and-charter/)
+    - [Governance](https://genai.owasp.org/project-governance/)
+    - [LEADERSHIP](https://genai.owasp.org/contributors/)
+    - [INDUSTRY RECOGNITION](https://genai.owasp.org/quotes/)
+    - [CONTRIBUTORS](https://genai.owasp.org/contributors/#allcontributors)
+    - [SPONSORS](https://genai.owasp.org/supporters/)
+    - [SUPPORTERS](https://genai.owasp.org/supporters/)
+    - [SPONSORSHIP](https://genai.owasp.org/sponsorship/)
+    - [NEWSROOM](https://genai.owasp.org/news/)
+    - [CONTACT](https://genai.owasp.org/contact/)
+    - [BRANDING](https://genai.owasp.org/branding/)
+  
+  ![](https://genai.owasp.org/wp-content/uploads/2024/04/Slide04.png)
+  
+  ## LLM04:2025 Data and Model Poisoning
+  
+  Data poisoning occurs when pre-training, fine-tuning, or embedding data is manipulated to introduce vulnerabilities, backdoors, or biases. This manipulation can compromise model security, performance, or ethical behavior, leading to harmful outputs or impaired capabilities. Common risks include degraded model performance, biased or toxic content, and exploitation of downstream systems.
+  
+  Data poisoning can target different stages of the LLM lifecycle, including pre-training (learning from general data), fine-tuning (adapting models to specific tasks), and embedding (converting text into numerical vectors). Understanding these stages helps identify where vulnerabilities may originate. Data poisoning is considered an integrity attack since tampering with training data impacts the model’s ability to make accurate predictions. The risks are particularly high with external data sources, which may contain unverified or malicious content.
+  
+  Moreover, models distributed through shared repositories or open-source platforms can carry risks beyond data poisoning, such as malware embedded through techniques like malicious pickling, which can execute harmful code when the model is loaded. Also, consider that poisoning may allow for the implementation of a backdoor. Such backdoors may leave the model’s behavior untouched until a certain trigger causes it to change. This may make such changes hard to test for and detect, in effect creating the opportunity for a model to become a sleeper agent.
+  
+  ### [Common Examples of Vulnerability](https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM04_DataModelPoisoning.md\#common-examples-of-vulnerability)
+  
+  [Permalink: Common Examples of Vulnerability](https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM04_DataModelPoisoning.md#common-examples-of-vulnerability)
+  
+  1. Malicious actors introduce harmful data during training, leading to biased outputs. Techniques like “Split-View Data Poisoning” or “Frontrunning Poisoning” exploit model training dynamics to achieve this. (Ref. link: [Split-View Data Poisoning](https://github.com/GangGreenTemperTatum/speaking/blob/main/dc604/hacker-summer-camp-23/Ads%20_%20Poisoning%20Web%20Training%20Datasets%20_%20Flow%20Diagram%20-%20Exploit%201%20Split-View%20Data%20Poisoning.jpeg)) (Ref. link: [Frontrunning Poisoning](https://github.com/GangGreenTemperTatum/speaking/blob/main/dc604/hacker-summer-camp-23/Ads%20_%20Poisoning%20Web%20Training%20Datasets%20_%20Flow%20Diagram%20-%20Exploit%202%20Frontrunning%20Data%20Poisoning.jpeg))
+  2. Attackers can inject harmful content directly into the training process, compromising the model’s output quality.
+  3. Users unknowingly inject sensitive or proprietary information during interactions, which could be exposed in subsequent outputs.
+  4. Unverified training data increases the risk of biased or erroneous outputs.
+  5. Lack of resource access restrictions may allow the ingestion of unsafe data, resulting in biased outputs.
+  
+  ### [Prevention and Mitigation Strategies](https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM04_DataModelPoisoning.md\#prevention-and-mitigation-strategies)
+  
+  [Permalink: Prevention and Mitigation Strategies](https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM04_DataModelPoisoning.md#prevention-and-mitigation-strategies)
+  
+  01. Track data origins and transformations using tools like OWASP CycloneDX or ML-BOM. Verify data legitimacy during all model development stages.
+  02. Vet data vendors rigorously, and validate model outputs against trusted sources to detect signs of poisoning.
+  03. Implement strict sandboxing to limit model exposure to unverified data sources. Use anomaly detection techniques to filter out adversarial data.
+  04. Tailor models for different use cases by using specific datasets for fine-tuning. This helps produce more accurate outputs based on defined goals.
+  05. Ensure sufficient infrastructure controls to prevent the model from accessing unintended data sources.
+  06. Use data version control (DVC) to track changes in datasets and detect manipulation. Versioning is crucial for maintaining model integrity.
+  07. Store user-supplied information in a vector database, allowing adjustments without re-training the entire model.
+  08. Test model robustness with red team campaigns and adversarial techniques, such as federated learning, to minimize the impact of data perturbations.
+  09. Monitor training loss and analyze model behavior for signs of poisoning. Use thresholds to detect anomalous outputs.
+  10. During inference, integrate Retrieval-Augmented Generation (RAG) and grounding techniques to reduce risks of hallucinations.
+  
+  ### [Example Attack Scenarios](https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM04_DataModelPoisoning.md\#example-attack-scenarios)
+  
+  [Permalink: Example Attack Scenarios](https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM04_DataModelPoisoning.md#example-attack-scenarios)
+  
+  #### [Attack Scenario \#1](https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM04_DataModelPoisoning.md\#scenario-1)
+  
+  [Permalink: Scenario #1](https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM04_DataModelPoisoning.md#scenario-1)
+  
+  An attacker biases the model’s outputs by manipulating training data or using prompt injection techniques, spreading misinformation.
+  
+  #### [Attack Scenario \#2](https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM04_DataModelPoisoning.md\#scenario-2)
+  
+  [Permalink: Scenario #2](https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM04_DataModelPoisoning.md#scenario-2)
+  
+  Toxic data without proper filtering can lead to harmful or biased outputs, propagating dangerous information.
+  
+  #### [Attack Scenario \# 3](https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM04_DataModelPoisoning.md\#scenario--3)
+  
+  [Permalink: Scenario # 3](https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM04_DataModelPoisoning.md#scenario--3)
+  
+  A malicious actor or competitor creates falsified documents for training, resulting in model outputs that reflect these inaccuracies.
+  
+  #### [Attack Scenario \#4](https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM04_DataModelPoisoning.md\#scenario-4)
+  
+  [Permalink: Scenario #4](https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM04_DataModelPoisoning.md#scenario-4)
+  
+  Inadequate filtering allows an attacker to insert misleading data via prompt injection, leading to compromised outputs.
+  
+  #### [Attack Scenario \#5](https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM04_DataModelPoisoning.md\#scenario-5)
+  
+  [Permalink: Scenario #5](https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM04_DataModelPoisoning.md#scenario-5)
+  
+  An attacker uses poisoning techniques to insert a backdoor trigger into the model. This could leave you open to authentication bypass, data exfiltration or hidden command execution.
+  
+  ### [Reference Links](https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM04_DataModelPoisoning.md\#reference-links)
+  
+  [Permalink: Reference Links](https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM04_DataModelPoisoning.md#reference-links)
+  
+  01. [How data poisoning attacks corrupt machine learning models](https://www.csoonline.com/article/3613932/how-data-poisoning-attacks-corrupt-machine-learning-models.html): **CSO Online**
+  02. [MITRE ATLAS (framework) Tay Poisoning](https://atlas.mitre.org/studies/AML.CS0009/): **MITRE ATLAS**
+  03. [PoisonGPT: How we hid a lobotomized LLM on Hugging Face to spread fake news](https://blog.mithrilsecurity.io/poisongpt-how-we-hid-a-lobotomized-llm-on-hugging-face-to-spread-fake-news/): **Mithril Security**
+  04. [Poisoning Language Models During Instruction](https://arxiv.org/abs/2305.00944): **Arxiv White Paper 2305.00944**
+  05. [Poisoning Web-Scale Training Datasets – Nicholas Carlini \| Stanford MLSys #75](https://www.youtube.com/watch?v=h9jf1ikcGyk): **Stanford MLSys Seminars YouTube Video**
+  06. [ML Model Repositories: The Next Big Supply Chain Attack Target](https://www.darkreading.com/cloud-security/ml-model-repositories-next-big-supply-chain-attack-target) **OffSecML**
+  07. [Data Scientists Targeted by Malicious Hugging Face ML Models with Silent Backdoor](https://jfrog.com/blog/data-scientists-targeted-by-malicious-hugging-face-ml-models-with-silent-backdoor/) **JFrog**
+  08. [Backdoor Attacks on Language Models](https://towardsdatascience.com/backdoor-attacks-on-language-models-can-we-trust-our-models-weights-73108f9dcb1f): **Towards Data Science**
+  09. [Never a dill moment: Exploiting machine learning pickle files](https://blog.trailofbits.com/2021/03/15/never-a-dill-moment-exploiting-machine-learning-pickle-files/) **TrailofBits**
+  10. [arXiv:2401.05566 Sleeper Agents: Training Deceptive LLMs that Persist Through Safety Training](https://www.anthropic.com/news/sleeper-agents-training-deceptive-llms-that-persist-through-safety-training) **Anthropic (arXiv)**
+  11. [Backdoor Attacks on AI Models](https://www.cobalt.io/blog/backdoor-attacks-on-ai-models) **Cobalt**
+  
+  ### [Related Frameworks and Taxonomies](https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM04_DataModelPoisoning.md\#related-frameworks-and-taxonomies)
+  
+  [Permalink: Related Frameworks and Taxonomies](https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM04_DataModelPoisoning.md#related-frameworks-and-taxonomies)
+  
+  Refer to this section for comprehensive information, scenarios strategies relating to infrastructure deployment, applied environment controls and other best practices.
+  
+  - [AML.T0018 \| Backdoor ML Model](https://atlas.mitre.org/techniques/AML.T0018) **MITRE ATLAS**
+  - [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework): Strategies for ensuring AI integrity. **NIST**
+  
+  ### Share this:
+  
+  - [Share on X (Opens in new window)X](https://genai.owasp.org/llmrisk/llm042025-data-and-model-poisoning/?share=twitter&nb=1)
+  - [Share on Facebook (Opens in new window)Facebook](https://genai.owasp.org/llmrisk/llm042025-data-and-model-poisoning/?share=facebook&nb=1)
+  - [More](https://genai.owasp.org/llmrisk/llm042025-data-and-model-poisoning/#)
+  
+  - [Print (Opens in new window)Print](https://genai.owasp.org/llmrisk/llm042025-data-and-model-poisoning/#print?share=print&nb=1)
+  - [Email a link to a friend (Opens in new window)Email](mailto:?subject=%5BShared%20Post%5D%20LLM04%3A2025%20Data%20and%20Model%20Poisoning&body=https%3A%2F%2Fgenai.owasp.org%2Fllmrisk%2Fllm042025-data-and-model-poisoning%2F&share=email&nb=1)
+  - [Share on X (Opens in new window)X](https://genai.owasp.org/llmrisk/llm042025-data-and-model-poisoning/?share=x&nb=1)
+  
+  ## LLM Top 10
+  
+  ![](https://genai.owasp.org/wp-content/uploads/2024/04/LLM01.25-300x154.png)
+  
+  [**LLM01:2025 Prompt Injection**](https://genai.owasp.org/llmrisk/llm01-prompt-injection/)
+  
+  A Prompt Injection Vulnerability occurs when user prompts alter the LLM’s behavior or output in unintended ways. These inputs...
+  
+  ![](https://genai.owasp.org/wp-content/uploads/2024/04/Slide02-300x154.png)
+  
+  [**LLM02:2025 Sensitive Information Disclosure**](https://genai.owasp.org/llmrisk/llm022025-sensitive-information-disclosure/)
+  
+  Sensitive information can affect both the LLM and its application context. This includes personal identifiable information (PII), financial details,...
+  
+  ![](https://genai.owasp.org/wp-content/uploads/2024/04/Slide03-300x154.png)
+  
+  [**LLM03:2025 Supply Chain**](https://genai.owasp.org/llmrisk/llm032025-supply-chain/)
+  
+  LLM supply chains are susceptible to various vulnerabilities, which can affect the integrity of training data, models, and deployment...
+  
+  ![](https://genai.owasp.org/wp-content/uploads/2024/04/Slide04-300x154.png)
+  
+  [**LLM04:2025 Data and Model Poisoning**](https://genai.owasp.org/llmrisk/llm042025-data-and-model-poisoning/)
+  
+  Data poisoning occurs when pre-training, fine-tuning, or embedding data is manipulated to introduce vulnerabilities, backdoors, or biases. This manipulation...
+  
+  ![](https://genai.owasp.org/wp-content/uploads/2024/04/Slide05-300x154.png)
+  
+  [**LLM05:2025 Improper Output Handling**](https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/)
+  
+  Improper Output Handling refers specifically to insufficient validation, sanitization, and handling of the outputs generated by large language models...
+  
+  ![](https://genai.owasp.org/wp-content/uploads/2024/04/Slide06-300x154.png)
+  
+  [**LLM06:2025 Excessive Agency**](https://genai.owasp.org/llmrisk/llm062025-excessive-agency/)
+  
+  An LLM-based system is often granted a degree of agency by its developer – the ability to call functions...
+  
+  ![](https://genai.owasp.org/wp-content/uploads/2024/04/Slide07-300x154.png)
+  
+  [**LLM07:2025 System Prompt Leakage**](https://genai.owasp.org/llmrisk/llm072025-system-prompt-leakage/)
+  
+  The system prompt leakage vulnerability in LLMs refers to the risk that the system prompts or instructions used to...
+  
+  ![](https://genai.owasp.org/wp-content/uploads/2024/04/Slide08-300x154.png)
+  
+  [**LLM08:2025 Vector and Embedding Weaknesses**](https://genai.owasp.org/llmrisk/llm082025-vector-and-embedding-weaknesses/)
+  
+  Vectors and embeddings vulnerabilities present significant security risks in systems utilizing Retrieval Augmented Generation (RAG) with Large Language Models...
+  
+  ![](https://genai.owasp.org/wp-content/uploads/2024/04/Slide09-300x154.png)
+  
+  [**LLM09:2025 Misinformation**](https://genai.owasp.org/llmrisk/llm092025-misinformation/)
+  
+  Misinformation from LLMs poses a core vulnerability for applications relying on these models. Misinformation occurs when LLMs produce false...
+  
+  ![](https://genai.owasp.org/wp-content/uploads/2024/04/Slide10-300x154.png)
+  
+  [**LLM10:2025 Unbounded Consumption**](https://genai.owasp.org/llmrisk/llm102025-unbounded-consumption/)
+  
+  Unbounded Consumption refers to the process where a Large Language Model (LLM) generates outputs based on input queries or...
+  
+  [![](https://genai.owasp.org/wp-content/uploads/2025/02/weblogo-plain-768x102-1.png)](https://genai.owasp.org/)
+  
+  - [PRIVACY](https://owasp.org/www-policy/operational/privacy)
+  - [NEWSLETTER](https://genaisecurity.beehiiv.com/)
+  - [CONTACT](https://genai.owasp.org/home_page/contact/)
+  
+  - [Overview](https://genai.owasp.org/introduction/)
+  - [LLM Top 10](https://genai.owasp.org/llm-top-10/)
+  - [Initiatives](https://genai.owasp.org/initiatives/)
+  - [Landscape](https://genai.owasp.org/ai-security-solutions-landscape/)
+  - [Glossary](https://genai.owasp.org/glossary/)
+  
+  - [Roadmaps](https://genai.owasp.org/roadmap/)
+  - [Resources](https://genai.owasp.org/resources/)
+  - [Sponsors](https://genai.owasp.org/supporters/)
+  - [Sponsorship](https://genai.owasp.org/sponsorship/)
+  - [Contribute](https://genai.owasp.org/contribute/)
+  
+  - [Newsroom](https://genai.owasp.org/news/)
+  - [Events](https://genai.owasp.org/events/)
+  - [Meetings](https://genai.owasp.org/meetings/)
+  - [Leadership](https://genai.owasp.org/contributors/)
+  - [Volunteer Jobs](https://genai.owasp.org/jobs/)
+  
+  OWASP and the OWASP logo are trademarks of the OWASP Foundation, Inc. Unless otherwise specified, all content on the site is Creative Commons Attribution-ShareAlike v4.0 and provided without
+  
+  warranty of service or accuracy. For more information, please refer to our **[General Disclaimer](https://owasp.org/www-policy/operational/general-disclaimer.html).** – Copyright © 2025 OWASP Foundation, Inc.
+  
+  Scroll to Top
+  --- End Content ---
+
+Defending Against Data Poisoning Attacks on LLMs - Promptfoo
+  URL: https://www.promptfoo.dev/blog/data-poisoning/
+  Data poisoning remains a top concern on the OWASP Top 10 for 2025. However, the scope of data poisoning has expanded since the 2023 version.
+
+  --- Content ---
+  [Skip to main content](https://www.promptfoo.dev/blog/data-poisoning/#__docusaurus_skipToContent_fallback)
+  
+  **Promptfoo is now part of OpenAI.** [Read the update →](https://www.promptfoo.dev/blog/promptfoo-joining-openai/)
+  
+  Data poisoning remains a top concern on the [OWASP Top 10 for 2025](https://owasp.org/www-project-top-10-for-large-language-model-applications/). However, the scope of data poisoning has expanded since the 2023 version. Data poisoning is no longer strictly a risk during the training of Large Language Models (LLMs); it now encompasses all three stages of the LLM lifecycle: pre-training, fine-tuning, and retrieval from external sources. OWASP also highlights the risk of model poisoning from shared repositories or open-source platforms, where models may contain backdoors or embedded malware.
+  
+  When exploited, data poisoning can degrade model performance, produce biased or toxic content, exploit downstream systems, or tamper with the model's generation capabilities.
+  
+  Understanding how these attacks work and implementing preventative measures is crucial for developers, security engineers, and technical leaders responsible for maintaining the security and reliability of these systems. This comprehensive guide delves into the nature of data poisoning attacks and offers strategies to safeguard against these threats.
+  
+  ![Promptfoo Panda as a chemist](https://www.promptfoo.dev/img/blog/data-poisoning/poisoning-panda.jpeg)
+  
+  ## Understanding Data Poisoning Attacks in LLM Applications [​](https://www.promptfoo.dev/blog/data-poisoning/\#understanding-data-poisoning-attacks-in-llm-applications "Direct link to Understanding Data Poisoning Attacks in LLM Applications")
+  
+  Data poisoning attacks are malicious attempts to corrupt the training data of an LLM, thereby influencing the model's behavior in undesirable ways. These attacks typically manifest in three primary forms:
+  
+  1. **Poisoning the Training Dataset**: Attackers insert malicious data into the training set during pre-training or fine-tuning, causing the model to learn incorrect associations or behaviors. This can lead to the model making erroneous predictions or becoming susceptible to specific triggers. They may also create backdoors, where they poison the training dataset to cause the model to behave normally under typical conditions but produce attacker-chosen outputs when presented with certain triggers.
+  2. **Poisoning Embeddings**: External sources provided as context to the LLM through RAG may be poisoned to elicit harmful responses.
+  3. **Poisoned Open-Source Models**: Attackers upload poisoned models into open-source or shared repositories like Hugging Face. These models, while seemingly innocuous, may contain hidden payloads that can execute malicious code.
+  
+  The technical impact of data poisoning attacks can be severe. Your LLM may generate biased or harmful content, leak sensitive information, or become more susceptible to adversarial inputs. The business implications extend beyond technical disruptions. Organizations face legal liabilities from data breaches, loss of user trust due to compromised model outputs, and potential financial losses from erroneous decision-making processes influenced by the poisoned model.
+  
+  ## Common Mechanisms of Data Poisoning Attacks [​](https://www.promptfoo.dev/blog/data-poisoning/\#common-mechanisms-of-data-poisoning-attacks "Direct link to Common Mechanisms of Data Poisoning Attacks")
+  
+  Attackers employ several sophisticated methods to poison LLMs:
+  
+  ### Compromising External Sources [​](https://www.promptfoo.dev/blog/data-poisoning/\#compromising-external-sources "Direct link to Compromising External Sources")
+  
+  Attackers can inject malicious content into knowledge databases, forcing LLM applications to generate harmful or incorrect outputs. Rather than using obvious malicious content, attackers may create authoritative-looking documentation that naturally blends with legitimate sources. For example, a job seeker may upload a poisoned resume into a job application system that instructs the LLM to recommend the candidate.
+  
+  ### Injecting Malicious Data Into Training Sets [​](https://www.promptfoo.dev/blog/data-poisoning/\#injecting-malicious-data-into-training-sets "Direct link to Injecting Malicious Data Into Training Sets")
+  
+  Attackers may contribute harmful data to public datasets or exploit data collection processes. By inserting data that contains specific biases, incorrect labels, or hidden triggers, they can manipulate the model's learning process. Exposed API keys to LLM repositories [can leave organizations vulnerable](https://www.darkreading.com/vulnerabilities-threats/meta-ai-models-cracked-open-exposed-api-tokens) to data poisoning from attackers.
+  
+  ### Manipulating Data During Fine-Tuning [​](https://www.promptfoo.dev/blog/data-poisoning/\#manipulating-data-during-fine-tuning "Direct link to Manipulating Data During Fine-Tuning")
+  
+  If your organization fine-tunes pre-trained models using additional data, attackers might target this stage. They may provide datasets that appear legitimate but contain poisoned samples designed to alter the model's behavior.
+  
+  ### Backdoor Attacks [​](https://www.promptfoo.dev/blog/data-poisoning/\#backdoor-attacks "Direct link to Backdoor Attacks")
+  
+  By embedding hidden patterns or triggers within the training data, attackers can cause the model to respond in specific ways when these triggers are present in the input. Research from Anthropic [suggests](https://arxiv.org/pdf/2401.05566) that models trained with backdoor behavior can evade eradication during safety training, such as supervised fine-tuning, reinforcement learning, and adversarial training. Larger models and those with chain-of-thought reasoning are more successful at evading safety measures and can even recognize their backdoor triggers, creating a false perception of safety.
+  
+  ### Poisoned Models [​](https://www.promptfoo.dev/blog/data-poisoning/\#poisoned-models "Direct link to Poisoned Models")
+  
+  Attackers may [upload poisoned models](https://www.darkreading.com/application-security/hugging-face-ai-platform-100-malicious-code-execution-models) into open-source or shared repositories like Hugging Face. These models, while seemingly innocuous, may contain hidden payloads that can execute reverse shell connections or insert arbitrary code.
+  
+  ## Detection and Prevention Strategies [​](https://www.promptfoo.dev/blog/data-poisoning/\#detection-and-prevention-strategies "Direct link to Detection and Prevention Strategies")
+  
+  To protect your LLM applications from [LLM vulnerabilities](https://www.promptfoo.dev/docs/red-team/llm-vulnerability-types/), including data poisoning attacks, it's essential to implement a comprehensive set of detection and prevention measures:
+  
+  ### Implement Data Validation and Tracking to Mitigate Risk of Data Poisoning [​](https://www.promptfoo.dev/blog/data-poisoning/\#implement-data-validation-and-tracking-to-mitigate-risk-of-data-poisoning "Direct link to Implement Data Validation and Tracking to Mitigate Risk of Data Poisoning")
+  
+  - **Enforce Sandboxing**: Implement sandboxing to restrict model exposure to untrusted data sources.
+  - **Track Data Origins**: Use tools like OWASP CycloneDX or ML-BOM to track data origins and transformations.
+  - **Use Data Versioning**: Use a version control system to track changes in datasets and detect manipulation.
+  
+  ### Monitor Model Behavior to Identify Data Poisoning [​](https://www.promptfoo.dev/blog/data-poisoning/\#monitor-model-behavior-to-identify-data-poisoning "Direct link to Monitor Model Behavior to Identify Data Poisoning")
+  
+  Regularly monitor the outputs of your LLM for signs of unusual or undesirable behavior.
+  
+  - **Implement Tracing**: LLM tracing provides a detailed snapshot of the decision-making and thought processes within LLMs as they generate responses. Tracing can help you monitor, debug, and understand the execution of an LLM application
+  - **Use Golden Datasets**: Golden datasets in LLMs are high-quality, carefully curated collections of data used to evaluate and benchmark the performance of large language models. Use these datasets as a "ground truth" to evaluate the performance of your models.
+  - **Test with Adversarial Examples**: [Use Promptfoo](https://www.promptfoo.dev/docs/red-team/quickstart/) to test your models with adversarial inputs to evaluate its robustness against potential attacks.
+  - **Deploy Guardrails**: Use guardrails as a defense-in-depth measure to prevent the LLM from generating outputs that violate your policies.
+  
+  ### Limit Access to Training Processes to Prevent Data Poisoning [​](https://www.promptfoo.dev/blog/data-poisoning/\#limit-access-to-training-processes-to-prevent-data-poisoning "Direct link to Limit Access to Training Processes to Prevent Data Poisoning")
+  
+  Restrict who can modify training data or initiate training processes.
+  
+  - **Lock Down Access**: Restrict access to LLM repositories and implement robust monitoring to mitigate the risk of insider threats.
+    - Access to training data should be restricted based on least privilege and need-to-know. Access should be recertified on a regular cadence (such as quarterly) to account for employee turnover or job changes.
+    - All access should be logged and audited. Developer access should be limited to the minimum necessary to perform their job and access should be revoked when they leave the organization.
+  - **Audit Logs**: Keep detailed logs of data access and modifications to trace any unauthorized activities connected to your training data or LLM configurations.
+  
+  ### Enforce Supply Chain Security to Identify Poisoned Models [​](https://www.promptfoo.dev/blog/data-poisoning/\#enforce-supply-chain-security-to-identify-poisoned-models "Direct link to Enforce Supply Chain Security to Identify Poisoned Models")
+  
+  - **Vet Your Sources**: Conduct thorough due diligence on model providers and training data sources.
+    - Review model cards and documentation to understand the model's training processes and performance. You can learn more about this in our [foundation model security](https://www.promptfoo.dev/blog/foundation-model-security/) blog post.
+    - Verify that models downloaded from Hugging Face [pass their malware scans](https://huggingface.co/docs/hub/en/security-malware) and [pickling scans](https://huggingface.co/docs/hub/en/security-pickle).
+  
+  ### Red Team LLM Applications to Detect Data Poisoning [​](https://www.promptfoo.dev/blog/data-poisoning/\#red-team-llm-applications-to-detect-data-poisoning "Direct link to Red Team LLM Applications to Detect Data Poisoning")
+  
+  - **Model Red Teaming**: Run an initial [red team](https://www.promptfoo.dev/docs/red-team/) assessment against any models pulled from shared or public repositories like Hugging Face.
+  - **Assess Bias**: In Promptfoo's eval framework, use Promptfoo's [classifier assert type](https://www.promptfoo.dev/docs/configuration/expected-outputs/classifier/#bias-detection-example) to assess grounding, factuality, and bias in models pulled from Hugging Face.
+  - **Test RAG Poisoning**: Test for susceptibility to RAG poisoning with [Promptfoo's RAG poisoning plugin](https://www.promptfoo.dev/docs/red-team/plugins/rag-poisoning/).
+  
+  Implementing these [AI red teaming techniques](https://www.promptfoo.dev/docs/guides/llm-redteaming/) will help safeguard your models against various threats.
+  
+  ## Learning from Real-World Examples and Case Studies [​](https://www.promptfoo.dev/blog/data-poisoning/\#learning-from-real-world-examples-and-case-studies "Direct link to Learning from Real-World Examples and Case Studies")
+  
+  Understanding real-world instances of data poisoning attacks can help you better prepare:
+  
+  - **Data Poisoning Attacks in LLMs**: Researchers [studied the effect](https://pmc.ncbi.nlm.nih.gov/articles/PMC10984073/) of data poisoning on fine-tuned clinical LLMs that spread misinformation about breast cancer treatment.
+  - **Evasive Backdoor Techniques**: Anthropic [published a report](https://arxiv.org/pdf/2401.05566) about evasive and deceptive behavior by LLMs that can bypass safety guardrails to execute backdoor triggers, such as generating insecure code from specific prompts.
+  - **Poisoned Models on Shared Repositories**: Researchers at JFrog [discovered ML models](https://jfrog.com/blog/data-scientists-targeted-by-malicious-hugging-face-ml-models-with-silent-backdoor/) on Hugging Face with a harmful payload that created a reverse shell to a malicious host. There have also been poisoned LLMs [uploaded to public repositories](https://blog.mithrilsecurity.io/poisongpt-how-we-hid-a-lobotomized-llm-on-hugging-face-to-spread-fake-news/) that purposefully hallucinate facts.
+  - **RAG Poisoning on Microsoft 365 Copilot**: A security researcher [leveraged prompt injection](https://embracethered.com/blog/posts/2024/m365-copilot-prompt-injection-tool-invocation-and-data-exfil-using-ascii-smuggling/) through malicious documents that led to data exfiltration.
+  
+  Analyzing these examples and benchmarking LLM performance can help you identify weaknesses and improve model robustness. These examples highlight the importance of data integrity and the need for vigilant monitoring of your models' training data and outputs.
+  
+  ## Take Action with Promptfoo [​](https://www.promptfoo.dev/blog/data-poisoning/\#take-action-with-promptfoo "Direct link to Take Action with Promptfoo")
+  
+  Promptfoo is an open-source tool that tests and secures large language model applications. It identifies risks related to security, legal issues, and brand reputation by detecting problems like data leaks, prompt injections, and harmful content.
+  
+  Get started red teaming your LLMs by checking out our [Red Team Guide](https://www.promptfoo.dev/docs/red-team/).
+  
+  - [Understanding Data Poisoning Attacks in LLM Applications](https://www.promptfoo.dev/blog/data-poisoning/#understanding-data-poisoning-attacks-in-llm-applications)
+  - [Common Mechanisms of Data Poisoning Attacks](https://www.promptfoo.dev/blog/data-poisoning/#common-mechanisms-of-data-poisoning-attacks)
+    - [Compromising External Sources](https://www.promptfoo.dev/blog/data-poisoning/#compromising-external-sources)
+    - [Injecting Malicious Data Into Training Sets](https://www.promptfoo.dev/blog/data-poisoning/#injecting-malicious-data-into-training-sets)
+    - [Manipulating Data During Fine-Tuning](https://www.promptfoo.dev/blog/data-poisoning/#manipulating-data-during-fine-tuning)
+    - [Backdoor Attacks](https://www.promptfoo.dev/blog/data-poisoning/#backdoor-attacks)
+    - [Poisoned Models](https://www.promptfoo.dev/blog/data-poisoning/#poisoned-models)
+  - [Detection and Prevention Strategies](https://www.promptfoo.dev/blog/data-poisoning/#detection-and-prevention-strategies)
+    - [Implement Data Validation and Tracking to Mitigate Risk of Data Poisoning](https://www.promptfoo.dev/blog/data-poisoning/#implement-data-validation-and-tracking-to-mitigate-risk-of-data-poisoning)
+    - [Monitor Model Behavior to Identify Data Poisoning](https://www.promptfoo.dev/blog/data-poisoning/#monitor-model-behavior-to-identify-data-poisoning)
+    - [Limit Access to Training Processes to Prevent Data Poisoning](https://www.promptfoo.dev/blog/data-poisoning/#limit-access-to-training-processes-to-prevent-data-poisoning)
+    - [Enforce Supply Chain Security to Identify Poisoned Models](https://www.promptfoo.dev/blog/data-poisoning/#enforce-supply-chain-security-to-identify-poisoned-models)
+    - [Red Team LLM Applications to Detect Data Poisoning](https://www.promptfoo.dev/blog/data-poisoning/#red-team-llm-applications-to-detect-data-poisoning)
+  - [Learning from Real-World Examples and Case Studies](https://www.promptfoo.dev/blog/data-poisoning/#learning-from-real-world-examples-and-case-studies)
+  - [Take Action with Promptfoo](https://www.promptfoo.dev/blog/data-poisoning/#take-action-with-promptfoo)
+  --- End Content ---

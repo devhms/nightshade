@@ -19,45 +19,34 @@ import java.util.UUID;
  */
 public class SymbolTable {
 
-    /** Full set of Java reserved words + common stdlib types we must not rename. */
-    private static final Set<String> PROTECTED_IDENTIFIERS = Set.of(
-        // Java keywords (all 67)
-        "abstract","assert","boolean","break","byte","case","catch","char","class",
-        "const","continue","default","do","double","else","enum","extends","final",
-        "finally","float","for","goto","if","implements","import","instanceof","int",
-        "interface","long","native","new","package","private","protected","public",
-        "return","short","static","strictfp","super","switch","synchronized","this",
-        "throw","throws","transient","try","var","void","volatile","while","record",
-        "sealed","permits","yield","null","true","false",
-        // Common stdlib types
-        "String","System","Object","Class","Exception","RuntimeException","Error",
-        "Throwable","Override","Deprecated","SuppressWarnings","FunctionalInterface",
-        "SafeVarargs","Retention","Target","Documented","Inherited",
-        // JavaFX types
-        "Stage","Scene","Application","Platform","FXMLLoader","FXML","Initializable",
-        "Controller","initialize","start","stop","launch",
-        // Java collections + common
-        "ArrayList","LinkedList","HashMap","HashSet","TreeMap","TreeSet","LinkedHashMap",
-        "List","Map","Set","Collection","Iterator","Optional","Stream","Arrays","Collections",
-        "Math","Integer","Long","Double","Float","Boolean","Character","Byte","Short",
-        "StringBuilder","StringBuffer","CharSequence","Comparable","Iterable",
-        "Runnable","Thread","Callable","Future","ExecutorService",
-        // I/O
-        "File","Path","Files","Paths","BufferedReader","BufferedWriter","FileReader",
-        "FileWriter","InputStreamReader","OutputStreamWriter","FileInputStream","FileOutputStream",
-        "PrintWriter","Scanner","IOException","FileNotFoundException",
-        // Annotations
-        "main","args","toString","equals","hashCode","compareTo","clone","finalize",
-        "getClass","notify","notifyAll","wait","length","size","get","put","add",
-        "remove","contains","isEmpty","clear","iterator","next","hasNext",
-        // Java stdlib methods - must not be renamed to preserve compilation
-        "abs","min","max","pow","sqrt","random","floor","ceil","round","exp","log",
-        "append","insert","delete","deleteCharAt","replace","reverse","setLength","charAt",
-        "valueOf","format","split","trim","substring","indexOf","lastIndexOf","startsWith","endsWith",
-        "keySet","values","entrySet","containsKey","containsValue",
-        "out","in","err","println","print","printf",
-        "setTitle","stream","toUpperCase","getItems"
-    );
+    /** Full set of Java reserved words + common stdlib methods we must not rename. */
+    private static final Set<String> buildProtectedIdentifiers() {
+        Set<String> s = new java.util.HashSet<>();
+        // Java keywords
+        for (String kw : new String[]{"abstract","assert","boolean","break","byte","case","catch",
+            "char","class","const","continue","default","do","double","else","enum","extends",
+            "final","finally","float","for","goto","if","implements","import","instanceof","int",
+            "interface","long","native","new","package","private","protected","public","return",
+            "short","static","strictfp","super","switch","synchronized","this","throw","throws",
+            "transient","try","var","void","volatile","while","record","sealed","permits","yield",
+            "null","true","false"}) s.add(kw);
+        // Stdlib types
+        for (String t : new String[]{"String","System","Object","Class","Exception","RuntimeException",
+            "Error","Throwable","Override","Deprecated","SuppressWarnings","FunctionalInterface",
+            "SafeVarargs","Retention","Target","Documented","Inherited","Stage","Scene","Application",
+            "Platform","FXMLLoader","FXML","Initializable","Controller","initialize","start","stop",
+            "launch","ArrayList","LinkedList","HashMap","HashSet","TreeMap","TreeSet","LinkedHashMap",
+            "List","Map","Set","Collection","Iterator","Optional","Stream","Arrays","Collections",
+            "Math","Integer","Long","Double","Float","Boolean","Character","Byte","Short",
+            "StringBuilder","StringBuffer","CharSequence","Comparable","Iterable","Runnable","Thread",
+            "Callable","Future","ExecutorService","CompletableFuture"}) s.add(t);
+        // Stdlib methods (ONLY method names that are unambiguous — not common variable names)
+        for (String m : new String[]{"out","in","err","println","print","printf","equals","hashCode","toString",
+            "compareTo","notify","notifyAll","wait","finalize","clone","getClass",
+            "main","args","toString","equals","hashCode","compareTo","finalize","getClass","notify","notifyAll","wait","length","size","get","put","add","remove","contains","isEmpty","clear","iterator","next","hasNext","abs","min","max","pow","sqrt","random","floor","ceil","round","exp","log","append","insert","delete","deleteCharAt","replace","reverse","setLength","charAt","valueOf","format","split","trim","substring","indexOf","lastIndexOf","startsWith","endsWith","keySet","values","entrySet","containsKey","containsValue","out","in","err","println","print","printf","setTitle","setScene","show","setOnAction","getItems","setText","setStyle","getScene","getWindow","setRoot","getChildren","setCenter","setPrefWidth","setPrefHeight","setAlignment","setSpacing","setPadding","setMaxWidth","setMinHeight","setLayoutX","setLayoutY","setVisible","setDisable","toUpperCase","toLowerCase","getBytes","matches","replaceAll","concat","intern","strip","lines","chars","codePoints","toCharArray","getOrDefault","putIfAbsent","merge","compute","computeIfAbsent","computeIfPresent","forEach","parallelStream","stream","toArray","sort","subList","of","copyOf","asList","noneMatch","anyMatch","allMatch","collect","map","filter","reduce","flatMap","peek","limit","skip","distinct","sorted","count","findFirst","findAny","orElse","orElseGet","orElseThrow","isPresent","ifPresent","getName","getPath","getParent","exists","isFile","isDirectory","mkdirs","listFiles","canRead","canWrite","delete","renameTo","lastModified","setLastModified","getAbsolutePath","getCanonicalPath","toPath","readLine","write","read","close","flush","available","mark","reset","ready","transferTo","createDirectories","writeString","readString","walk","find","currentTimeMillis","nanoTime","exit","gc","getProperty","setProperty","getenv","lineSeparator","identityHashCode","arraycopy","parseInt","parseLong","parseDouble","parseFloat","parseBoolean","toBinaryString","toHexString","toOctalString","byteValue","shortValue","intValue","longValue","floatValue","doubleValue","booleanValue","charValue","TYPE","MAX_VALUE","MIN_VALUE","POSITIVE_INFINITY","NEGATIVE_INFINITY","NaN","PI","E","File","Path","Files","Paths","BufferedReader","BufferedWriter","FileReader","FileWriter","InputStreamReader","OutputStreamWriter","FileInputStream","FileOutputStream","PrintWriter","Scanner","IOException","FileNotFoundException","NoSuchFileException"}) s.add(m);
+        return s;
+    }
+    private static final Set<String> PROTECTED_IDENTIFIERS = buildProtectedIdentifiers();
 
     private final Map<String, String> mapping;   // scoped-key â†’ replacement
     private final String sessionSalt;
@@ -101,20 +90,15 @@ public class SymbolTable {
      * Returns true if this token is a user-defined name that may be renamed.
      * False for keywords, stdlib types, and other protected identifiers.
      */
-    public boolean isUserDefined(String token) {
+public boolean isUserDefined(String token) {
         if (token == null || token.isEmpty()) return false;
-        // Protected set check
         if (PROTECTED_IDENTIFIERS.contains(token)) return false;
         if (dynamicProtected.contains(token)) return false;
-        // Must start with letter or underscore (not a literal that slipped through)
+        if (token.length() > 2 && token.startsWith("v_") && Character.isLowerCase(token.charAt(2))) return false;
         if (!Character.isLetter(token.charAt(0)) && token.charAt(0) != '_') return false;
-        // Uppercase-only names are likely constants or type names â€” protect them
-        // (but allow mixed-case like myVar or MY_CONST partially)
-        // We protect all-caps identifiers of length > 1 (TRUE, FALSE already in set)
         if (token.length() > 1 && token.equals(token.toUpperCase()) && !token.contains("_")) {
-            return false; // e.g. MAX, MIN â€” often constants or enums from stdlib
+            return false;
         }
-        // Protect Java convention: Class/Type names start with uppercase
         if (Character.isUpperCase(token.charAt(0))) return false;
         return true;
     }

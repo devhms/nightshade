@@ -1,0 +1,191 @@
+Nightshade: Protecting Copyright
+  URL: https://nightshade.cs.uchicago.edu/
+  New (April 2026): MacOS and Windows update (v1.1) includes bug fix for "TRUE" bug and driver update. Shawn named MIT Technology Review Innovator of the Year ...
+
+  --- Content ---
+  - [Glaze and Nightshade](https://nightshade.cs.uchicago.edu/#)  - [About Us](https://nightshade.cs.uchicago.edu/aboutus.html)
+    - [What is Nightshade](https://nightshade.cs.uchicago.edu/whatis.html)
+    - [Glaze](https://glaze.cs.uchicago.edu/)
+    - [WebGlaze](https://glaze.cs.uchicago.edu/webglaze.html)
+  - [Q & A](https://nightshade.cs.uchicago.edu/faq.html)
+  - [Download](https://nightshade.cs.uchicago.edu/downloads.html)
+  - [User's Guide](https://nightshade.cs.uchicago.edu/userguide.html)
+  - [Email](mailto:glaze-uchicago+ns@googlegroups.com)
+  - [Papers/Media](https://nightshade.cs.uchicago.edu/media.html)
+  
+  - New (April 2026): MacOS and Windows update (v1.1) includes bug fix for "TRUE" bug and driver update.
+  
+  - Shawn named [MIT Technology Review Innovator of the Year](https://www.technologyreview.com/2024/09/10/1102936/innovator-year-shawn-shan-2024/) for 2024!
+  
+  - New Mac update (1.0.2) includes bug fix for some GPUs on M1/M2/M3 Macs.
+  
+  - We updated our [AboutUs page](https://nightshade.cs.uchicago.edu/aboutus.html) with our values and our mission.
+  
+  - Nightshade paper reviewed and accepted at IEEE Security & Privacy, to appear: May 2024.
+  
+  - Note: this version is standalone, i.e. without Glaze. Please be aware that a shaded image that is not Glazed is potentially vulnerable to style mimicry. We are testing and will release a combined
+  version of Glaze/Nightshade when ready.
+  
+  
+  [_Are we always going to be together_ (Yujin Choo) **User's Guide**](https://nightshade.cs.uchicago.edu/userguide.html) [_Legend_ (Greg Rutkowski) **Download Nightshade**](https://nightshade.cs.uchicago.edu/downloads.html)
+  
+  [_Belladonna_ (Eva Toorenent) **What is Nightshade & How Does It Work?**](https://nightshade.cs.uchicago.edu/whatis.html)
+  
+  [_Amongst the Trees_ (Steven Zapata) **Frequently Asked Questions**](https://nightshade.cs.uchicago.edu/faq.html) [_CO-3U5_ (Jess Cheng) **Media / Papers**](https://nightshade.cs.uchicago.edu/media.html)
+  
+  Loading...
+  --- End Content ---
+
+Glaze and Nightshade (@theglazeproject)
+  URL: https://www.instagram.com/theglazeproject/
+  Downloads at: https://glaze.cs.uchicago.edu Mac users do not need to update. We are also updating Nightshade to fix the True bug and also support new GPUs.
+
+Nightshade Software User Guide
+  URL: https://nightshade.cs.uchicago.edu/userguide.html
+  This user guide will walk you through the steps to protect your artwork with Nightshade. This is a living document, and we will continuously add content to the ...
+
+  --- Content ---
+  ## Nightshade Software User Guide
+  
+  Welcome to Nightshade! This user guide will walk you through the
+  steps to protect your artwork with Nightshade. This is a living
+  document, and we will continuously add content to the guide as we
+  hear back from artists and their experiences.
+  
+  First, if you haven’t already, please read more about [Nightshade](https://nightshade.cs.uchicago.edu/whatis.html),
+  its risks and limitations, and how it differs from [Glaze](https://glaze.cs.uchicago.edu/),
+  before using the tool on your artwork.
+  
+  
+  
+  * * *
+  
+  ###### Step by Step Guide
+  
+  The first time you
+  install Nightshade, it will need to download a number of machine learning libraries and pretrained models.
+  Nightshade uses the same models as Glaze, and it will first search for any preinstalled resources files
+  already installed by Glaze. Downloading resources again might take some time, particularly if you are
+  outside the USA. Note that these are one time downloads, and do not need to be fetched again if you update Nightshade or Glaze apps.
+  Once Nightshade is fully installed, follow these instructions below:
+  
+  Please run Nightshade after any image modifications.
+  If you do any image resizing or watermarking, please do so
+  before you run Nightshade or Glaze. This will maximize the effects of these tools. If you are planning to run both Nightshade and Glaze, know that they do step on each other's toes a bit. If you want to run both, please run Nightshade first, and then Glaze. For best image quality, you can do all this with PNG and then compress the Nightshaded/Glazed file back into JPG when it's all done.
+  
+  * * *
+  
+  Here is a great video made by Roxane Lapa on What Nightshade does and How to use it:
+  
+  How to Use Nightshade Art Software - YouTube
+  
+  Tap to unmute
+  
+  [How to Use Nightshade Art Software](https://www.youtube.com/watch?v=onGm0Kf7CQA) [Roxane Lapa](https://www.youtube.com/channel/UCNMOql7zAlGdzx2dHdUA-5w)
+  
+  ![thumbnail-image](https://yt3.ggpht.com/ytc/AIdro_kBabvsQ2jGE0XNHOXyFL353q4NFv4Yeo_bG2NqFDaSNyA=s68-c-k-c0x00ffffff-no-rj)
+  
+  Roxane Lapa2.74K subscribers
+  
+  [Watch on](https://www.youtube.com/watch?v=onGm0Kf7CQA)
+  
+  Instructions on running
+  on Windows GPU:To run Nightshade on GPU, your computer must have
+  one of the NVidia GPUs listed on [this\\
+  list](https://developer.nvidia.com/cuda-gpus). The GPU must have more than 4G of GPU memory. You
+  can find your GPU information following [this\\
+  Guide](https://www.pcmag.com/how-to/what-graphics-card-do-i-have#:~:text=Find%20Out%20What%20GPU%20You%20Have%20in%20Windows&text=You%20can%20find%20out%20what,list%20your%20GPU%20right%20there.). Note that Nightshade/Glaze both rely on PyTorch, which has problems with GTX 1660/1650/1550 GPUs.
+  If you have a compatible GPUs, please install the NVidia CUDA Toolkit from the Nvidia [official website](https://developer.nvidia.com/cuda-downloads?target_os=Windows&target_arch=x86_64).
+  Once installed, Nightshade should run automatically on your GPU. Sorry for the hassle.
+  Nightshade and Glaze both require significant GPU memory to run. And since we do not have the
+  development time to build our own integrated GPU drivers, we have to rely on official NVidia drivers
+  that you install separately.
+  
+  **Step 1: Select your**
+  **artwork.**You can input a
+  single image by dragging it into the image placeholder
+  or selecting multiple images using the "Select..."
+  button.
+  
+  **Step 2: Select**
+  **parameters.**
+  
+  _Intensity_: Specify the
+  intensity of "the nightshade" applied to your artwork.
+  Higher intensity leads to stronger poison effects, but also
+  generally correlates with more visible changes to your
+  artwork. The more Nightshade changes your artwork with
+  perturbations, the more it will disrupt the association between
+  a prompt and visual features for that prompt, making it that
+  much more likely for the model to produce incorrect results.
+  Since Nightshade is a poison, you can choose a lower than default intensity
+  to minimize any visible impacts on the image.
+  
+  
+  _Render quality_: This represents
+  the compute time spent searching for the optimal poison
+  given your intensity level. Longer render quality
+  leads to stronger poison but longer compute time.
+  Actual compute time will depend on the specs
+  of your laptop. GPUs are not required but if present,
+  they will greatly reduce processing time.
+  
+  **Step 3: Choose output directory.**Choose where you want the Nightshaded image to be stored.
+  
+  **Step 4: Select Poison Tag.** Nightshade
+  works by teaching the generative AI model an incorrect view of what a particular subject looks like.
+  For example, you can convince a model that a "car" does not have four wheels, a windshield, a roof
+  or a trunk. Instead, you can teach the model that a "car" has 4 legs, a large black/white colored
+  body with a tail, e.g. a cow. To generate the strongest attack, Nightshade should make the same
+  changes to all images of a particular concept, e.g. it should alter all images of cars to appear to
+  AI models as cows. Therefore, Nightshade needs to know what is inside your image. When you choose
+  your image, Nightshade will analyze it and fill in the _current tag_ field with what it thinks
+  is inside the image. Before starting the shade process, make sure you look at the current tag and
+  that it is correctly identifying the single key concept or object inside your image, and please
+  **fix** it if necessary.
+  
+  The key to choosing the "right" tag is picking a single term that best describes the image. For
+  example, a photo of a girl in a forest should probably just be tagged "girl." Nightshade only
+  poisons a single concept per image, so you should not pick multiple tags, just a single word to
+  describe the key object in the image. In some cases, it helps to be more specific, e.g. an image of
+  Supergirl should be labeled not as "girl," but "supergirl." To make Nightshade more effective, the
+  tag that you choose should be associated with the image, either as "alt-text" or a caption, or
+  somewhere near the image. That helps associate your image with the tag, and helps to further confuse
+  the model being trained.
+  
+  **Step 5: Run.**Once you upload the image(s) and select your
+  desired settings, and confirm the image tag, you can start the
+  Nightshade process by hitting the Run button. The resulting image(s)
+  will be saved in your "output directory" with the same
+  file name.
+  
+  **KEY SUGGESTIONS:**A few things to note when you run Nightshade.
+  
+  
+  - If you run in CPU mode (either on a Mac or on Windows without GPU), your Nightshade speed will
+  depend on how much memory is available to use. It is highly recommended to close other big programs
+  while running Nightshade in CPU mode, e.g. Word, Powerpoint, Web browsers and big games. Otherwise
+  what should be a 20minute Nightshade job can turn into 5 hours.
+  
+  
+  - We would generally not recommend marking Nightshaded images as "Nightshaded" in social media
+  posts or on your online gallery. Nightshade is a poison attack, and marking it as poison will almost
+  certainly ensure that it fails its purpose, because it will be easily identified and filtered out by
+  model trainers.
+  
+  
+  
+  * * *
+  
+  **Disclosure:**you will be downloading some of the resources
+  from HuggingFace (a common platform to host resources)
+  and we use checksums to make sure the files are authentic and have not been
+  tampered with. However, if you would like to download from
+  the University of Chicago server (on a slower connection),
+  you can email us for instructions.
+  
+  Background image: _Jellyfish Witch_, ZIPAVIKA - Viktoria Sinner
+  
+  
+  Loading...
+  --- End Content ---

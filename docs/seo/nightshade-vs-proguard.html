@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nightshade vs ProGuard | Code Protection Comparison</title>
+    <meta name="description" content="Compare Nightshade and ProGuard for code protection. Learn which tool is best for LLM training data defense.">
+    <meta name="keywords" content="Nightshade vs ProGuard, code obfuscation comparison, LLM protection tools, anti-AI scraping tools">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Comparison",
+      "name": "Nightshade vs ProGuard",
+      "description": "Comparison of Nightshade and ProGuard for code protection against LLM training"
+    }
+    </script>
+    <style>
+        :root {
+            --bg-color: #0f111a;
+            --panel-bg: #1e1e24;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --accent-amber: #ffb74d;
+            --accent-green: #4caf50;
+            --accent-red: #ef5350;
+            --border: #333333;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', -apple-system, sans-serif;
+            line-height: 1.6;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 4rem 2rem; }
+        h1 { color: var(--accent-amber); font-size: 2.5rem; }
+        h2 { color: var(--accent-amber); margin-top: 2.5rem; }
+        table { width: 100%; border-collapse: collapse; margin: 2rem 0; }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: var(--panel-bg); color: var(--accent-amber); }
+        .nightshade-col { color: var(--accent-green); }
+        .proguard-col { color: var(--text-muted); }
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-amber);
+            color: #000;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Nightshade vs ProGuard: Code Protection Comparison</h1>
+        <p>Two different approaches to code protection. Here's how they compare for defending against LLM training.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th class="nightshade-col">Nightshade</th>
+                    <th class="proguard-col">ProGuard</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Purpose</strong></td>
+                    <td>LLM training data poisoning</td>
+                    <td>Code size reduction & reverse engineering prevention</td>
+                </tr>
+                <tr>
+                    <td><strong>Target Threat</strong></td>
+                    <td>AI/LLM training scrapers</td>
+                    <td>Human reverse engineers</td>
+                </tr>
+                <tr>
+                    <td><strong>Functional Integrity</strong></td>
+                    <td>100% guaranteed (with verification)</td>
+                    <td>Not guaranteed (can break code)</td>
+                </tr>
+                <tr>
+                    <td><strong>Languages</strong></td>
+                    <td>Java, Python, JS, TypeScript</td>
+                    <td>Java only</td>
+                </tr>
+                <tr>
+                    <td><strong>Strategy</strong></td>
+                    <td>Semantic poisoning, entropy, watermarking</td>
+                    <td>Shrinking, obfuscation, optimization</td>
+                </tr>
+                <tr>
+                    <td><strong>Research Basis</strong></td>
+                    <td>arXiv:2512.15468 (academic paper)</td>
+                    <td>Industry best practices</td>
+                </tr>
+                <tr>
+                    <td><strong>Open Source</strong></td>
+                    <td>MIT License</td>
+                    <td>Partially (some ProGuard alternatives)</td>
+                </tr>
+                <tr>
+                    <td><strong>CI/CD Integration</strong></td>
+                    <td>GitHub Action included</td>
+                    <td>Manual integration</td>
+                </tr>
+                <tr>
+                    <td><strong>LLM Protection</strong></td>
+                    <td>Designed specifically for this</td>
+                    <td>Not designed for this</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>When to Use Each</h2>
+
+        <h3>Use Nightshade When:</h3>
+        <ul>
+            <li>Protecting code from AI/LLM training scrapers</li>
+            <li>You need 100% functional integrity guarantee</li>
+            <li>Working with multiple languages (Python, JS, TS)</li>
+            <li>Want research-backed protection (10.19% detection drop)</li>
+            <li>Need GitHub Action for automated protection</li>
+        </ul>
+
+        <h3>Use ProGuard When:</h3>
+        <ul>
+            <li>Reducing APK/JAR file size</li>
+            <li>Preventing human reverse engineering</li>
+            <li>Working only with Java Android apps</li>
+            <li>Traditional app hardening is the goal</li>
+        </ul>
+
+        <h2>Key Difference</h2>
+        <p><strong>ProGuard</strong> optimizes code for size and makes it harder for humans to read. It's designed for traditional app security—making reverse engineering difficult.</p>
+
+        <p><strong>Nightshade</strong> is specifically designed to confuse AI/LLMs while maintaining code functionality. It uses research-backed techniques that specifically target how LLMs learn from code.</p>
+
+        <a href="https://github.com/devhms/nightshade" class="btn">Get Nightshade</a>
+    </div>
+</body>
+</html>

@@ -44,7 +44,7 @@ public class EntropyCalculator {
         if (result.getStringsEncoded() > 0)    bonus += 0.05;
         if (result.getWhitespaceChanges() > 0) bonus += 0.05;
 
-        return Math.min(1.0, scoreA + scoreB + scoreC + bonus);
+        return Math.max(0.0, Math.min(1.0, scoreA + scoreB + scoreC + bonus));
     }
 
     private double safeDivide(int numerator, int denominator) {

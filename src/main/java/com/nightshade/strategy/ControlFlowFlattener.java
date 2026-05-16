@@ -46,12 +46,13 @@ public class ControlFlowFlattener implements PoisonStrategy {
 
             // Extract body statements (skip blank lines)
             List<String> bodyStatements = new ArrayList<>();
-            String returnStatement = null;
+            String returnExpr = null;
             for (int j = bodyStart; j < bodyEnd; j++) {
                 String trimmed = lines.get(j).trim();
                 if (trimmed.isEmpty()) continue;
                 if (trimmed.startsWith("return ")) {
-                    returnStatement = trimmed;
+                    String expr = trimmed.substring("return ".length()).replaceFirst("\\s*;\\s*$", "");
+                    returnExpr = expr;
                 } else {
                     bodyStatements.add(trimmed);
                 }
@@ -61,26 +62,52 @@ public class ControlFlowFlattener implements PoisonStrategy {
 
             String stateVar = "_ns_state";
             
-            // Build the flattened version with proper scoping
-            // FIX: Wrap switch in scope block so local variables are visible across cases
+            // Detect return type from method signature
+            String returnType = "int";
+            Matcher sigMatcher = Pattern.compile("private\\s+(\\w+)\\s+" + Pattern.quote(m.group(3)) + "\\s*\\(").matcher(lines.get(i));
+            if (sigMatcher.find()) {
+                returnType = sigMatcher.group(1);
+            }
+            
+            // Build the flattened version
+            // Declare all local variables + return value at the top
+            // so they're visible across all switch cases
+            Set<String> declaredVars = new HashSet<>();
+            declaredVars.add(returnType + " _ns_ret");
+            for (String stmt : bodyStatements) {
+                extractLocalVarDeclarations(stmt, declaredVars);
+            }
+
             List<String> flattened = new ArrayList<>();
             flattened.add(indent + "    int " + stateVar + " = 0;");
             flattened.add(indent + "    { // scope block for local variable visibility");
+            for (String decl : declaredVars) {
+                String[] parts = decl.split(" ", 2);
+                String type = parts[0];
+                String name = parts[1];
+                String init = getDefaultValue(type);
+                flattened.add(indent + "        " + type + " " + name + " = " + init + ";");
+            }
+            if (returnExpr != null) {
+                flattened.add(indent + "        _ns_ret = " + returnExpr + ";");
+            }
             flattened.add(indent + "        while (" + stateVar + " != -1) {");
             flattened.add(indent + "            switch (" + stateVar + ") {");
             for (int s = 0; s < bodyStatements.size(); s++) {
-                flattened.add(indent + "            case " + s + ": " 
-                    + bodyStatements.get(s) + " " + stateVar + " = " + (s+1) + "; break;");
+                String stmt = stripDeclaration(bodyStatements.get(s), declaredVars);
+                flattened.add(indent + "            case " + s + ": "
+                    + stmt + " " + stateVar + " = " + (s+1) + "; break;");
             }
-            flattened.add(indent + "            case " + bodyStatements.size() 
-                + ": " + stateVar + " = -1; break;");
-            flattened.add(indent + "        }");
-            flattened.add(indent + "    }");
-            if (returnStatement != null) {
-                flattened.add(indent + "    " + returnStatement);
+            if (returnExpr != null) {
+                flattened.add(indent + "            case " + bodyStatements.size() + ": " + stateVar + " = -1; break;");
             }
-
-            // Replace original body with flattened version
+            flattened.add(indent + "            default: _ns_state = -1; break;");
+            flattened.add(indent + "            }"); // close switch
+            flattened.add(indent + "        }");     // close while
+            if (returnExpr != null) {
+                flattened.add(indent + "        return _ns_ret;");
+            }
+            flattened.add(indent + "    }");         // close scope block
             List<String> before = new ArrayList<>(lines.subList(0, bodyStart));
             List<String> after = new ArrayList<>(lines.subList(bodyEnd, lines.size()));
             List<String> newLines = new ArrayList<>(before);
@@ -98,5 +125,37 @@ public class ControlFlowFlattener implements PoisonStrategy {
         ObfuscationResult result = new ObfuscationResult(source, modified, 0.0);
         result.setTotalMethods(Math.max(1, totalMethods));
         return result;
+    }
+
+    private void extractLocalVarDeclarations(String statement, Set<String> declaredVars) {
+        String stripped = statement.replaceFirst("^\\s*case \\d+:\\s*", "").trim();
+        if (stripped.isEmpty()) return;
+        Matcher m = Pattern.compile("^\\s*(int|double|float|boolean|char|byte|short|long|String)\\s+(\\w+)")
+            .matcher(stripped);
+        if (m.find()) {
+            declaredVars.add(m.group(1) + " " + m.group(2));
+        }
+    }
+
+    private String stripDeclaration(String statement, Set<String> declaredVars) {
+        for (String decl : declaredVars) {
+            String varName = decl.substring(decl.indexOf(' ') + 1);
+            String type = decl.substring(0, decl.indexOf(' '));
+            Pattern p = Pattern.compile("^\\s*" + Pattern.quote(type) + "\\s+" + Pattern.quote(varName) + "\\s*=");
+            if (p.matcher(statement).find()) {
+                return varName + " =" + statement.split("=", 2)[1];
+            }
+        }
+        return statement;
+    }
+
+    private String getDefaultValue(String type) {
+        return switch (type) {
+            case "int", "double", "float", "byte", "short", "long" -> "0";
+            case "boolean" -> "false";
+            case "char" -> "'\\0'";
+            case "String" -> "null";
+            default -> "null";
+        };
     }
 }

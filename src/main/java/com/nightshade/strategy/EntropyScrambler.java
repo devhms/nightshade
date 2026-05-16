@@ -54,8 +54,6 @@ public class EntropyScrambler implements PoisonStrategy {
             String scope = node.getScopePath();
             String replacement = symbols.resolve(t.getValue(), scope);
 
-            // We track per-file mapping for serializer: "original" → replacement
-            // (last scope wins for globals, which is acceptable for our use case)
             lineMapping.put(t.getValue(), replacement);
             renamedNames.add(t.getValue());
         }

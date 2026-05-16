@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Protect Java Code from AI Training | Nightshade</title>
+    <meta name="description" content="Protect your Java source code from being scraped for LLM training. Nightshade applies 8 adversarial strategies while keeping code 100% functional.">
+    <link rel="canonical" href="https://devhms.github.io/nightshade/seo/java-code-protection.html">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "How to Protect Java Code from AI Training",
+        "description": "Protect your Java source code from being scraped for LLM training. Nightshade applies 8 adversarial strategies while keeping code 100% functional.",
+        "author": {"@type": "Person", "name": "Ibrahim Salman"},
+        "datePublished": "2026-05-15",
+        "dateModified": "2026-05-15"
+    }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0b0f; --bg2: #12131a; --text: #f0f0f5;
+            --text2: #a0a5b5; --accent: #ffb347; --border: #2a2d3a;
+        }
+        * { box-sizing: border-box; margin: 0; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.7; }
+        .container { max-width: 800px; margin: 0 auto; padding: 3rem 1.5rem; }
+        h1 { font-size: 2.5rem; margin-bottom: 1rem; background: linear-gradient(135deg, var(--text), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        h2 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--accent); }
+        p, li { color: var(--text2); margin-bottom: 1rem; }
+        ul { padding-left: 1.5rem; }
+        .updated { color: #6b7280; font-size: 0.85rem; margin-bottom: 2rem; }
+        .cta { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; text-align: center; margin-top: 3rem; }
+        .cta h2 { color: var(--text); }
+        .cta a { display: inline-block; padding: 0.875rem 1.75rem; background: linear-gradient(135deg, var(--accent), #ff9f1c); color: #000; font-weight: 600; border-radius: 8px; text-decoration: none; margin-top: 1rem; }
+        code { background: var(--bg2); padding: 0.2rem 0.5rem; border-radius: 4px; font-family: 'Fira Code', monospace; font-size: 0.9rem; }
+        pre { background: var(--bg2); padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; }
+        pre code { background: none; padding: 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p class="updated">Last updated: May 2026</p>
+        <h1>How to Protect Java Code from AI Training</h1>
+        
+        <p>Every day, AI companies scrape public Java repositories to train large language models. Your carefully crafted code becomes free training data — without your consent.</p>
+        <h2>The Problem: Java Code in LLM Training</h2>
+        <p>Java is one of the most-scraped languages for LLM training due to its prevalence on GitHub. Models like Codex, StarCoder, and Code Llama were trained on millions of Java files.</p>
+        <h2>The Solution: Adversarial Code Poisoning</h2>
+        <p>Nightshade applies 8 transformation strategies to your Java code that corrupt LLM training signal while keeping your code fully compilable and functional:</p>
+        <ul>
+            <li><strong>Variable Entropy Scrambling</strong> — SHA-256 identifier renaming (10.19% detection drop)</li>
+            <li><strong>Dead Code Injection</strong> — Opaque predicates that survive preprocessing</li>
+            <li><strong>Comment Poisoning</strong> — Misleading semantic associations</li>
+            <li><strong>Control Flow Flattening</strong> — Switch-dispatch transformation</li>
+        </ul>
+        <h2>Quick Start for Java</h2>
+        <pre><code>git clone https://github.com/devhms/nightshade.git
+cd nightshade && mvn clean package -q
+java -jar target/nightshade-3.5.0-all.jar --input ./src --output ./_protected</code></pre>
+        <h2>Research Backing</h2>
+        <p>Based on <em>arXiv:2512.15468</em> (Yang et al., 2025): variable renaming causes a <strong>10.19% mutual-information detection drop</strong> with only <strong>0.63% task-performance loss</strong>.</p>
+        
+        <section class="cta">
+            <h2>Protect Your Java Code Now</h2>
+            <p>Nightshade is free, open-source, and takes 60 seconds to set up.</p>
+            <a href="https://github.com/devhms/nightshade">Get Nightshade (Free, MIT Licensed)</a>
+        </section>
+    </div>
+</body>
+</html>

@@ -144,7 +144,8 @@ public class Parser {
                         isPublic = true;
                         break;
                     }
-                    if (prev.getType() == TokenType.SYMBOL && (prev.getValue().equals(";") || prev.getValue().equals("}") || prev.getValue().equals("{"))) {
+                    // Only break on statement-ending symbols, not all keywords
+                    if (prev.getType() == TokenType.SYMBOL && (prev.getValue().equals(";") || prev.getValue().equals("{") || prev.getValue().equals("}"))) {
                         break;
                     }
                 }

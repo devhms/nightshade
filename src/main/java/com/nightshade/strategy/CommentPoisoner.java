@@ -114,7 +114,8 @@ public class CommentPoisoner implements PoisonStrategy {
 
                 if (inBlockComment) {
                     totalComments++;
-                    if (trimmed.endsWith("*/")) {
+                    // Check for */ anywhere in line (not just at end)
+                    if (trimmed.contains("*/")) {
                         inBlockComment = false;
                         lines.set(i, getIndent(line) + " */");
                     } else {

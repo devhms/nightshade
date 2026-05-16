@@ -78,6 +78,7 @@ public class CLI {
         boolean verify = false;
         boolean generateReport = false;
         boolean listStrategies = false;
+        boolean libraryMode = false;
 
         for (int i = 0; i < args.length; i++) {
             String arg = args[i];
@@ -91,6 +92,7 @@ public class CLI {
                     case "--quiet", "-q"       -> logLevel = LogLevel.QUIET;
                     case "--dry-run"           -> dryRun = true;
                     case "--verify"            -> verify = true;
+                    case "--library-mode"     -> libraryMode = true;
                     case "--report", "-r"      -> generateReport = true;
                     case "--version"           -> { System.out.println("Nightshade v3.5.0"); return; }
                     case "--help", "-h"        -> { printHelp(); return; }
@@ -154,6 +156,9 @@ public class CLI {
         }
         logInfo("Strategies enabled: " + enabledCount + "/" + strategies.size(), logLevel);
         logInfo("Entropy threshold: " + entropyThreshold, logLevel);
+        if (libraryMode) {
+            logInfo("Library mode: ENABLED (preserving public APIs)", logLevel);
+        }
         logInfo("", logLevel);
 
         LogService logService = new LogService(logLevel == LogLevel.VERBOSE);
@@ -387,6 +392,7 @@ public class CLI {
         System.out.println("  --threshold, -t <num>   Early-exit entropy threshold [0.0 - 1.0] (default: 0.65)");
         System.out.println("  --dry-run               Process and report without writing output files");
         System.out.println("  --verify                Run post-obfuscation compilation verification");
+        System.out.println("  --library-mode          Preserve public APIs while obfuscating internals");
         System.out.println("  --report, -r            Generate markdown report (nightshade_report.md)");
         System.out.println("  --verbose, -v           Show detailed processing logs");
         System.out.println("  --quiet, -q             Only show errors and final summary");

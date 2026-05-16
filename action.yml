@@ -20,7 +20,7 @@ inputs:
     description: 'Whether to run post-obfuscation Java compilation verification'
     required: false
     default: 'true'
-version:
+  version:
     description: 'Nightshade version to use'
     required: false
     default: '3.5.0'
@@ -28,7 +28,7 @@ version:
     description: 'Entropy threshold for early-exit (0.0-1.0)'
     required: false
     default: '0.65'
-    runs:
+runs:
   using: 'composite'
   steps:
     - name: Set up Java
@@ -39,16 +39,29 @@ version:
         
     - name: Download Nightshade Engine
       shell: bash
+      env:
+        NS_VERSION: ${{ inputs.version }}
       run: |
-        echo "[INFO] Downloading Nightshade v${{ inputs.version }}"
-        curl -sL https://github.com/devhms/nightshade/releases/download/v${{ inputs.version }}/nightshade-${{ inputs.version }}-all.jar -o ${{ runner.temp }}/nightshade.jar
+        echo "[INFO] Downloading Nightshade v$NS_VERSION"
+        curl --fail --max-time 60 -sL "https://github.com/devhms/nightshade/releases/download/v$NS_VERSION/nightshade-$NS_VERSION-all.jar" -o "${{ runner.temp }}/nightshade.jar"
 
     - name: Run Nightshade
       shell: bash
+      env:
+        NS_INPUT: ${{ inputs.input-dir }}
+        NS_OUTPUT: ${{ inputs.output-dir }}
+        NS_STRATEGIES: ${{ inputs.strategies }}
+        NS_THRESHOLD: ${{ inputs.entropy-threshold }}
+        NS_VERIFY: ${{ inputs.verify }}
       run: |
         VERIFY_FLAG=""
-        if [ "${{ inputs.verify }}" == "true" ]; then
+        if [ "$NS_VERIFY" == "true" ]; then
           VERIFY_FLAG="--verify"
         fi
         
-        java -jar ${{ runner.temp }}/nightshade.jar -i ${{ inputs.input-dir }} -o ${{ inputs.output-dir }} -s ${{ inputs.strategies }} --threshold ${{ inputs.entropy-threshold }} $VERIFY_FLAG
+        java -jar "${{ runner.temp }}/nightshade.jar" \
+          -i "$NS_INPUT" \
+          -o "$NS_OUTPUT" \
+          -s "$NS_STRATEGIES" \
+          --threshold "$NS_THRESHOLD" \
+          $VERIFY_FLAG

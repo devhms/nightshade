@@ -27,54 +27,86 @@ import java.util.*;
  * Main controller — wires the full UI to the ObfuscationEngine pipeline.
  *
  * Threading contract:
- *   - ALL engine work runs in a background Task (never on FX thread).
- *   - Platform.runLater() is used only here to update UI from the task.
- *   - The progress bar and log list are bound to the LogService's
- *     ObservableList which marshals its own updates.
+ * - ALL engine work runs in a background Task (never on FX thread).
+ * - Platform.runLater() is used only here to update UI from the task.
+ * - The progress bar and log list are bound to the LogService's
+ * ObservableList which marshals its own updates.
  *
  * OOP: OBSERVER pattern — logView is bound to LogService.getEntries()
- *   so any background log() call automatically updates the ListView.
+ * so any background log() call automatically updates the ListView.
  */
 public class MainController implements Initializable {
 
     // ── FXML Injections ────────────────────────────────────────────────────
-    @FXML private TextField inputPathField;
-    @FXML private TextField outputPathField;
-    @FXML private Button browseInputBtn;
-    @FXML private Button browseOutputBtn;
-    @FXML private TreeView<String> fileTreeView;
+    @FXML
+    private TextField inputPathField;
+    @FXML
+    private TextField outputPathField;
+    @FXML
+    private Button browseInputBtn;
+    @FXML
+    private Button browseOutputBtn;
+    @FXML
+    private TreeView<String> fileTreeView;
 
-    @FXML private CheckBox cbEntropy;
-    @FXML private CheckBox cbDeadCode;
-    @FXML private CheckBox cbComments;
-    @FXML private CheckBox cbStrings;
-    @FXML private CheckBox cbWhitespace;
-    @FXML private CheckBox cbSemantic;
-    @FXML private CheckBox cbControlFlow;
-    @FXML private CheckBox cbWatermark;
+    @FXML
+    private CheckBox cbEntropy;
+    @FXML
+    private CheckBox cbDeadCode;
+    @FXML
+    private CheckBox cbComments;
+    @FXML
+    private CheckBox cbStrings;
+    @FXML
+    private CheckBox cbWhitespace;
+    @FXML
+    private CheckBox cbSemantic;
+    @FXML
+    private CheckBox cbControlFlow;
+    @FXML
+    private CheckBox cbWatermark;
 
-    @FXML private ProgressBar progressBar;
-    @FXML private Label entropyLabel;
-    @FXML private Button runBtn;
-    @FXML private Label statusLabel;
+    @FXML
+    private ProgressBar progressBar;
+    @FXML
+    private Label entropyLabel;
+    @FXML
+    private Button runBtn;
+    @FXML
+    private Label statusLabel;
 
-    @FXML private TextArea sourceView;
-    @FXML private TextArea poisonedView;
-    @FXML private ScrollPane leftScroll;
-    @FXML private ScrollPane rightScroll;
+    @FXML
+    private TextArea sourceView;
+    @FXML
+    private TextArea poisonedView;
+    @FXML
+    private ScrollPane leftScroll;
+    @FXML
+    private ScrollPane rightScroll;
 
-    @FXML private HBox statsBar;
-    @FXML private Label statFiles;
-    @FXML private Label statRenamed;
-    @FXML private Label statDead;
-    @FXML private Label statComments;
-    @FXML private Label statStrings;
-    @FXML private Label statEntropy;
-    @FXML private Label statTime;
-    @FXML private Button openOutputBtn;
-    @FXML private Button aboutBtn;
+    @FXML
+    private HBox statsBar;
+    @FXML
+    private Label statFiles;
+    @FXML
+    private Label statRenamed;
+    @FXML
+    private Label statDead;
+    @FXML
+    private Label statComments;
+    @FXML
+    private Label statStrings;
+    @FXML
+    private Label statEntropy;
+    @FXML
+    private Label statTime;
+    @FXML
+    private Button openOutputBtn;
+    @FXML
+    private Button aboutBtn;
 
-    @FXML private ListView<String> logView;
+    @FXML
+    private ListView<String> logView;
 
     // ── Internal state ─────────────────────────────────────────────────────
     private final LogService logService = new LogService();
@@ -101,25 +133,33 @@ public class MainController implements Initializable {
 
         // Custom log cell factory — color by level
         logView.setCellFactory(lv -> new ListCell<>() {
-            @Override protected void updateItem(String item, boolean empty) {
+            @Override
+            protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || item == null) { setText(null); setStyle(""); return; }
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                    return;
+                }
                 setText(item);
-                if      (item.contains("[ERROR]"))  setStyle("-fx-text-fill: #FF4444;");
-                else if (item.contains("[DONE]"))   setStyle("-fx-text-fill: #4CAF50;");
-                else if (item.contains("[DEBUG]"))  setStyle("-fx-text-fill: #555555;");
-                else                                setStyle("-fx-text-fill: #707070;");
+                if (item.contains("[ERROR]"))
+                    setStyle("-fx-text-fill: #FF4444;");
+                else if (item.contains("[DONE]"))
+                    setStyle("-fx-text-fill: #4CAF50;");
+                else if (item.contains("[DEBUG]"))
+                    setStyle("-fx-text-fill: #555555;");
+                else
+                    setStyle("-fx-text-fill: #707070;");
             }
         });
 
         // File tree click → load source view
         fileTreeView.getSelectionModel().selectedItemProperty().addListener(
-            (obs, oldVal, newVal) -> {
-                if (newVal != null && newVal.isLeaf()) {
-                    onFileSelected(newVal.getValue());
-                }
-            }
-        );
+                (obs, oldVal, newVal) -> {
+                    if (newVal != null && newVal.isLeaf()) {
+                        onFileSelected(newVal.getValue());
+                    }
+                });
 
         // Sync scroll between before/after views
         ChangeListener<Number> syncScroll = (obs, ov, nv) -> {
@@ -130,20 +170,20 @@ public class MainController implements Initializable {
         setupScrollSync();
 
         logService.log("Nightshade v3.5.0 ready. Select an input directory to begin.");
-        logService.log("8 strategies loaded: Entropy, DeadCode, Comments, Strings, Whitespace, Semantic, ControlFlow, Watermark");
+        logService.log(
+                "8 strategies loaded: Entropy, DeadCode, Comments, Strings, Whitespace, Semantic, ControlFlow, Watermark");
     }
 
     private void setupScrollSync() {
         // Scroll sync: when left scrollPane scrolls, mirror to right
-        leftScroll.vvalueProperty().addListener((obs, ov, nv) ->
-            rightScroll.setVvalue(nv.doubleValue()));
-        rightScroll.vvalueProperty().addListener((obs, ov, nv) ->
-            leftScroll.setVvalue(nv.doubleValue()));
+        leftScroll.vvalueProperty().addListener((obs, ov, nv) -> rightScroll.setVvalue(nv.doubleValue()));
+        rightScroll.vvalueProperty().addListener((obs, ov, nv) -> leftScroll.setVvalue(nv.doubleValue()));
     }
 
     // ── Browse buttons ─────────────────────────────────────────────────────
 
-    @FXML private void onBrowseInput() {
+    @FXML
+    private void onBrowseInput() {
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("Select Input Directory");
         File dir = chooser.showDialog(runBtn.getScene().getWindow());
@@ -155,7 +195,8 @@ public class MainController implements Initializable {
         }
     }
 
-    @FXML private void onBrowseOutput() {
+    @FXML
+    private void onBrowseOutput() {
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("Select Output Directory");
         File dir = chooser.showDialog(runBtn.getScene().getWindow());
@@ -175,11 +216,13 @@ public class MainController implements Initializable {
 
     private void addTreeItems(TreeItem<String> parent, File dir) {
         File[] files = dir.listFiles();
-        if (files == null) return;
+        if (files == null)
+            return;
         Arrays.sort(files, Comparator.comparing(f -> (f.isDirectory() ? "0" : "1") + f.getName()));
         for (File f : files) {
             String name = f.getName();
-            if (Set.of(".git","target","node_modules","__pycache__","build").contains(name)) continue;
+            if (Set.of(".git", "target", "node_modules", "__pycache__", "build").contains(name))
+                continue;
             TreeItem<String> item = new TreeItem<>(f.isDirectory() ? "📁 " + name : "📄 " + name);
             if (f.isDirectory()) {
                 addTreeItems(item, f);
@@ -191,7 +234,8 @@ public class MainController implements Initializable {
     private void onFileSelected(String displayName) {
         String cleanName = displayName.replace("📄 ", "").replace("📁 ", "");
         String inputDir = inputPathField.getText();
-        if (inputDir.isEmpty()) return;
+        if (inputDir.isEmpty())
+            return;
 
         // Find the file in the input directory tree
         findAndLoadFile(new File(inputDir), cleanName);
@@ -199,7 +243,8 @@ public class MainController implements Initializable {
 
     private void findAndLoadFile(File dir, String filename) {
         File[] files = dir.listFiles();
-        if (files == null) return;
+        if (files == null)
+            return;
         for (File f : files) {
             if (f.isDirectory()) {
                 findAndLoadFile(f, filename);
@@ -209,7 +254,8 @@ public class MainController implements Initializable {
                     try (java.io.BufferedReader br = new java.io.BufferedReader(
                             new java.io.FileReader(f))) {
                         String line;
-                        while ((line = br.readLine()) != null) lines.add(line);
+                        while ((line = br.readLine()) != null)
+                            lines.add(line);
                     }
                     Platform.runLater(() -> {
                         sourceView.setText(String.join("\n", lines));
@@ -218,7 +264,7 @@ public class MainController implements Initializable {
                         for (ObfuscationResult r : lastResults) {
                             if (r.getOriginalFile().getFileName().equals(filename)) {
                                 poisonedView.setText(
-                                    String.join("\n", r.getObfuscatedFile().getObfuscatedLines()));
+                                        String.join("\n", r.getObfuscatedFile().getObfuscatedLines()));
                                 break;
                             }
                         }
@@ -233,8 +279,9 @@ public class MainController implements Initializable {
 
     // ── Run ────────────────────────────────────────────────────────────────
 
-    @FXML private void onRunClicked() {
-        String inputPath  = inputPathField.getText().trim();
+    @FXML
+    private void onRunClicked() {
+        String inputPath = inputPathField.getText().trim();
         String outputPath = outputPathField.getText().trim();
 
         if (inputPath.isEmpty()) {
@@ -268,7 +315,8 @@ public class MainController implements Initializable {
         final long startTime = System.currentTimeMillis();
 
         activeTask = new Task<>() {
-            @Override protected Void call() throws Exception {
+            @Override
+            protected Void call() throws Exception {
                 FileWalker walker = new FileWalker();
                 List<SourceFile> files = walker.walk(inputDir);
 
@@ -283,7 +331,7 @@ public class MainController implements Initializable {
                 EntropyCalculator calc = new EntropyCalculator();
                 double defaultEntropyThreshold = 0.65;
                 ObfuscationEngine engine = new ObfuscationEngine(
-                    strategies, lexer, parser, serializer, calc, logService, defaultEntropyThreshold);
+                        strategies, lexer, parser, serializer, calc, logService, defaultEntropyThreshold);
 
                 List<ObfuscationResult> results = engine.process(files);
 
@@ -330,22 +378,30 @@ public class MainController implements Initializable {
 
     private List<PoisonStrategy> buildSelectedStrategies() {
         List<PoisonStrategy> list = new ArrayList<>();
-        if (cbEntropy.isSelected())    list.add(new EntropyScrambler());
-        if (cbDeadCode.isSelected())   list.add(new DeadCodeInjector());
-        if (cbComments.isSelected())   list.add(new CommentPoisoner());
-        if (cbStrings.isSelected())    list.add(new StringEncoder());
-        if (cbWhitespace.isSelected()) list.add(new WhitespaceDisruptor());
-        if (cbSemantic != null && cbSemantic.isSelected())   list.add(new SemanticInverter());
-        if (cbControlFlow != null && cbControlFlow.isSelected()) list.add(new ControlFlowFlattener());
-        if (cbWatermark != null && cbWatermark.isSelected())  list.add(new WatermarkEncoder());
+        if (cbEntropy.isSelected())
+            list.add(new EntropyScrambler());
+        if (cbDeadCode.isSelected())
+            list.add(new DeadCodeInjector());
+        if (cbComments.isSelected())
+            list.add(new CommentPoisoner());
+        if (cbStrings.isSelected())
+            list.add(new StringEncoder());
+        if (cbWhitespace.isSelected())
+            list.add(new WhitespaceDisruptor());
+        if (cbSemantic != null && cbSemantic.isSelected())
+            list.add(new SemanticInverter());
+        if (cbControlFlow != null && cbControlFlow.isSelected())
+            list.add(new ControlFlowFlattener());
+        if (cbWatermark != null && cbWatermark.isSelected())
+            list.add(new WatermarkEncoder());
         return list;
     }
 
     private void updateStats(List<ObfuscationResult> results, long elapsed) {
-        int totalRenamed  = results.stream().mapToInt(ObfuscationResult::getRenamedIdentifiers).sum();
-        int totalDead     = results.stream().mapToInt(ObfuscationResult::getDeadBlocksInjected).sum();
+        int totalRenamed = results.stream().mapToInt(ObfuscationResult::getRenamedIdentifiers).sum();
+        int totalDead = results.stream().mapToInt(ObfuscationResult::getDeadBlocksInjected).sum();
         int totalComments = results.stream().mapToInt(ObfuscationResult::getCommentsPoisoned).sum();
-        int totalStrings  = results.stream().mapToInt(ObfuscationResult::getStringsEncoded).sum();
+        int totalStrings = results.stream().mapToInt(ObfuscationResult::getStringsEncoded).sum();
         double avgEntropy = results.stream().mapToDouble(ObfuscationResult::getEntropyScore).average().orElse(0.0);
 
         statFiles.setText(String.valueOf(results.size()));
@@ -374,10 +430,9 @@ public class MainController implements Initializable {
     private void startProgressPulse() {
         progressBar.setProgress(-1); // indeterminate
         progressPulse = new Timeline(
-            new KeyFrame(Duration.ZERO,    new KeyValue(progressBar.opacityProperty(), 1.0)),
-            new KeyFrame(Duration.millis(600), new KeyValue(progressBar.opacityProperty(), 0.4)),
-            new KeyFrame(Duration.millis(1200), new KeyValue(progressBar.opacityProperty(), 1.0))
-        );
+                new KeyFrame(Duration.ZERO, new KeyValue(progressBar.opacityProperty(), 1.0)),
+                new KeyFrame(Duration.millis(600), new KeyValue(progressBar.opacityProperty(), 0.4)),
+                new KeyFrame(Duration.millis(1200), new KeyValue(progressBar.opacityProperty(), 1.0)));
         progressPulse.setCycleCount(Animation.INDEFINITE);
         progressPulse.play();
     }
@@ -406,11 +461,13 @@ public class MainController implements Initializable {
         }
     }
 
-    @FXML private void onClearLog() {
+    @FXML
+    private void onClearLog() {
         logService.clear();
     }
 
-    @FXML private void onOpenOutput() {
+    @FXML
+    private void onOpenOutput() {
         if (lastOutputDir != null && lastOutputDir.exists()) {
             try {
                 Desktop.getDesktop().open(lastOutputDir);
@@ -420,24 +477,24 @@ public class MainController implements Initializable {
         }
     }
 
-    @FXML private void onAboutClicked() {
+    @FXML
+    private void onAboutClicked() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("About Nightshade v3.5.0");
         alert.setHeaderText("Nightshade — LLM Training Data Poisoning Engine");
         alert.setContentText(
-            "Version: 3.5.0\n\n" +
-            "Authors:\n" +
-            "  Ibrahim Salman (25-SE-33)\n" +
-            "  Saif-ur-Rehman (25-SE-05)\n\n" +
-            "Course: OOP Lab — UET Taxila\n\n" +
-            "Research:\n" +
-            "  • arXiv:2512.15468 — Variable renaming MI disruption\n" +
-            "  • MinHash+LSH near-dedup bypass (String Encoding)\n" +
-            "  • BPE tokenizer fingerprint disruption (Whitespace)\n\n" +
-            "Inspired by Nightshade & Glaze (UChicago) —\n" +
-            "first open-source CODE poisoning tool.\n\n" +
-            "MIT License — https://github.com/ibrahim-nightshade/nightshade"
-        );
+                "Version: 3.5.0\n\n" +
+                        "Authors:\n" +
+                        "  Ibrahim Salman (25-SE-33)\n" +
+                        "  Saif-ur-Rehman (25-SE-05)\n\n" +
+                        "Course: OOP Lab — UET Taxila\n\n" +
+                        "Research:\n" +
+                        "  • arXiv:2512.15468 — Variable renaming MI disruption\n" +
+                        "  • MinHash+LSH near-dedup bypass (String Encoding)\n" +
+                        "  • BPE tokenizer fingerprint disruption (Whitespace)\n\n" +
+                        "Inspired by Nightshade & Glaze (UChicago) —\n" +
+                        "first open-source CODE poisoning tool.\n\n" +
+                        "MIT License — https://github.com/ibrahim-nightshade/nightshade");
         alert.showAndWait();
     }
 

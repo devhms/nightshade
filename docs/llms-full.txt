@@ -1,0 +1,87 @@
+# Nightshade — Adversarial LLM Code Protection Engine
+
+> Open-source tool that poisons source code against AI training while maintaining 100% functional integrity.
+
+## What It Does
+Nightshade injects adversarial obfuscation into source code that corrupts LLM training datasets. Your code stays functional; AI models learn garbage.
+
+## Key Facts
+- Languages: Java (8 strategies), Python (5), JavaScript (5), TypeScript (via JS)
+- License: MIT (free, open-source)
+- Requirements: Java 21+
+- Research: Based on arXiv:2512.15468 (10.19% detection drop)
+- Delivery: CLI tool + GitHub Action
+- Version: 3.5.0
+
+## Links
+- GitHub: https://github.com/devhms/nightshade
+- Documentation: https://devhms.github.io/nightshade/
+- Calculator: https://devhms.github.io/nightshade/calculator.html
+
+## Docs
+- [Getting Started](https://devhms.github.io/nightshade/)
+- [Pricing](https://devhms.github.io/nightshade/pricing.md)
+- [SEO Resources](https://devhms.github.io/nightshade/seo/)
+
+---
+
+## Poisoning Strategies
+
+| ID | Strategy | Weight | Mechanism |
+|----|----------|--------|-----------|
+| **A** | Variable Entropy Scrambling | `0.50` | Renames all identifiers with a deterministic SHA-256 hash — strongest mutual-information disruption, survives deduplication |
+| **B** | Dead Code Injection | `0.30` | Inserts unreachable, logically plausible code blocks — preprocessing-proof because they pass type checking |
+| **C** | Semantic Comment Poisoning | `0.20` | Replaces comments with semantically opposite or misleading text — corrupts LLM association learning |
+| **D** | String Literal Encoding | `0.15` | Encodes string literals as character-array expressions — evades MinHash+LSH near-duplicate detection |
+| **E** | Whitespace Disruption | `0.10` | Randomises indentation depth and adds zero-width spaces — disrupts BPE tokenizer boundary detection |
+| **F** | Semantic Inversion | — | Replaces variable names with misleading domain terms (culinary, automotive, biology) — degrades LLM semantic comprehension |
+| **G** | Control Flow Flattening | — | Rewrites method bodies into switch-dispatch loops — changes code structure, not just names |
+| **H** | Watermark Encoder | — | Embeds steganographic fingerprint via zero-width Unicode characters for copyright provenance tracking |
+
+> **Note:** Strategies F, G, and H are disabled by default and enabled when using `--strategies all` or by name (e.g., `--strategies semantic,controlflow,watermark`).
+
+### Entropy Formula
+
+```
+entropy = (renamedIdentifiers / totalIdentifiers)   × 0.50
+        + (deadBlocksInjected / totalMethods)        × 0.30
+        + (commentsPoisoned   / totalComments)       × 0.20
+        + (stringsEncoded > 0)                       × 0.05
+        + (whitespaceChanges > 0)                    × 0.05
+```
+
+The score is clamped to `[0.0, 1.0]`. Default threshold: **0.65**.
+
+---
+
+## Comparison with Alternatives
+
+| Feature | Nightshade | ProGuard | yGuard | Obfuscat0r |
+|---------|-----------|----------|--------|-----------|
+| **LLM poisoning focus** | ✅ Primary goal | ❌ | ❌ | ❌ |
+| **Code remains functional** | ✅ Guaranteed | ✅ | ✅ | ⚠️ Partial |
+| **Multi-language** | ✅ Java/Py/JS/TS | ❌ JVM only | ❌ JVM only | ⚠️ JS only |
+| **CLI + GitHub Action** | ✅ | ❌ | ❌ | ❌ |
+| **Open source (MIT)** | ✅ | ✅ GPL | ✅ | ❌ |
+| **Entropy scoring** | ✅ | ❌ | ❌ | ❌ |
+| **Dry-run mode** | ✅ | ❌ | ❌ | ❌ |
+| **Research-backed** | ✅ arXiv | ❌ | ❌ | ❌ |
+
+---
+
+## FAQ — Frequently Asked Questions
+
+### What is LLM training data poisoning?
+LLM training data poisoning is the practice of inserting adversarial, corrupted, or misleading data into datasets used to train large language models. This degrades model quality on specific patterns without being detectable during preprocessing. Nightshade applies this technique to source code to protect developer intellectual property. Unlike blocking scrapers with `robots.txt` (which is routinely ignored), poisoning ensures that even if code is stolen, it becomes low-quality training signal. The technique is grounded in peer-reviewed adversarial machine learning research and has been empirically shown to reduce mutual-information scores in LLMs trained on poisoned data.
+
+### How does Nightshade protect code from AI scraping?
+Nightshade applies eight adversarial transformation strategies to source code: (A) variable entropy scrambling using SHA-256 hashes, (B) dead code injection with opaque predicates, (C) semantic comment poisoning with misleading text, (D) string literal encoding to evade MinHash deduplication, (E) whitespace disruption, (F) semantic inversion to misleading names, (G) control flow flattening, and (H) watermark embedding. The code remains fully functional and human-readable. The transformations are applied through a weighted entropy pipeline that exits early once a configurable corruption threshold is reached, preventing over-obfuscation. Based on arXiv:2512.15468, variable renaming alone causes a 10.19% mutual-information detection drop.
+
+### Does Nightshade break my code's functionality?
+No. Nightshade guarantees functional integrity. All eight poisoning strategies are **semantics-preserving** — the poisoned code compiles and runs identically to the original source. A built-in entropy scoring system (`0.0` to `1.0`) monitors the cumulative transformation level and prevents over-obfuscation. You can also use `--dry-run` to preview transformations before writing any output files.
+
+### Can I use Nightshade on a commercial or proprietary codebase?
+Yes. Nightshade is licensed under the MIT License, which permits use in commercial and proprietary projects with no restrictions. Since the tool is most effective when applied to publicly visible code (the target of AI crawlers), its primary use case is open-source repositories deployed on platforms like GitHub, where training crawlers actively harvest data.
+
+### How do I integrate Nightshade into my CI/CD pipeline?
+Nightshade provides a GitHub Action (`devhms/nightshade@v3`) that can be added to any workflow file. Configure the `input-dir`, `output-dir`, and `entropy-threshold` parameters. On every push to `main`, the action automatically poisons all supported source files and writes the protected output. See the CLI Reference and GitHub Action sections for the exact YAML.

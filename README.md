@@ -1,6 +1,8 @@
 <div align="center">
 
-<h1>🌑 Nightshade | LLM Training Data Poisoning & Source Code Obfuscation</h1>
+<h1>Nightshade: LLM Anti-Scraping & Code Obfuscation Engine</h1>
+
+> **Note:** This is Nightshade for **source code** protection — not the [UChicago Nightshade](https://github.com/Shawn-Shan/nightshade-release) image poisoning tool. This tool defends Java, Python, and JavaScript source code from being scraped for LLM training data.
 
 <p><strong>An open-source anti-scraping and data poisoning engine that protects intellectual property from unauthorized LLM training by injecting adversarial obfuscation.</strong></p>
 
@@ -19,32 +21,29 @@
 
 ---
 
-> **Maintainer Note (SEO Setup):** Please ensure the following exact topics are applied in the GitHub Repository settings (gear icon) for maximum algorithm discoverability: `llm-security`, `data-poisoning`, `code-obfuscation`, `anti-scraping`, `machine-learning`, `copyright-protection`, `adversarial-machine-learning`, `java`, `python`, `javascript`, `typescript`, `llm-vulnerability`, `security-tools`, `dataset-corruption`, `backdoor-attack`.
-
-
 ---
 
 ## Table of Contents
 
-- [Why Nightshade?](#why-nightshade)
+- [How Nightshade Protects Against LLM Training](#how-nightshade-protects-against-llm-training)
 - [How It Works](#how-it-works)
 - [Poisoning Strategies](#poisoning-strategies)
-- [Quick Start](#quick-start)
+- [Installation](#installation)
 - [Pre-commit Hook](#pre-commit-hook)
 - [CLI Reference](#cli-reference)
 - [Supply Chain Security](#supply-chain-security)
-- [Architecture](#architecture)
+- [Adversarial Obfuscation Architecture](#adversarial-obfuscation-architecture)
 - [Supported Languages](#supported-languages)
 - [Research Basis](#research-basis)
 - [Comparison with Alternatives](#comparison-with-alternatives)
-- [Building from Source](#building-from-source)
+- [Installation](#installation)
 - [Contributing](#contributing)
 - [Community](#community)
 - [License](#license)
 
 ---
 
-## Why Nightshade? (Anti-Scraping & IP Protection)
+## How Nightshade Protects Against LLM Training
 
 **Nightshade is an open-source LLM training data poisoning engine** that protects source code intellectual property from unauthorized AI scraping. Every day, crawlers harvest open-source code from GitHub and public repositories to train large language models — without developer consent or compensation. Nightshade fights back by applying eight adversarial transformation strategies (five enabled by default) to source code before publication. The poisoned code is functionally identical to the original: it compiles, passes tests, and runs correctly. However, when ingested by an LLM training pipeline, the corrupted semantic associations degrade model quality on the poisoned patterns. The engine evades MinHash and LSH near-duplicate deduplication, meaning crawlers cannot filter out the poisoned copies. The result is that AI companies who scrape your public code without permission receive low-quality, corrupted training signal instead of clean, usable data.
 
@@ -105,7 +104,7 @@ The score is clamped to `[0.0, 1.0]`. Default threshold: **0.65**.
 
 ---
 
-## Quick Start
+## Installation
 
 ### Requirements
 
@@ -216,7 +215,7 @@ slsa-verifier verify-artifact nightshade-3.5.0-all.jar \
 
 ---
 
-## Architecture
+## Adversarial Obfuscation Architecture
 
 ```
 nightshade/
@@ -306,7 +305,7 @@ Dead-code injection is specifically designed to survive all known normalisation 
 
 ---
 
-## Building from Source
+## Installation
 
 ```bash
 # Clone
@@ -382,8 +381,8 @@ Released under the **MIT License** — see [LICENSE](LICENSE) for the full text.
 
 | Name | Role | Contact |
 |------|------|---------|
-| Ibrahim Salman (25-SE-33) | Creator & Lead | [@devhms](https://github.com/devhms) |
-| Saif-ur-Rehman (25-SE-05) | Co-Creator | — |
+| Ibrahim Salman | Creator & Lead | [@devhms](https://github.com/devhms) |
+| Saif-ur-Rehman | Co-Creator | — |
 
 *University of Engineering and Technology Taxila*
 

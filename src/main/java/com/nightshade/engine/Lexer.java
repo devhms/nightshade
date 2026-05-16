@@ -65,22 +65,40 @@ public class Lexer {
         List<Token> tokens = new ArrayList<>();
         int lineNum = 1;
         boolean skipping = false;
+        boolean inBlockComment = false;
+
         for (String line : lines) {
             String trimmed = line.trim();
             if (trimmed.contains("@nightshade:skip")) skipping = true;
             if (trimmed.contains("@nightshade:resume")) skipping = false;
-            
+
             if (skipping) {
                 lineNum++;
                 continue;
             }
 
-            Matcher m = MASTER_PATTERN.matcher(line);
+            // Handle multi-line block comments by normalizing to single line
+            String processedLine = line;
+            boolean lineStartsWithBlock = trimmed.startsWith("/*");
+            boolean lineEndsWithBlock = trimmed.endsWith("*/");
+
+            if (!inBlockComment && lineStartsWithBlock && !lineEndsWithBlock) {
+                inBlockComment = true;
+            } else if (inBlockComment && lineEndsWithBlock) {
+                inBlockComment = false;
+            }
+
+            if (inBlockComment && !lineStartsWithBlock) {
+                processedLine = "/`" + line + "`/";
+            }
+
+            Matcher m = MASTER_PATTERN.matcher(processedLine);
             while (m.find()) {
                 String value = m.group();
                 TokenType type = classify(m, value);
                 tokens.add(new Token(type, value, lineNum, m.start()));
             }
+
             lineNum++;
         }
         return tokens;

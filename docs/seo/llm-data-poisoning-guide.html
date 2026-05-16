@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Data Poisoning Explained: A Developer's Guide | Nightshade</title>
+    <meta name="description" content="Complete guide to LLM training data poisoning for developers. Learn how adversarial code transformations protect your IP from AI scraping.">
+    <link rel="canonical" href="https://devhms.github.io/nightshade/seo/llm-data-poisoning-guide.html">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "LLM Data Poisoning Explained: A Developer's Guide",
+        "description": "Complete guide to LLM training data poisoning for developers. Learn how adversarial code transformations protect your IP from AI scraping.",
+        "author": {"@type": "Person", "name": "Ibrahim Salman"},
+        "datePublished": "2026-05-15",
+        "dateModified": "2026-05-15"
+    }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0b0f; --bg2: #12131a; --text: #f0f0f5;
+            --text2: #a0a5b5; --accent: #ffb347; --border: #2a2d3a;
+        }
+        * { box-sizing: border-box; margin: 0; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.7; }
+        .container { max-width: 800px; margin: 0 auto; padding: 3rem 1.5rem; }
+        h1 { font-size: 2.5rem; margin-bottom: 1rem; background: linear-gradient(135deg, var(--text), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        h2 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--accent); }
+        p, li { color: var(--text2); margin-bottom: 1rem; }
+        ul { padding-left: 1.5rem; }
+        .updated { color: #6b7280; font-size: 0.85rem; margin-bottom: 2rem; }
+        .cta { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; text-align: center; margin-top: 3rem; }
+        .cta h2 { color: var(--text); }
+        .cta a { display: inline-block; padding: 0.875rem 1.75rem; background: linear-gradient(135deg, var(--accent), #ff9f1c); color: #000; font-weight: 600; border-radius: 8px; text-decoration: none; margin-top: 1rem; }
+        code { background: var(--bg2); padding: 0.2rem 0.5rem; border-radius: 4px; font-family: 'Fira Code', monospace; font-size: 0.9rem; }
+        pre { background: var(--bg2); padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; }
+        pre code { background: none; padding: 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p class="updated">Last updated: May 2026</p>
+        <h1>LLM Data Poisoning Explained: A Developer's Guide</h1>
+        
+        <p>LLM training data poisoning is the practice of inserting adversarial modifications into datasets used to train AI models. For developers, this means transforming your source code so that AI companies who scrape it receive corrupted training signal.</p>
+        <h2>Why Data Poisoning Works</h2>
+        <p>Unlike blocking crawlers with <code>robots.txt</code> (which AI companies routinely ignore), poisoning ensures that even if your code IS scraped, it degrades model quality on the poisoned patterns.</p>
+        <h2>How Nightshade Implements Poisoning</h2>
+        <p>Nightshade applies a weighted pipeline of 8 strategies. Each adds entropy while preserving functional behavior. The pipeline exits early once the composite score exceeds a configurable threshold (default: 0.65).</p>
+        <h2>Is It Legal?</h2>
+        <p>Yes. You are modifying your own code before publication. There is no obligation to make your public code optimally useful for AI training.</p>
+        
+        <section class="cta">
+            <h2>Protect Your Source Code Now</h2>
+            <p>Nightshade is free, open-source, and takes 60 seconds to set up.</p>
+            <a href="https://github.com/devhms/nightshade">Get Nightshade (Free, MIT Licensed)</a>
+        </section>
+    </div>
+</body>
+</html>

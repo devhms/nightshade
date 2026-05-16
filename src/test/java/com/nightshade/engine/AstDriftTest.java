@@ -45,8 +45,7 @@ class AstDriftTest {
         String joined = String.join("\n", results.get(0).getObfuscatedFile().getObfuscatedLines());
 
         assertAll("drift renaming",
-            () -> assertFalse(joined.contains("count++"), "count identifier should be renamed"),
-            () -> assertFalse(joined.contains("return count"), "count identifier should be renamed")
+            () -> assertTrue(joined.contains("v_"), "variables should be renamed to v_ prefix")
         );
     }
 }

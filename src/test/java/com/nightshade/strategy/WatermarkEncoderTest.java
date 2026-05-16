@@ -38,14 +38,14 @@ public class WatermarkEncoderTest {
         
         List<String> out = result.getObfuscatedFile().getObfuscatedLines();
         
-        int u200bCount = 0;
+        int tabCount = 0;
         for (String line : out) {
-            if (line.contains("\u200B")) {
-                u200bCount++;
+            if (line.startsWith("\t")) {
+                tabCount++;
             }
         }
         
-        assertTrue(u200bCount > 0, "Watermark should have embedded at least one U+200B character");
+        assertTrue(tabCount > 0, "Watermark should have embedded at least one tab character");
         assertTrue(result.getWhitespaceChanges() > 0, "Obfuscation result should track whitespace changes");
     }
 
@@ -65,8 +65,8 @@ public class WatermarkEncoderTest {
         
         for (int i = 0; i < lines.size(); i++) {
             String originalTrimmed = lines.get(i).trim();
-            String outTrimmed = out.get(i).replace("\u200B", "").trim();
-            assertEquals(originalTrimmed, outTrimmed, "Content should be identical after removing watermark");
+            String outTrimmed = out.get(i).replace("\t", "    ").trim();
+            assertEquals(originalTrimmed, outTrimmed, "Content should be identical after normalizing watermark");
         }
     }
 }

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscribe to Nightshade Updates | LLM Code Protection</title>
+    <meta name="description" content="Get the latest on LLM code protection. Monthly updates on Nightshade, research, and developer tools.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0b0f;
+            --bg-secondary: #12131a;
+            --bg-tertiary: #1a1b24;
+            --text-primary: #f0f0f5;
+            --text-secondary: #a0a5b5;
+            --text-muted: #6b7280;
+            --accent-primary: #ffb347;
+            --accent-secondary: #ff9f1c;
+            --accent-glow: rgba(255, 179, 71, 0.15);
+            --success: #34d399;
+            --border: #2a2d3a;
+            --border-light: #3a3d4a;
+            --font-sans: 'Inter', -apple-system, sans-serif;
+            --font-mono: 'Fira Code', monospace;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+        }
+        
+        *, *::before, *::after { box-sizing: border-box; }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            max-width: 600px;
+            padding: 2rem;
+        }
+        
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+        }
+        
+        .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .benefits {
+            text-align: left;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .benefits h3 {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+        
+        .benefits ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .benefits li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+        }
+        
+        .benefits li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: bold;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        input[type="email"] {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            font-size: 1rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            transition: all 0.2s ease;
+        }
+        
+        input[type="email"]:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+        
+        input[type="email"]::placeholder {
+            color: var(--text-muted);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            color: #000;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 159, 28, 0.3);
+        }
+        
+        .privacy {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        
+        .success-message {
+            display: none;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .success-message.show {
+            display: block;
+        }
+        
+        .form-content.hidden {
+            display: none;
+        }
+        
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .success-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--success);
+        }
+        
+        @media (max-width: 500px) {
+            .card { padding: 2rem 1.5rem; }
+            h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="form-content" id="formContent">
+                <div class="icon">☽</div>
+                <h1>Stay Protected</h1>
+                <p class="subtitle">Join 2,000+ developers protecting their code from LLM training.</p>
+                
+                <div class="benefits">
+                    <h3>What you'll get</h3>
+                    <ul>
+                        <li>Nightshade release updates & new features</li>
+                        <li>LLM training research & discoveries</li>
+                        <li>Developer tutorials & best practices</li>
+                        <li>Early access to new strategies</li>
+                    </ul>
+                </div>
+                
+                <form id="subscribeForm" onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <input 
+                            type="email" 
+                            name="email" 
+                            placeholder="your@email.com" 
+                            required
+                            autocomplete="email"
+                        >
+                    </div>
+                    <button type="submit" class="btn">Subscribe for Updates</button>
+                </form>
+                
+                <p class="privacy">No spam. Unsubscribe anytime.</p>
+            </div>
+            
+            <div class="success-message" id="successMessage">
+                <div class="success-icon">✓</div>
+                <div class="success-title">You're in!</div>
+                <p>Check your inbox to confirm your subscription.</p>
+                <p class="privacy">Welcome to the Nightshade community.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const formContent = document.getElementById('formContent');
+            const successMessage = document.getElementById('successMessage');
+            
+            // Hide form, show success
+            formContent.classList.add('hidden');
+            successMessage.classList.add('show');
+            
+            // In production, you would send to your newsletter service here
+            // Example: ConvertKit, Mailchimp, Buttondown, etc.
+            console.log('Email captured (integrate with newsletter service)');
+        }
+    </script>
+</body>
+</html>

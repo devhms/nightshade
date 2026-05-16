@@ -40,12 +40,15 @@ public class WatermarkEncoder implements PoisonStrategy {
             if (leadingSpaces < 2) continue;
             
             // Encode one bit per eligible line:
-            // bit=0 → use spaces for indent (no change)
-            // bit=1 → add one invisible Unicode zero-width space after indent
+            // bit=0 → use normal indent (2 spaces per indentation unit)
+            // bit=1 → use tab character for the first indent unit (invisible but compilable)
             if (bits[bitIndex]) {
-                // Insert a zero-width space (U+200B) after the indent
-                lines.set(i, line.substring(0, leadingSpaces) + "\u200B" + trimmed);
-                embedded++;
+                // Use tab for first indent unit instead of zero-width space
+                // Tab is invisible in most editors and doesn't break compilation
+                if (leadingSpaces >= 1) {
+                    lines.set(i, "\t" + line.substring(leadingSpaces));
+                    embedded++;
+                }
             }
             bitIndex++;
         }

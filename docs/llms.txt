@@ -1,0 +1,24 @@
+# Nightshade — Adversarial LLM Code Protection Engine
+
+> Open-source tool that poisons source code against AI training while maintaining 100% functional integrity.
+
+## What It Does
+Nightshade injects adversarial obfuscation into source code that corrupts LLM training datasets. Your code stays functional; AI models learn garbage.
+
+## Key Facts
+- Languages: Java (8 strategies), Python (5), JavaScript (5), TypeScript (via JS)
+- License: MIT (free, open-source)
+- Requirements: Java 21+
+- Research: Based on arXiv:2512.15468 (10.19% detection drop)
+- Delivery: CLI tool + GitHub Action
+- Version: 3.5.0
+
+## Links
+- GitHub: https://github.com/devhms/nightshade
+- Documentation: https://devhms.github.io/nightshade/
+- Calculator: https://devhms.github.io/nightshade/calculator.html
+
+## Docs
+- [Getting Started](https://devhms.github.io/nightshade/)
+- [Pricing](https://devhms.github.io/nightshade/pricing.md)
+- [SEO Resources](https://devhms.github.io/nightshade/seo/)

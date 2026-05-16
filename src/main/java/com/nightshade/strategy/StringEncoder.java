@@ -33,6 +33,10 @@ public class StringEncoder implements PoisonStrategy {
     // Match double-quoted string literals (Java, JS) — not inside comments
     private static final Pattern JAVA_STRING = Pattern.compile("\"((?:[^\"\\\\]|\\\\.)*)\"");
     private static final Pattern PY_STRING   = Pattern.compile("'((?:[^'\\\\]|\\\\.)*)'");
+    private static final Pattern DEAD_CODE_START = Pattern.compile("^\\s*if\\s*\\(\\s*false\\s*\\)\\s*\\{?\\s*$");
+    private static final Pattern PY_DEAD_CODE_START = Pattern.compile("^\\s*if\\s+False\\s*:\\s*$");
+    private static final Pattern JAVA_DEAD_CODE_END = Pattern.compile("^\\s*\\}\\s*$");
+    private static final Pattern PY_DEAD_CODE_END = Pattern.compile(".*\\[DEAD\\].*");
 
     @Override
     public ObfuscationResult apply(SourceFile source, ASTNode ast, SymbolTable symbols) {
@@ -49,12 +53,14 @@ public class StringEncoder implements PoisonStrategy {
             if (trimmed.contains("@nightshade:skip")) skipping = true;
             if (trimmed.contains("@nightshade:resume")) skipping = false;
 
-            if (trimmed.startsWith("if (false) {") || trimmed.startsWith("if False:")) {
+            if (DEAD_CODE_START.matcher(trimmed).find() || PY_DEAD_CODE_START.matcher(trimmed).find()) {
                 inDeadCode = true;
             }
 
             if (inDeadCode) {
-                if (trimmed.equals("}") || (ext.equals(".py") && trimmed.startsWith("print(") && trimmed.contains("[DEAD]"))) {
+                boolean isEnd = JAVA_DEAD_CODE_END.matcher(trimmed).find()
+                    || PY_DEAD_CODE_END.matcher(trimmed).find();
+                if (isEnd) {
                     inDeadCode = false;
                 }
                 continue;

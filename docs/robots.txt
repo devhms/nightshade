@@ -46,5 +46,11 @@ Disallow: /
 User-agent: cohere-ai
 Disallow: /
 
+# ─── LLM Discovery ────────────────────────────────────────────────────────
+# Machine-readable project description for AI agents
+# See: https://llmstxt.org/
+llms.txt: https://devhms.github.io/nightshade/llms.txt
+llms-full.txt: https://devhms.github.io/nightshade/llms-full.txt
+
 # ─── Sitemap ──────────────────────────────────────────────────────────────────
 Sitemap: https://devhms.github.io/nightshade/sitemap.xml

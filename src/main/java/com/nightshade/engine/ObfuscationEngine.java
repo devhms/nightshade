@@ -69,6 +69,15 @@ public class ObfuscationEngine {
         logService.log("Strategies enabled: " + countEnabled() + "/" + strategies.size());
         logService.log("Files to process: " + files.size());
 
+        // Pre-pass: collect all public APIs across all files to prevent cross-file desync
+        for (SourceFile file : files) {
+            var fileTokens = lexer.tokenize(file.getRawLines());
+            var fileAst = parser.parse(fileTokens);
+            for (String api : parser.getPublicApis()) {
+                symbols.protect(api);
+            }
+        }
+
         for (int i = 0; i < files.size(); i++) {
             SourceFile file = files.get(i);
             logService.log("Processing [" + (i + 1) + "/" + files.size() + "] " + file.getFileName());
@@ -107,14 +116,23 @@ public class ObfuscationEngine {
         // Step 3: Chain strategies — each receives the OUTPUT of the previous
         SourceFile current = original;
         List<ObfuscationResult> partialResults = new ArrayList<>();
+        int previousLineCount = current.getObfuscatedLines().size();
 
         for (PoisonStrategy strategy : strategies) {
             if (!strategy.isEnabled()) continue;
             logService.logDebug("  Applying: " + strategy.getName());
             ObfuscationResult partial = strategy.apply(current, ast, symbols);
             partialResults.add(partial);
-            // Next strategy operates on the OBFUSCATED output of this one
             current = partial.getObfuscatedFile();
+
+            // Re-parse AST if line count changed (line-adding strategies cause drift)
+            int currentLineCount = current.getObfuscatedLines().size();
+            if (currentLineCount != previousLineCount) {
+                tokens = lexer.tokenize(current.getObfuscatedLines());
+                ast = parser.parse(tokens);
+                for (String api : parser.getPublicApis()) symbols.protect(api);
+                previousLineCount = currentLineCount;
+            }
 
             // Early-exit entropy threshold check
             ObfuscationResult currentMerged = mergeResults(original, current, partialResults);
@@ -131,16 +149,16 @@ public class ObfuscationEngine {
         // Step 5: Calculate final entropy score
         double entropy = entropyCalc.calculate(merged);
 
-        return new ObfuscationResult(original, current, entropy) {{
-            setRenamedIdentifiers(merged.getRenamedIdentifiers());
-            setDeadBlocksInjected(merged.getDeadBlocksInjected());
-            setCommentsPoisoned(merged.getCommentsPoisoned());
-            setStringsEncoded(merged.getStringsEncoded());
-            setWhitespaceChanges(merged.getWhitespaceChanges());
-            setTotalIdentifiers(merged.getTotalIdentifiers());
-            setTotalMethods(merged.getTotalMethods());
-            setTotalComments(merged.getTotalComments());
-        }};
+        ObfuscationResult finalResult = new ObfuscationResult(original, current, entropy);
+        finalResult.setRenamedIdentifiers(merged.getRenamedIdentifiers());
+        finalResult.setDeadBlocksInjected(merged.getDeadBlocksInjected());
+        finalResult.setCommentsPoisoned(merged.getCommentsPoisoned());
+        finalResult.setStringsEncoded(merged.getStringsEncoded());
+        finalResult.setWhitespaceChanges(merged.getWhitespaceChanges());
+        finalResult.setTotalIdentifiers(merged.getTotalIdentifiers());
+        finalResult.setTotalMethods(merged.getTotalMethods());
+        finalResult.setTotalComments(merged.getTotalComments());
+        return finalResult;
     }
 
     private ObfuscationResult mergeResults(SourceFile original, SourceFile finalOutput,

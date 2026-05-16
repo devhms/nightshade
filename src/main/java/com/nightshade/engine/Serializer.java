@@ -58,21 +58,20 @@ public class Serializer {
      * Used by EntropyScrambler to do direct string replacement
      * when token position tracking is sufficient.
      *
-     * @param source  Original source file
-     * @param mapping Map of original identifier → replacement
+     * @param current  SourceFile with current obfuscated lines
+     * @param mapping  Map of original identifier → replacement
      * @return New line list with replacements applied
      */
-    public List<String> applyMapping(SourceFile source, Map<String, String> mapping) {
+    public List<String> applyMapping(SourceFile current, Map<String, String> mapping) {
         List<String> result = new ArrayList<>();
         boolean skipping = false;
         Lexer lexer = new Lexer();
-        for (String line : source.getObfuscatedLines()) {
+        for (String line : current.getObfuscatedLines()) {
             String trimmed = line.trim();
-            
+
             if (trimmed.contains("@nightshade:skip")) skipping = true;
             if (trimmed.contains("@nightshade:resume")) skipping = false;
 
-            // Skip renaming on package, import, or skipped lines
             if (skipping || trimmed.startsWith("package ") || trimmed.startsWith("import ")) {
                 result.add(line);
                 continue;
@@ -83,15 +82,29 @@ public class Serializer {
             for (int i = 0; i < tokens.size(); i++) {
                 Token token = tokens.get(i);
                 Token prevToken = previousNonWhitespace(tokens, i);
-                boolean isDotCall = prevToken != null
+
+                if (token.getType() == TokenType.LITERAL || token.getType() == TokenType.COMMENT) {
+                    sb.append(token.getValue());
+                    continue;
+                }
+
+                boolean isMethodCall = prevToken != null
                     && ".".equals(prevToken.getValue())
-                    && token.getType() == TokenType.IDENTIFIER;
-                if (token.getType() == TokenType.IDENTIFIER && !isDotCall) {
-                    String replacement = mapping.get(token.getValue());
-                    if (replacement != null) {
-                        sb.append(replacement);
+                    && token.getType() == TokenType.IDENTIFIER
+                    && nextIsOpenParen(tokens, i);
+
+                if (token.getType() == TokenType.IDENTIFIER && !isMethodCall) {
+                    String val = token.getValue();
+                    java.util.regex.Matcher m = java.util.regex.Pattern.compile("^v_[a-zA-Z_$][a-zA-Z0-9_$]{2,}$").matcher(val);
+                    if (m.find()) {
+                        sb.append(val);
                     } else {
-                        sb.append(token.getValue());
+                        String replacement = mapping.get(val);
+                        if (replacement != null) {
+                            sb.append(replacement);
+                        } else {
+                            sb.append(val);
+                        }
                     }
                 } else {
                     sb.append(token.getValue());
@@ -110,6 +123,15 @@ public class Serializer {
             }
         }
         return null;
+    }
+
+    private boolean nextIsOpenParen(List<Token> tokens, int index) {
+        for (int i = index + 1; i < tokens.size(); i++) {
+            Token token = tokens.get(i);
+            if (token.getType() == TokenType.WHITESPACE) continue;
+            return token.getType() == TokenType.SYMBOL && "(".equals(token.getValue());
+        }
+        return false;
     }
 
 }
